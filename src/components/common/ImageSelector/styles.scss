@@ -1,0 +1,27 @@
+.ImageSelector {
+  width: 100%;
+  background-color: aliceblue;
+  padding: 90px;
+  min-width: calc(100vw - 600px);
+  height: 70vh;
+  text-align: center;
+  font-size: 1.2em;
+  cursor: pointer;
+
+  .dropzone {
+    border: 4px dashed #e6ecef;
+    border-radius: 5px;
+    padding: 40px;
+  }
+
+  svg {
+    width: 50px;
+    height: auto !important;
+    fill: #211540;
+  }
+
+  &.dragActive {
+    background-color: #fff;
+  }
+
+}
