@@ -12,7 +12,7 @@ export const Browser = view((props: IBrowserCanvasProps) => {
     if (!props.showControlsOnly) {
         browserContent = props.imageData
             ? <img id="screenshot"
-                   src={props.imageData || "http://placehold.it/1000x700px"}
+                   src={props.imageData}
                    alt="Screenshot.rocks browser mockup"/>
             : <ImageSelector/>
     }
@@ -33,20 +33,19 @@ export const Browser = view((props: IBrowserCanvasProps) => {
                         <IoIosArrowForward/>
                     </span>
                 </div>
-
                 <span className={`url-bar white-container ${!app.browserSettings.showAddressBar ? 'hide' : ''}`}>
                         <span className="lock">
-                         <FiLock/>
+                            <FiLock/>
                         </span>
-                    <span contentEditable suppressContentEditableWarning><span className="text-success">https://</span>screenshot.rocks</span>
-                </span>
+                    <span contentEditable suppressContentEditableWarning>
+                        <span className="text-success">https://</span>screenshot.rocks</span>
+                    </span>
 
                 <span className={`settings white-container ${!app.browserSettings.showSettingsButton ? 'hide' : ''}`}>
                     <IoIosOptions/>
                 </span>
             </div>
             {browserContent}
-
         </div>
     );
 });

@@ -4,7 +4,6 @@ import {view} from "@risingstack/react-easy-state";
 import {app} from '../../../stores/appStore'
 import {useDropzone} from "react-dropzone";
 import './styles.scss';
-import {AiOutlineCloudUpload, MdContentPaste} from "react-icons/all";
 
 export const ImageSelector = view(() => {
     const onDrop = useCallback(files => {

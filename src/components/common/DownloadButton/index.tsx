@@ -35,11 +35,10 @@ export const DownloadButtons = view(() => {
                 Download
             </button>
             {app.imageData &&
-                <a
+                <button
                     className="btn btn-sm btn-link text-white w-100"
-                    href="#"
                     onClick={() => app.setImageData(null)}>or upload new image
-                </a>}
+                </button>}
         </>
     );
 });

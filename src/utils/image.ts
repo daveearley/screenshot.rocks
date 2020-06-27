@@ -22,16 +22,16 @@ export const rgba2hexa = (color: RGBColor) => {
     let b = color.b.toString(16);
     let a = Math.round(color.a * 255).toString(16);
 
-    if (r.length == 1) {
+    if (r.length === 1) {
         r = "0" + r;
     }
-    if (g.length == 1) {
+    if (g.length === 1) {
         g = "0" + g;
     }
-    if (b.length == 1) {
+    if (b.length === 1) {
         b = "0" + b;
     }
-    if (a.length == 1) {
+    if (a.length === 1) {
         a = "0" + a;
     }
 

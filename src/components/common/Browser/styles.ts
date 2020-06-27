@@ -89,6 +89,7 @@ export const styles = (props: IBrowserCanvasProps): string => {
        border-radius: ${styleVars.browserBorderRadius}px;
        box-shadow: ${props.showBoxShadow ? '0 2px 4px -1px rgba(0, 0, 0, .4)' : 'none'};
        overflow: hidden;
+       background-color: #ffffff;
     
       .hide {
         display: none !important;

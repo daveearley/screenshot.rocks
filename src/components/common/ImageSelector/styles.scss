@@ -1,17 +1,23 @@
 .ImageSelector {
   width: 100%;
-  background-color: aliceblue;
-  padding: 90px;
+  background-color: #ffffff;
+  padding: 0px 30px;
   min-width: calc(100vw - 600px);
-  height: 70vh;
+  height: 40vh;
   text-align: center;
   font-size: 1.2em;
   cursor: pointer;
+  display: flex;
+  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
 
   .dropzone {
     border: 4px dashed #e6ecef;
     border-radius: 5px;
     padding: 40px;
+    height: fit-content;
+    background-color: #fbfbfb;
   }
 
   svg {

@@ -70,7 +70,6 @@ export const BrowserThemeSelector = view(() => {
                         </span>
                     </div>
                 </div>
-
                 <div className="d-flex">
                     <ColorPicker
                         initialColor={app.browserStyles.browserControlsTextColor}
@@ -128,7 +127,6 @@ export const BrowserThemeSelector = view(() => {
                         />
                     </div>
                 </div>
-
             </div>
             <a href="#" onClick={handleCustomThemeClick} className="btn btn-sm btn-link text-white w-100">
                 or <span>{app.browserTheme !== BrowserThemes.Custom ? 'Style Your Own' : 'Choose Style'}</span>
