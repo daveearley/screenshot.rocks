@@ -17,7 +17,7 @@ export const Homepage = view(() => {
     return (
         <div className={styles()}>
             <Logo style={LogoStyle.Light}/>
-            <h1>Create beautiful browser mockups in the browser</h1>
+            <h1>Create beautiful browser mockups in the seconds</h1>
             <div className="m-5">
                 <Browser showControlsOnly={false}
                          styles={(browserThemes as any)[BrowserThemes.Default]}
