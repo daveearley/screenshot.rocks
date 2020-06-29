@@ -1,6 +1,20 @@
 import {css} from "emotion";
-import {BrowserThemes} from "../../../stores/appStore";
 import {IBrowserCanvasProps} from "../BrowserCanvas";
+
+export enum BrowserThemes {
+    Default,
+    Dark,
+    Square,
+    Darker,
+    Rounder,
+    Weird,
+    Custom,
+}
+
+export enum BackgroundType {
+    Image,
+    Color,
+}
 
 export const browserThemes = {
     [BrowserThemes.Default]: {
@@ -81,7 +95,7 @@ export const styles = (props: IBrowserCanvasProps): string => {
     const styleVars = props.styles;
 
     // If we are downloading the image we double the widths etc. so the exported image doesn't look stretched
-    const determineWidthForDownload = (measurement: number): number => {
+    const determineWidth = (measurement: number): number => {
         return props.isDownloadMode ? measurement * 2 : measurement;
     }
 
@@ -111,7 +125,7 @@ export const styles = (props: IBrowserCanvasProps): string => {
       }
     
       .browser-controls {
-        height: ${determineWidthForDownload(styleVars.chromeHeight)}px;
+        height: ${determineWidth(styleVars.chromeHeight)}px;
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -120,16 +134,16 @@ export const styles = (props: IBrowserCanvasProps): string => {
       }
     
       .window-controls {
-        flex: 0 0 ${determineWidthForDownload(60)}px;
+        flex: 0 0 ${determineWidth(60)}px;
         margin: 0 2%;
         display: flex;
     
         span {
           display: inline-flex;
-          width: ${determineWidthForDownload(15)}px;
-          height: ${determineWidthForDownload(15)}px;
+          width: ${determineWidth(15)}px;
+          height: ${determineWidth(15)}px;
           border-radius: 50px;
-          margin-right: ${determineWidthForDownload(3)}px;
+          margin-right: ${determineWidth(3)}px;
           &.close {
             background: ${styleVars.closeButtonColor};
             opacity: 1;
@@ -146,13 +160,13 @@ export const styles = (props: IBrowserCanvasProps): string => {
       }
     
       .page-controls {
-        flex: 0 0 ${determineWidthForDownload(70)}px;
+        flex: 0 0 ${determineWidth(70)}px;
         margin-left: 2%;
-        height: ${determineWidthForDownload(styleVars.controlsHeight)}px;
+        height: ${determineWidth(styleVars.controlsHeight)}px;
     
         span {
           display: inline-block;
-          width: ${determineWidthForDownload(30)}px;
+          width: ${determineWidth(30)}px;
           text-align: center;
           
           &.back {
@@ -168,30 +182,39 @@ export const styles = (props: IBrowserCanvasProps): string => {
         font-family: monospace;
         color: darken(${styleVars.browserControlsBgColor}, 20%);
         overflow: hidden;
-        height: ${determineWidthForDownload(styleVars.controlsHeight)}px;
-        line-height: ${styleVars.controlsHeight}px;
-        font-size: ${determineWidthForDownload(1)}em;
+        height: ${determineWidth(styleVars.controlsHeight)}px;
+        line-height: ${determineWidth(styleVars.controlsHeight)}px;
+        font-size: ${determineWidth(1)}em;
         
         .lock {
           height: 100%;
           display: flex;
-          margin: 0 5px;
+          margin: 0 ${determineWidth(5)}px;
+        }
+        
+        .url-text {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
       }
     
       .settings {
-        width: ${determineWidthForDownload(styleVars.controlsHeight)}px;
+        width: ${determineWidth(styleVars.controlsHeight)}px;
         text-align: center;
-        margin-right: 2%;
       }
     
-      .white-container {
+      .browser-container {
         display: flex;
         background-color: ${styleVars.browserControlsBgColor};
         align-items: center;
-        height: ${determineWidthForDownload(styleVars.controlsHeight)}px;
+        height: ${determineWidth(styleVars.controlsHeight)}px;
         border-radius: ${styleVars.controlsBorderRadius}px;
-        font-size: ${determineWidthForDownload(1)}em;
+        font-size: ${determineWidth(1)}em;
+        
+        :last-of-type {
+          margin-right: 2%;
+        }
       }
 `
 };

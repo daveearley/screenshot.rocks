@@ -1,23 +1,8 @@
 import {store} from '@risingstack/react-easy-state';
-import {browserThemes} from "../components/common/Browser/styles";
+import {BackgroundType, BrowserThemes, browserThemes} from "../components/common/Browser/styles";
 import {ImageFormats} from "../utils/image";
 
 export const defaultCanvasBgColor = '#a090c1';
-
-export enum BrowserThemes {
-    Default,
-    Dark,
-    Square,
-    Darker,
-    Rounder,
-    Weird,
-    Custom,
-}
-
-export enum BackgroundType {
-    Image,
-    Color,
-}
 
 export interface IBrowserStyles {
     browserChromeBgColor: string;
@@ -43,6 +28,9 @@ export interface IBrowserSettings {
     backgroundType: BackgroundType;
     showWindowControls: boolean;
     showAddressBar: boolean;
+    showAddressBarUrl: boolean;
+    addressBarUrlProtocol: string;
+    addressBarUrl: string;
     showNavigationButtons: boolean;
     showSettingsButton: boolean;
     reduceImageQualityOnUpload: boolean;
@@ -65,7 +53,7 @@ export interface IStore {
     setBrowserTheme(browserTheme: BrowserThemes): void,
 }
 
-export const app = store({
+export let app = store({
     isDownloadMode: false,
 
     // Image Data
@@ -93,7 +81,7 @@ export const app = store({
 
     customBrowserStyles: {
         browserChromeBgColor: '#ffffff',
-        browserControlsBgColor: '#000000',
+        browserControlsBgColor: '#dddddd',
         browserControlsTextColor: '#b5b5b5',
         closeButtonColor: '#FF8585',
         minimizeButtonColor: '#FFD071',
@@ -116,8 +104,11 @@ export const app = store({
         reduceImageQualityOnUpload: false,
         showWindowControls: true,
         showAddressBar: true,
+        showAddressBarUrl: true,
+        addressBarUrlProtocol: 'https://',
+        addressBarUrl: 'click.to.edit.com',
         showNavigationButtons: true,
         showSettingsButton: true,
         showBoxShadow: true
     }
-} as IStore)
+} as IStore);

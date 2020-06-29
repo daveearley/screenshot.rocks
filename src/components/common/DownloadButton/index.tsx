@@ -31,8 +31,8 @@ export const DownloadButtons = view(() => {
                     )
                 })}
             </div>
-            <button disabled={!app.imageData} onClick={handleImageDownload} className="btn btn-success w-100 btn-lg">
-                Download
+            <button disabled={!app.imageData || app.isDownloadMode} onClick={handleImageDownload} className="btn btn-success w-100 btn-lg">
+                {app.isDownloadMode ? 'Downloading...' : 'Download'}
             </button>
             {app.imageData &&
                 <button

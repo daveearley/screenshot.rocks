@@ -1,14 +1,15 @@
 import React from "react";
-import {BackgroundType, IBrowserStyles} from "../../../stores/appStore";
+import {IBrowserStyles} from "../../../stores/appStore";
 import {styles} from "./styles";
 import {Browser} from "../Browser";
+import {BackgroundType} from "../Browser/styles";
 
 export interface IBrowserCanvasProps {
     showControlsOnly?: boolean;
     imageData?: string;
-    canvasBgColor: string;
-    canvasBgImage: string;
-    canvasBgType: BackgroundType;
+    canvasBgColor?: string;
+    canvasBgImage?: string;
+    canvasBgType?: BackgroundType;
     canvasVerticalPadding?: number;
     canvasHorizontalPadding?: number;
     styles: IBrowserStyles;

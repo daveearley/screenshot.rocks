@@ -7,7 +7,6 @@ export const styles = () => {
                          "sidebar main-content";
           grid-template-columns: 250px auto;
           height: 100vh;
-          background: #524573 url("/images/bg.png");
 
           .navbar {
             grid-area: nav;

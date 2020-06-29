@@ -8,6 +8,7 @@ import {app} from "../../../stores/appStore";
 import {styles} from "./styles";
 import {ColorPicker} from "../../common/ColorPicker";
 import {retrieveImageFromClipboardAsBase64, rgba2hexa} from "../../../utils/image";
+import {Logo, LogoStyle} from "../../common/Logo/index.";
 
 export const App = view(() => {
     useEffect(() => {
@@ -24,9 +25,7 @@ export const App = view(() => {
     return (
         <main className={styles()}>
             <aside className="sidebar">
-                <div className="logo">
-                    <img src="/images/rock-hand-logo.png" alt="Screenshot.Rocks logo"/>
-                </div>
+                <Logo style={LogoStyle.Light}/>
                 <div className="settings">
                     <BrowserThemeSelector/>
                     <h3 className="mt-3">Canvas Padding</h3>
@@ -99,6 +98,15 @@ export const App = view(() => {
                             type="checkbox"
                             id="toggleUrlBar"/>
                         <label className="form-check-label" htmlFor="toggleUrlBar">URL Bar</label>
+                    </div>
+                    <div className="form-check form-switch">
+                        <input
+                            onChange={(e) => app.browserSettings.showAddressBarUrl = e.target.checked}
+                            checked={app.browserSettings.showAddressBarUrl}
+                            className="form-check-input"
+                            type="checkbox"
+                            id="toggleUrlText"/>
+                        <label className="form-check-label" htmlFor="toggleUrlText">URL Text</label>
                     </div>
                     <div className="form-check form-switch">
                         <input

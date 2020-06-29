@@ -1,9 +1,9 @@
 import React from "react";
 import {view} from "@risingstack/react-easy-state";
-import {app, BrowserThemes, defaultCanvasBgColor} from "../../../stores/appStore";
+import {app, defaultCanvasBgColor} from "../../../stores/appStore";
 import {styles} from "./styles";
 import {Browser} from "../Browser";
-import {browserThemes} from "../Browser/styles";
+import {BrowserThemes, browserThemes} from "../Browser/styles";
 import {ColorPicker} from "../ColorPicker";
 import {rgba2hexa} from "../../../utils/image";
 
@@ -18,6 +18,7 @@ export const BrowserThemeSelector = view(() => {
 
     const deriveBgColor = () => {
         // If we're in a default state make the bg color something nicer
+        // todo - not this
         if (app.canvasStyles.bgColor === defaultCanvasBgColor) {
             return '#9F58B6';
         }
@@ -70,41 +71,57 @@ export const BrowserThemeSelector = view(() => {
                         </span>
                     </div>
                 </div>
-                <div className="d-flex">
-                    <ColorPicker
-                        initialColor={app.browserStyles.browserControlsTextColor}
-                        onColorChange={(color => app.browserStyles.browserControlsTextColor = rgba2hexa(color))}
-                    />
-                    <span>
-                        Controls Text
-                    </span>
+                <div className="row">
+                    <div className="col-3">
+                        <ColorPicker
+                            initialColor={app.browserStyles.browserControlsTextColor}
+                            onColorChange={(color => app.browserStyles.browserControlsTextColor = rgba2hexa(color))}
+                        />
+                    </div>
+                    <div className="col-9">
+                        <span>
+                            Controls Text
+                        </span>
+                    </div>
                 </div>
-                <div className="d-flex">
-                    <ColorPicker
-                        initialColor={app.browserStyles.closeButtonColor}
-                        onColorChange={(color => app.browserStyles.closeButtonColor = rgba2hexa(color))}
-                    />
-                    <span>
-                        Close Button
-                    </span>
+                <div className="row">
+                    <div className="col-3">
+                        <ColorPicker
+                            initialColor={app.browserStyles.closeButtonColor}
+                            onColorChange={(color => app.browserStyles.closeButtonColor = rgba2hexa(color))}
+                        />
+                    </div>
+                    <div className="col-9">
+                        <span>
+                            Close Button
+                        </span>
+                    </div>
                 </div>
-                <div className="d-flex">
-                    <ColorPicker
-                        initialColor={app.browserStyles.maximizeButtonColor}
-                        onColorChange={(color => app.browserStyles.maximizeButtonColor = rgba2hexa(color))}
-                    />
-                    <span>
-                        Maximize Button
-                    </span>
+                <div className="row">
+                    <div className="col-3">
+                        <ColorPicker
+                            initialColor={app.browserStyles.maximizeButtonColor}
+                            onColorChange={(color => app.browserStyles.maximizeButtonColor = rgba2hexa(color))}
+                        />
+                    </div>
+                    <div className="col-9">
+                        <span>
+                            Maximize Button
+                        </span>
+                    </div>
                 </div>
-                <div className="d-flex">
-                    <ColorPicker
-                        initialColor={app.browserStyles.minimizeButtonColor}
-                        onColorChange={(color => app.browserStyles.minimizeButtonColor = rgba2hexa(color))}
-                    />
-                    <span>
-                        Minimize Button
-                    </span>
+                <div className="row">
+                    <div className="col-3">
+                        <ColorPicker
+                            initialColor={app.browserStyles.minimizeButtonColor}
+                            onColorChange={(color => app.browserStyles.minimizeButtonColor = rgba2hexa(color))}
+                        />
+                    </div>
+                    <div className="col-9">
+                        <span>
+                            Minimize Button
+                        </span>
+                    </div>
                 </div>
                 <div className="row">
                     <div className="col">

@@ -26,23 +26,30 @@ export const Browser = view((props: IBrowserCanvasProps) => {
                     <span className="maximise"/>
                 </div>
                 <div className={`page-controls ${!app.browserSettings.showNavigationButtons ? 'hide' : ''}`}>
-                    <span className="back white-container">
+                    <span className="back browser-container">
                         <IoIosArrowBack/>
                     </span>
-                    <span className="forward white-container">
+                    <span className="forward browser-container">
                         <IoIosArrowForward/>
                     </span>
                 </div>
-                <span className={`url-bar white-container ${!app.browserSettings.showAddressBar ? 'hide' : ''}`}>
-                        <span className="lock">
-                            <FiLock/>
-                        </span>
-                    <span contentEditable suppressContentEditableWarning>
-                        <span className="text-success">https://</span>screenshot.rocks</span>
+                <span className={`url-bar browser-container ${!app.browserSettings.showAddressBar ? 'hide' : ''}`}>
+                    <span className="lock">
+                        <FiLock/>
                     </span>
-
-                <span className={`settings white-container ${!app.browserSettings.showSettingsButton ? 'hide' : ''}`}>
-                    <IoIosOptions/>
+                    <span className={`url-text ${!app.browserSettings.showAddressBarUrl ? 'hide' : ''}`}>
+                        <span className="text-success" contentEditable suppressContentEditableWarning>
+                            {app.browserSettings.addressBarUrlProtocol}
+                        </span>
+                        <span contentEditable suppressContentEditableWarning>
+                            {app.browserSettings.addressBarUrl}
+                        </span>
+                    </span>
+                    </span>
+                <span className={`browser-container ${!app.browserSettings.showSettingsButton ? 'hide' : ''}`}>
+                    <span className="settings">
+                        <IoIosOptions/>
+                    </span>
                 </span>
             </div>
             {browserContent}
