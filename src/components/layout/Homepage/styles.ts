@@ -47,6 +47,7 @@ export const styles = () => {
        .ImageSelector {
          min-height: auto;
          padding: 0;
+         min-width: auto;
          
          .dropzone {
             border: none;
