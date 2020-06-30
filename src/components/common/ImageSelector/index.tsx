@@ -33,7 +33,6 @@ export const ImageSelector = view(() => {
                         <p><b>Drop</b>, <b>paste</b> or <b>click</b> to upload an image...</p>
                         <p>All processing is done in the browser, nothing is sent to our servers.</p>
                     </div>
-
             }
         </div>
     );

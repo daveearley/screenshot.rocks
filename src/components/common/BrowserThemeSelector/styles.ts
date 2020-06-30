@@ -1,6 +1,6 @@
 import {css} from "emotion";
 
-export const styles = (bgColor:string) => {
+export const styles = (bgColor: string) => {
     return css`
 
         .theme-selection {

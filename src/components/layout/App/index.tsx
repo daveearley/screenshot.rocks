@@ -152,6 +152,7 @@ export const App = view(() => {
                     styles={app.browserStyles}
                     isDownloadMode={app.isDownloadMode}
                     showBoxShadow={app.browserSettings.showBoxShadow}
+                    urlTextOverride={'edit-me.com'}
                 />
             </div>
         </main>

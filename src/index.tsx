@@ -6,11 +6,11 @@ import {styles} from "./styles";
 import {Layout} from "./components/layout";
 
 ReactDOM.render(
-  <React.StrictMode>
-      <Global styles={styles()}/>
-      <Layout/>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <Global styles={styles()}/>
+        <Layout/>
+    </React.StrictMode>,
+    document.getElementById('screenshot.rocks')
 );
 
 serviceWorker.register();

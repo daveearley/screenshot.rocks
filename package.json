@@ -19,6 +19,7 @@
     "react-color": "^2.18.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.1",
+    "react-easy-crop": "^3.1.0",
     "react-icons": "^3.10.0",
     "react-scripts": "3.4.1",
     "typescript": "~3.7.2"

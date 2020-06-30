@@ -15,6 +15,7 @@ export interface IBrowserCanvasProps {
     styles: IBrowserStyles;
     isDownloadMode: boolean;
     showBoxShadow: boolean;
+    urlTextOverride?: string;
 }
 
 export const BrowserCanvas = (props: IBrowserCanvasProps) => {

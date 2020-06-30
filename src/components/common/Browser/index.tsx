@@ -42,7 +42,7 @@ export const Browser = view((props: IBrowserCanvasProps) => {
                             {app.browserSettings.addressBarUrlProtocol}
                         </span>
                         <span contentEditable suppressContentEditableWarning>
-                            {app.browserSettings.addressBarUrl}
+                            {props.urlTextOverride || app.browserSettings.addressBarUrl}
                         </span>
                     </span>
                     </span>

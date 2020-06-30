@@ -1,7 +1,7 @@
 import {css} from "emotion";
 
 export const styles = () => {
-  return css`
+    return css`
       max-width: 900px;
       margin: 0 auto;
       
@@ -24,8 +24,7 @@ export const styles = () => {
             }
           }
         }
-     
-            
+       
       .logo {
         max-width: 350px;
         margin: 20px auto 0;
@@ -34,10 +33,15 @@ export const styles = () => {
         }
       }
       
-       h1 {
+       h1, h2 {
          text-align: center;
          margin: 20px;
          color: #ffffff;
+       }
+       
+       h2 {
+        font-size: 1em;
+        color: #fe79ed;
        }
        
        .ImageSelector {
@@ -52,6 +56,20 @@ export const styles = () => {
                font-size: .8em;
             }
          }
+       }
+       
+       .share {
+        text-align: center;
+        button {
+          background: none;
+          border: none;
+        }
+        svg {
+          fill: #fff;
+          width: 30px;
+          height: 30px;
+          margin: 0 10px;
+        }
        }
        
        .footer {

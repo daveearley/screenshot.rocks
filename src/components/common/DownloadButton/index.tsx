@@ -7,13 +7,13 @@ export const DownloadButtons = view(() => {
     let [imageFormat, setImageFormat] = useState<ImageFormats>(app.defaultImageFormat);
 
     const handleImageDownload = () => {
-        app.isDownloadMode= true;
+        app.isDownloadMode = true;
         downloadImage(document.getElementById('canvas'), imageFormat).then(() => {
             app.isDownloadMode = false;
         });
     };
 
-    const handleImageTypeSwitch = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const handleImageTypeSwitch = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const input = e.target as HTMLElement;
         setImageFormat(input.innerText.toLowerCase() as ImageFormats)
     };
@@ -23,22 +23,24 @@ export const DownloadButtons = view(() => {
             <div className="btn-group btn-group-sm w-100 mb-2">
                 {Object.keys(ImageFormats).map(format => {
                     return (
-                        <a href="#"
-                           onClick={handleImageTypeSwitch}
-                           className={(imageFormat === format.toLowerCase() ? 'active' : '') + ' btn btn-secondary'}>
+                        <button
+                            key={format}
+                            onClick={handleImageTypeSwitch}
+                            className={(imageFormat === format.toLowerCase() ? 'active' : '') + ' btn btn-secondary'}>
                             {format}
-                        </a>
+                        </button>
                     )
                 })}
             </div>
-            <button disabled={!app.imageData || app.isDownloadMode} onClick={handleImageDownload} className="btn btn-success w-100 btn-lg">
-                {app.isDownloadMode ? 'Downloading...' : 'Download'}
+            <button disabled={!app.imageData || app.isDownloadMode} onClick={handleImageDownload}
+                    className="btn btn-success w-100 btn-lg">
+                {app.isDownloadMode ? 'Downloading...' : `Download ${imageFormat.toUpperCase()}`}
             </button>
             {app.imageData &&
-                <button
-                    className="btn btn-sm btn-link text-white w-100"
-                    onClick={() => app.setImageData(null)}>or upload new image
-                </button>}
+            <button
+                className="btn btn-sm btn-link text-white w-100"
+                onClick={() => app.setImageData(null)}>or start over
+            </button>}
         </>
     );
 });

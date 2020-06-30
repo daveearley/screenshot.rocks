@@ -5,5 +5,5 @@ import {Homepage} from "./Homepage";
 import React from "react";
 
 export const Layout = view(() => {
-    return app.imageData ? <App /> : <Homepage/>;
+    return app.imageData ? <App/> : <Homepage/>;
 });

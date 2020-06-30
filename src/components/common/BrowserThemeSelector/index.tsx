@@ -31,7 +31,8 @@ export const BrowserThemeSelector = view(() => {
             <div className={`theme-selection ${app.browserTheme === BrowserThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(browserThemes).map((theme) => {
                     return (
-                        <a href={'#'}
+                        <a href={'/#'}
+                           key={theme}
                            onClick={(e) => handleThemeClick(e, theme as any)}
                            className="d-block style-preview">
                             <Browser showControlsOnly={true}
@@ -145,7 +146,7 @@ export const BrowserThemeSelector = view(() => {
                     </div>
                 </div>
             </div>
-            <a href="#" onClick={handleCustomThemeClick} className="btn btn-sm btn-link text-white w-100">
+            <a href="/#" onClick={handleCustomThemeClick} className="btn btn-sm btn-link text-white w-100">
                 or <span>{app.browserTheme !== BrowserThemes.Custom ? 'Style Your Own' : 'Choose Style'}</span>
             </a>
         </div>

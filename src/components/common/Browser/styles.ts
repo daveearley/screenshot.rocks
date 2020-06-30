@@ -104,6 +104,7 @@ export const styles = (props: IBrowserCanvasProps): string => {
        box-shadow: ${props.showBoxShadow ? '0 2px 4px -1px rgba(0, 0, 0, .4)' : 'none'};
        overflow: hidden;
        background-color: #ffffff;
+       min-width: ${props.imageData ? '400px' : 'none'};
     
       .hide {
         display: none !important;
@@ -200,6 +201,7 @@ export const styles = (props: IBrowserCanvasProps): string => {
       }
     
       .settings {
+        display: flex;
         width: ${determineWidth(styleVars.controlsHeight)}px;
         text-align: center;
       }

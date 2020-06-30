@@ -45,10 +45,9 @@ export interface IStore {
     canvasStyles: ICanvasStyles;
     isDownloadMode: boolean;
     defaultImageFormat: ImageFormats;
+    browserTheme: BrowserThemes
 
     setImageData(imageData: string): void,
-
-    browserTheme: BrowserThemes
 
     setBrowserTheme(browserTheme: BrowserThemes): void,
 }
@@ -106,7 +105,7 @@ export let app = store({
         showAddressBar: true,
         showAddressBarUrl: true,
         addressBarUrlProtocol: 'https://',
-        addressBarUrl: 'click.to.edit.com',
+        addressBarUrl: 'screenshot.rocks/edit-me',
         showNavigationButtons: true,
         showSettingsButton: true,
         showBoxShadow: true

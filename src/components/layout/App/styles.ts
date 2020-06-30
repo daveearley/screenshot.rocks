@@ -46,8 +46,7 @@ export const styles = () => {
             }
         
             .settings {
-              flex-grow: 1;
-              padding: 12px;
+              padding: 0 12px;
               
               h3 {
                 font-size: 1.2em;

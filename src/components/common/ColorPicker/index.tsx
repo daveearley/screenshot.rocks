@@ -34,7 +34,7 @@ export const ColorPicker = ({initialColor, onColorChange}: IColorPickerProps) =>
                 <div className="popup">
                     <div className="cover" onClick={handleClose}/>
                     <SketchPicker color={color} onChange={handleChange}/>
-                 </div> : null}
+                </div> : null}
         </div>
     );
 }
