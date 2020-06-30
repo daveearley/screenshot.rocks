@@ -10,27 +10,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="84fd663d-6522-4367-a77c-e0d9bf8cfbc0" name="Default Changelist" comment="typo">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    <list default="true" id="84fd663d-6522-4367-a77c-e0d9bf8cfbc0" name="Default Changelist" comment="homepage updates">
       <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/Browser/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Browser/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/Browser/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Browser/styles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/BrowserCanvas/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/BrowserCanvas/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/BrowserThemeSelector/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/BrowserThemeSelector/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/BrowserThemeSelector/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/BrowserThemeSelector/styles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/ColorPicker/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ColorPicker/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/DownloadButton/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/DownloadButton/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/ImageSelector/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ImageSelector/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/App/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/App/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/App/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/App/styles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Homepage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Homepage/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Homepage/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Homepage/styles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/serviceWorker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/serviceWorker.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/appStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/appStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +68,7 @@
       <option name="presentableId" value="Default" />
       <updated>1592864201614</updated>
       <workItem from="1592864203491" duration="67000" />
-      <workItem from="1592864286206" duration="108274000" />
+      <workItem from="1592864286206" duration="108820000" />
     </task>
     <task id="LOCAL-00001" summary="styling">
       <created>1593268258310</created>
@@ -117,7 +98,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593472347675</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="homepage updates">
+      <created>1593542470028</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1593542470028</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,7 +127,8 @@
     <MESSAGE value="begin work on homepage" />
     <MESSAGE value="copy" />
     <MESSAGE value="typo" />
-    <option name="LAST_COMMIT_MESSAGE" value="typo" />
+    <MESSAGE value="homepage updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="homepage updates" />
   </component>
   <component name="WindowStateProjectService">
     <state x="184" y="123" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593465896640">
