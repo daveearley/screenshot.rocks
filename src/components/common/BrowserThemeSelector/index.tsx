@@ -146,9 +146,9 @@ export const BrowserThemeSelector = view(() => {
                     </div>
                 </div>
             </div>
-            <a href="/#" onClick={handleCustomThemeClick} className="btn btn-sm btn-link text-white w-100">
+            <button onClick={handleCustomThemeClick} className="btn btn-sm btn-link text-white w-100">
                 or <span>{app.browserTheme !== BrowserThemes.Custom ? 'Style Your Own' : 'Choose Style'}</span>
-            </a>
+            </button>
         </div>
     );
 });

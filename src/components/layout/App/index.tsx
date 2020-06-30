@@ -135,7 +135,6 @@ export const App = view(() => {
                             id="toggleBoxShadow"/>
                         <label className="form-check-label" htmlFor="toggleBoxShadow">Browser Shadow</label>
                     </div>
-
                 </div>
                 <div className="footer">
                     <DownloadButtons/>

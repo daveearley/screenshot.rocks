@@ -10,8 +10,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="84fd663d-6522-4367-a77c-e0d9bf8cfbc0" name="Default Changelist" comment="update title">
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Homepage/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Homepage/styles.ts" afterDir="false" />
+    <list default="true" id="84fd663d-6522-4367-a77c-e0d9bf8cfbc0" name="Default Changelist" comment="fix centering">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/BrowserCanvas/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/BrowserCanvas/styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/BrowserThemeSelector/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/BrowserThemeSelector/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/BrowserThemeSelector/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/BrowserThemeSelector/styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/ImageSelector/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ImageSelector/styles.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/App/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/App/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +73,7 @@
       <option name="presentableId" value="Default" />
       <updated>1592864201614</updated>
       <workItem from="1592864203491" duration="67000" />
-      <workItem from="1592864286206" duration="109118000" />
+      <workItem from="1592864286206" duration="110170000" />
     </task>
     <task id="LOCAL-00001" summary="styling">
       <created>1593268258310</created>
@@ -119,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593549453411</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="fix centering">
+      <created>1593549609925</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1593549609925</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -144,7 +156,8 @@
     <MESSAGE value="homepage updates" />
     <MESSAGE value="ga tags" />
     <MESSAGE value="update title" />
-    <option name="LAST_COMMIT_MESSAGE" value="update title" />
+    <MESSAGE value="fix centering" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix centering" />
   </component>
   <component name="WindowStateProjectService">
     <state x="184" y="123" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593465896640">
@@ -162,10 +175,10 @@
     </state>
     <state x="195" y="100" key="SettingsEditor/0.23.1440.877@0.23.1440.877" timestamp="1593080117830" />
     <state x="257" y="100" key="SettingsEditor/72.23.1368.877@72.23.1368.877" timestamp="1592865691327" />
-    <state x="320" y="201" key="Vcs.Push.Dialog.v2" timestamp="1593549475358">
+    <state x="320" y="201" key="Vcs.Push.Dialog.v2" timestamp="1593549611595">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="320" y="201" key="Vcs.Push.Dialog.v2/0.23.1440.877@0.23.1440.877" timestamp="1593549475358" />
+    <state x="320" y="201" key="Vcs.Push.Dialog.v2/0.23.1440.877@0.23.1440.877" timestamp="1593549611595" />
     <state x="508" y="382" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1593264993455">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
@@ -178,10 +191,10 @@
       <screen x="65" y="23" width="1375" height="877" />
     </state>
     <state x="421" y="211" key="run.anything.popup/65.23.1375.877@65.23.1375.877" timestamp="1592983122054" />
-    <state x="370" y="213" width="704" height="676" key="search.everywhere.popup" timestamp="1593549587872">
+    <state x="370" y="213" width="704" height="676" key="search.everywhere.popup" timestamp="1593555328345">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="370" y="213" width="704" height="676" key="search.everywhere.popup/0.23.1440.877@0.23.1440.877" timestamp="1593549587872" />
+    <state x="370" y="213" width="704" height="676" key="search.everywhere.popup/0.23.1440.877@0.23.1440.877" timestamp="1593555328345" />
     <state x="421" y="213" width="670" height="676" key="search.everywhere.popup/68.23.1372.877@68.23.1372.877" timestamp="1592943688904" />
   </component>
 </project>

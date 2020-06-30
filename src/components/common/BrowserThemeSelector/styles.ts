@@ -2,7 +2,6 @@ import {css} from "emotion";
 
 export const styles = (bgColor: string) => {
     return css`
-
         .theme-selection {
           display: flex;
           flex-wrap: wrap;
