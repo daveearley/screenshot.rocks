@@ -3,7 +3,7 @@ import {resizeImage} from "../../../utils/image";
 import {view} from "@risingstack/react-easy-state";
 import {app} from '../../../stores/appStore'
 import {useDropzone} from "react-dropzone";
-import './styles.scss';
+import {styles} from "./styles";
 
 export const ImageSelector = view(() => {
     const onDrop = useCallback(files => {
@@ -24,7 +24,7 @@ export const ImageSelector = view(() => {
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
     return (
-        <div className={`ImageSelector ${isDragActive ? ' dragActive' : ''}`} {...getRootProps()}>
+        <div className={`${styles()} ${isDragActive ? ' dragActive' : ''}`} {...getRootProps()}>
             <input {...getInputProps()} />
             {
                 isDragActive ?
