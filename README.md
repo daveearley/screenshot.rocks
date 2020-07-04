@@ -1,12 +1,12 @@
 <div style="text-align: center;">
-    <img style="max-width: 350px;" alt="Create beautiful browser mockups from screenshots" src="https://i.imgur.com/9otaR0W.png" />
+    <img style="max-width: 350px;" alt="Create beautiful browser mockups from screenshots" src="https://i.imgur.com/SBXwpFX.png" />
 </div>
 
 # Screenshot.rocks
 
 This is the source code for [Screenshot.rocks](https://screenshot.rocks)
 
-*Screenshot.rocks* is an online tool which allow you to create beautiful browser mockups from screenshots.
+*Screenshot.rocks* is an online tool which allows you to create beautiful browser mockups from screenshots.
 
 # Installation :cd: 
 1. `git clone git@github.com:daveearley/cli.fyi.git`
