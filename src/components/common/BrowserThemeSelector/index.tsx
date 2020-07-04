@@ -26,6 +26,15 @@ export const BrowserThemeSelector = view(() => {
         return app.canvasStyles.bgColor;
     };
 
+    const browserStyleMap = {
+        browserChromeBgColor: 'Browser Background',
+        browserControlsBgColor: 'Controls Background',
+        browserControlsTextColor: 'Controls Text',
+        closeButtonColor: 'Close Button',
+        maximizeButtonColor: 'Maximize Button',
+        minimizeButtonColor: 'Minimize Button'
+    }
+
     return (
         <div className={styles(deriveBgColor())}>
             <div className={`theme-selection ${app.browserTheme === BrowserThemes.Custom ? 'd-none' : ''}`}>
@@ -48,82 +57,19 @@ export const BrowserThemeSelector = view(() => {
                 })}
             </div>
             <div className={`custom-theme-settings ${app.browserTheme !== BrowserThemes.Custom ? 'd-none' : ''}`}>
-                <div className="row">
-                    <div className="col-3">
-                        <ColorPicker
-                            initialColor={app.browserStyles.browserChromeBgColor}
-                            onColorChange={(color => app.browserStyles.browserChromeBgColor = rgba2hexa(color))}
-                        />
+                {Object.keys(browserStyleMap).map(browserStyle => {
+                    return <div className="row">
+                        <div className="col-3">
+                            <ColorPicker
+                                initialColor={(app.browserStyles as any)[browserStyle]}
+                                onColorChange={(color => (app.browserStyles as any)[browserStyle] = rgba2hexa(color))}
+                            />
+                        </div>
+                        <div className="col-9">
+                            <span>{(browserStyleMap as any)[browserStyle]}</span>
+                        </div>
                     </div>
-                    <div className="col-9">
-                        <span>Browser Background</span>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-3">
-                        <ColorPicker
-                            initialColor={app.browserStyles.browserControlsBgColor}
-                            onColorChange={(color => app.browserStyles.browserControlsBgColor = rgba2hexa(color))}
-                        />
-                    </div>
-                    <div className="col-9">
-                        <span>
-                            Controls Background
-                        </span>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-3">
-                        <ColorPicker
-                            initialColor={app.browserStyles.browserControlsTextColor}
-                            onColorChange={(color => app.browserStyles.browserControlsTextColor = rgba2hexa(color))}
-                        />
-                    </div>
-                    <div className="col-9">
-                        <span>
-                            Controls Text
-                        </span>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-3">
-                        <ColorPicker
-                            initialColor={app.browserStyles.closeButtonColor}
-                            onColorChange={(color => app.browserStyles.closeButtonColor = rgba2hexa(color))}
-                        />
-                    </div>
-                    <div className="col-9">
-                        <span>
-                            Close Button
-                        </span>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-3">
-                        <ColorPicker
-                            initialColor={app.browserStyles.maximizeButtonColor}
-                            onColorChange={(color => app.browserStyles.maximizeButtonColor = rgba2hexa(color))}
-                        />
-                    </div>
-                    <div className="col-9">
-                        <span>
-                            Maximize Button
-                        </span>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-3">
-                        <ColorPicker
-                            initialColor={app.browserStyles.minimizeButtonColor}
-                            onColorChange={(color => app.browserStyles.minimizeButtonColor = rgba2hexa(color))}
-                        />
-                    </div>
-                    <div className="col-9">
-                        <span>
-                            Minimize Button
-                        </span>
-                    </div>
-                </div>
+                })}
                 <div className="row">
                     <div className="col">
                         <label htmlFor="horizontalPadding" className="form-label">
