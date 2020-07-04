@@ -9,7 +9,7 @@ This is the source code for [Screenshot.rocks](https://screenshot.rocks)
 *Screenshot.rocks* is an online tool which allows you to create beautiful browser mockups from screenshots.
 
 # Installation :cd: 
-1. `git clone git@github.com:daveearley/cli.fyi.git`
+1. `git clone git@github.com:daveearley/screenshot.rocks.git`
 2. `yarn start`
 
 ## Contribution :wrench:
