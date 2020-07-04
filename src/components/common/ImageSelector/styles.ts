@@ -5,7 +5,6 @@ export const styles = (): string => {
           width: 100%;
           background-color: #ffffff;
           padding: 0 30px;
-          min-width: calc(100vw - 600px);
           height: 40vh;
           text-align: center;
           font-size: 1.2em;
