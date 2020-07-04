@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-    <img style="max-width: 350px;" alt="Create beautiful browser mockups from screenshots" src="https://raw.githubusercontent.com/daveearley/screenshot.rocks/master/.github/images/github.png" />
+    <img style="max-width: 350px;" alt="Create beautiful browser mockups from screenshots" src="https://i.imgur.com/9otaR0W.png" />
 </div>
 
 # Screenshot.rocks
