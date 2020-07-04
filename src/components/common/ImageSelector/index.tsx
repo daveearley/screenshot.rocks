@@ -24,7 +24,7 @@ export const ImageSelector = view(() => {
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
     return (
-        <div className={`${styles()} ${isDragActive ? ' dragActive' : ''}`} {...getRootProps()}>
+        <div className={`${styles(app.imageData)} ${isDragActive ? ' dragActive' : ''}`} {...getRootProps()}>
             <input {...getInputProps()} />
             {
                 isDragActive ?

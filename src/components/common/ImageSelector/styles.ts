@@ -1,11 +1,11 @@
 import {css} from "emotion";
 
-export const styles = (): string => {
+export const styles = (imageData?: string): string => {
     return css`
           width: 100%;
           background-color: #ffffff;
           padding: 0 30px;
-          height: 40vh;
+          min-height: ${imageData ? '40vh' : 'auto'};
           text-align: center;
           font-size: 1.2em;
           cursor: pointer;
@@ -20,6 +20,8 @@ export const styles = (): string => {
             padding: 20px;
             height: fit-content;
             background-color: #fbfbfb;
+            margin-top: 50px;
+            margin-bottom: 50px;
           }
         
           svg {
