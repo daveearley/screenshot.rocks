@@ -4,6 +4,7 @@ import {RGBColor} from "react-color";
 export enum ImageFormats {
     PNG = 'png',
     JPEG = 'jpeg',
+    SVG = 'svg',
 }
 
 export const hex2rgba = (hex: string, alpha: number = 1): RGBColor => {
@@ -54,6 +55,9 @@ export const downloadImage = (elementToDownload: HTMLElement, imageFormat: Image
         case ImageFormats.PNG:
             return domtoimage.toPng(elementToDownload)
                 .then((data: string) => handleDownload(data, ImageFormats.PNG));
+        case ImageFormats.SVG:
+            return domtoimage.toSvg(elementToDownload)
+                .then((data: string) => handleDownload(data, ImageFormats.SVG));
     }
 };
 
