@@ -1,10 +1,22 @@
 import domtoimage from "dom-to-image";
 import {RGBColor} from "react-color";
+import {app} from "../stores/appStore";
 
 export enum ImageFormats {
     PNG = 'png',
     JPEG = 'jpeg',
     SVG = 'svg',
+}
+
+export const listenForImagePaste = () => {
+    const handlePaste = (e: ClipboardEvent | Event) => {
+        retrieveImageFromClipboardAsBase64(e, (base64Data: string) => {
+            app.imageData = base64Data;
+        });
+    };
+
+    window.addEventListener("paste", handlePaste, false);
+    return () => window.removeEventListener("paste", handlePaste)
 }
 
 export const hex2rgba = (hex: string, alpha: number = 1): RGBColor => {

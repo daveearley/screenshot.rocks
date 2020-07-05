@@ -1,11 +1,12 @@
 import {view} from "@risingstack/react-easy-state";
-import React from "react";
+import React, {useEffect} from "react";
 import {Logo, LogoStyle} from "../../common/Logo/index.";
 import {styles} from "./styles";
 import {app} from "../../../stores/appStore";
 import {BrowserThemes, browserThemes} from "../../common/Browser/styles";
 import {Browser} from "../../common/Browser";
 import {FaWhatsapp, GiShamrock, RiFacebookCircleLine, RiTwitterLine} from "react-icons/all";
+import {listenForImagePaste} from "../../../utils/image";
 
 enum SocialProviders {
     Facebook,
@@ -14,6 +15,7 @@ enum SocialProviders {
 }
 
 export const Homepage = view(() => {
+    useEffect(() => listenForImagePaste(), []);
     app.browserSettings.addressBarUrl = 'screenshot.rocks';
 
     const handleContactClick = () => {

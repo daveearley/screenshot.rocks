@@ -7,20 +7,11 @@ import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../stores/appStore";
 import {styles} from "./styles";
 import {ColorPicker} from "../../common/ColorPicker";
-import {retrieveImageFromClipboardAsBase64, rgba2hexa} from "../../../utils/image";
+import {listenForImagePaste, retrieveImageFromClipboardAsBase64, rgba2hexa} from "../../../utils/image";
 import {Logo, LogoStyle} from "../../common/Logo/index.";
 
 export const App = view(() => {
-    useEffect(() => {
-        const handlePaste = (e: ClipboardEvent | Event) => {
-            retrieveImageFromClipboardAsBase64(e, (base64Data: string) => {
-                app.imageData = base64Data;
-            });
-        };
-
-        window.addEventListener("paste", handlePaste, false);
-        return () => window.removeEventListener("paste", handlePaste)
-    }, [])
+    useEffect(() => listenForImagePaste(), [])
 
     return (
         <main className={styles()}>
