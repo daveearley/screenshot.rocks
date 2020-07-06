@@ -7,7 +7,7 @@ import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../stores/appStore";
 import {styles} from "./styles";
 import {ColorPicker} from "../../common/ColorPicker";
-import {listenForImagePaste, retrieveImageFromClipboardAsBase64, rgba2hexa} from "../../../utils/image";
+import {listenForImagePaste, rgba2hexa} from "../../../utils/image";
 import {Logo, LogoStyle} from "../../common/Logo/index.";
 
 export const App = view(() => {

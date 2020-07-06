@@ -1,11 +1,17 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useState} from "react";
 import {resizeImage} from "../../../utils/image";
 import {view} from "@risingstack/react-easy-state";
 import {app} from '../../../stores/appStore'
 import {useDropzone} from "react-dropzone";
 import {styles} from "./styles";
+import {validURL} from "../../../utils/url";
 
 export const ImageSelector = view(() => {
+    const [urlValue, setUrlValue] = useState(null);
+    const [urlIsInvalid, setUrlIsInvalid] = useState(false);
+    const [urlLoading, setUrlLoading] = useState(false);
+    const [requestFailed, setRequestFailed] = useState(false);
+
     const onDrop = useCallback(files => {
         if (files && files[0]) {
             const fileReader = new FileReader();
@@ -23,17 +29,68 @@ export const ImageSelector = view(() => {
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
+    const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleUrlEnter();
+        }
+    };
+
+    const handleUrlEnter = () => {
+        if (!validURL(urlValue)) {
+            setUrlIsInvalid(true);
+            return;
+        }
+
+        setUrlLoading(true);
+        fetch(`${process.env.REACT_APP_SCREENSHOT_API}?url=${urlValue}`)
+            .then(response => response.json())
+            .then(data => app.setImageData(`data:image/png;base64, ${data.imageBase64}`))
+            .catch(() => {
+                setUrlLoading(false);
+                setRequestFailed(true);
+            })
+            .finally(() => setUrlLoading(false));
+    }
+
+    const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!urlIsInvalid) {
+            setUrlIsInvalid(false);
+        }
+        setUrlValue(e.target.value);
+    }
+
     return (
-        <div className={`${styles(app.imageData)} ${isDragActive ? ' dragActive' : ''}`} {...getRootProps()}>
-            <input {...getInputProps()} />
-            {
-                isDragActive ?
-                    <p>Drop the image ...</p> :
-                    <div className="dropzone">
-                        <p><b>Drop</b>, <b>paste</b> or <b>click</b> to upload an image...</p>
-                        <p>All processing is done in the browser, nothing is sent to our servers.</p>
-                    </div>
-            }
+        <div className={`${styles(app.imageData)} ${isDragActive ? ' dragActive' : ''}`}>
+            <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                {
+                    isDragActive ?
+                        <p>Drop the image ...</p> :
+                        <div>
+                            <div className="dropzone">
+                                <p><b>Drop</b>, <b>paste</b> or <b>click</b> to upload an image...</p>
+                                <p>or enter a URL</p>
+                            </div>
+                        </div>
+                }
+            </div>
+            <div className="input-group url-form">
+                <input
+                    disabled={urlLoading}
+                    onKeyDown={handleEnterKey}
+                    onChange={handleUrlChange}
+                    type="text"
+                    className={`form-control ${urlIsInvalid || requestFailed ? 'is-invalid' : ''}`}
+                    placeholder="https://your-website.com"
+                />
+                <button onClick={handleUrlEnter} disabled={urlLoading} className="btn btn-primary" type="button">
+                    {urlLoading ? 'Working...' : 'Go'}
+                </button>
+                <div className="invalid-feedback">
+                    {urlIsInvalid && 'Whoops! Looks like you entered an invalid URL.'}
+                    {requestFailed && 'Something has gone wrong. Please check your URL is valid and try again.'}
+                </div>
+            </div>
         </div>
     );
 });
