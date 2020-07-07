@@ -15,5 +15,6 @@
     ],
     "theme_color": "#a090c1",
     "background_color": "#a090c1",
-    "display": "standalone"
+    "display": "standalone",
+    "start_url": "https://screenshot.rocks?start=pwa"
 }
