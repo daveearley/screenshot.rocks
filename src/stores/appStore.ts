@@ -1,6 +1,7 @@
 import {autoEffect, store} from '@risingstack/react-easy-state';
 import {CanvasBackgroundTypes, FrameType, ImageFormats} from "../types";
 import {getImageDimensions, rotateImage} from "../utils/image";
+import {phoneStore} from "./phoneStore";
 
 export const bgImages = [
     '1.jpg',
@@ -80,18 +81,19 @@ export let app = store({
 
 autoEffect(() => {
     // This auto-rotates the image if the user switches to mobile and the image is landscape
-    // Disabled for now
-    if (0 && app.frameType && !app.disableAutoRotate) {
+    if (app.frameType && !app.disableAutoRotate) {
         getImageDimensions(app.imageData).then(({width, height}) => {
             if (app.frameType === FrameType.Phone && width > height) {
-                rotateImage(app.imageData).then((rotated) => {
-                    app.imageData = rotated
-                    app.isAutoRotateActive = true;
-                });
+                // rotateImage(app.imageData).then((rotated) => {
+                //     app.imageData = rotated
+                //     app.isAutoRotateActive = true;
+                // });
+                // Disable the auto-rotate for now and just hide the volume rocker
+                phoneStore.settings.showVolumeRocker = false;
             }
             if (app.frameType === FrameType.Browser && width < height) {
-                app.imageData = app.originalImageData;
-                app.isAutoRotateActive = false;
+                // app.imageData = app.originalImageData;
+                // app.isAutoRotateActive = false;
             }
         })
     }
