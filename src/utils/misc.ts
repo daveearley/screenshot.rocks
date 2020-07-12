@@ -1,0 +1,1 @@
+export const equals = (thing1: any, thing2: any): boolean => (thing1 === thing2);

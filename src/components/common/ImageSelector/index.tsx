@@ -1,5 +1,4 @@
 import React, {useCallback, useState} from "react";
-import {resizeImage} from "../../../utils/image";
 import {view} from "@risingstack/react-easy-state";
 import {app} from '../../../stores/appStore'
 import {useDropzone} from "react-dropzone";
@@ -11,18 +10,12 @@ export const ImageSelector = view(() => {
     const [urlIsInvalid, setUrlIsInvalid] = useState(false);
     const [urlLoading, setUrlLoading] = useState(false);
     const [requestFailed, setRequestFailed] = useState(false);
+    const [enableMobileScreenshot, setEnableMobileScreenshot] = useState(false);
 
     const onDrop = useCallback(files => {
         if (files && files[0]) {
             const fileReader = new FileReader();
-            fileReader.addEventListener("load", e => {
-                app.browserSettings.reduceImageQualityOnUpload ?
-                    resizeImage(e.target.result as string)
-                        .then(img => app.setImageData(img))
-                        .catch(() => alert('Shit!'))
-                    : app.setImageData(e.target.result as string);
-            });
-
+            fileReader.addEventListener("load", e => app.setImageData(e.target.result as string));
             fileReader.readAsDataURL(files[0]);
         }
     }, [])
@@ -42,7 +35,7 @@ export const ImageSelector = view(() => {
         }
 
         setUrlLoading(true);
-        fetch(`${process.env.REACT_APP_SCREENSHOT_API}?url=${urlValue}`)
+        fetch(`${process.env.REACT_APP_SCREENSHOT_API}?url=${urlValue}${enableMobileScreenshot ? '&mobile=1' : ''}`)
             .then(response => response.json())
             .then(data => app.setImageData(`data:image/png;base64, ${data.imageBase64}`))
             .catch(() => {
@@ -83,6 +76,16 @@ export const ImageSelector = view(() => {
                     className={`form-control ${urlIsInvalid || requestFailed ? 'is-invalid' : ''}`}
                     placeholder="https://your-website.com"
                 />
+                <div className="input-group-text">
+                    <label htmlFor="mobile">Mobile</label>
+                    <input onChange={() => setEnableMobileScreenshot(!enableMobileScreenshot)}
+                           checked={enableMobileScreenshot}
+                           id="mobile"
+                           className="form-check-input ml-2"
+                           type="checkbox"
+                           value="1"
+                    />
+                </div>
                 <button onClick={handleUrlEnter} disabled={urlLoading} className="btn btn-primary" type="button">
                     {urlLoading ? 'Working...' : 'Go'}
                 </button>

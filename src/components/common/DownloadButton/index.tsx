@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../stores/appStore";
-import {downloadImage, ImageFormats} from "../../../utils/image";
+import {downloadImage} from "../../../utils/image";
+import {ImageFormats} from "../../../types";
 
 export const DownloadButtons = view(() => {
     let [imageFormat, setImageFormat] = useState<ImageFormats>(app.defaultImageFormat);
@@ -26,7 +27,7 @@ export const DownloadButtons = view(() => {
                         <button
                             key={format}
                             onClick={handleImageTypeSwitch}
-                            className={(imageFormat === format.toLowerCase() ? 'active' : '') + ' btn btn-secondary'}>
+                            className={(imageFormat === format.toLowerCase() ? 'active' : '') + ' btn btn-success'}>
                             {format}
                         </button>
                     )

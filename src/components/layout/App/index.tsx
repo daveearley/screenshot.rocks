@@ -1,148 +1,71 @@
 import React, {useEffect} from "react";
 import './styles'
-import {BrowserCanvas} from "../../common/BrowserCanvas";
+import {Canvas} from "../../common/Canvas";
 import {DownloadButtons} from "../../common/DownloadButton";
-import {BrowserThemeSelector} from "../../common/BrowserThemeSelector";
 import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../stores/appStore";
 import {styles} from "./styles";
-import {ColorPicker} from "../../common/ColorPicker";
-import {listenForImagePaste, rgba2hexa} from "../../../utils/image";
-import {Logo, LogoStyle} from "../../common/Logo/index.";
+import {listenForImagePaste} from "../../../utils/image";
+import {Logo, LogoStyle} from "../../common/Logo";
+import {browserStore} from "../../../stores/browserStore";
+import {Settings} from "../../common/Settings/Settings";
+import {FrameType} from "../../../types";
+import {ThemeSelector} from "../../common/ThemeSelector";
+import {phoneStore} from "../../../stores/phoneStore";
+import {BackgroundSettings} from "../../common/Settings/BackgroundSettings";
+import {CanvasSettings} from "../../common/Settings/CanvasSettings";
 
 export const App = view(() => {
     useEffect(() => listenForImagePaste(), [])
+
+    const handleFrameTypeChange = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        app.frameType = ((e.target as HTMLElement).innerText as FrameType);
+    };
 
     return (
         <main className={styles()}>
             <aside className="sidebar">
                 <Logo style={LogoStyle.Light}/>
                 <div className="settings">
-                    <BrowserThemeSelector/>
-                    <h3 className="mt-3">Canvas Padding</h3>
-                    <div className="row">
-                        <div className="col">
-                            <label htmlFor="horizontalPadding" className="form-label">
-                                Horizontal
-                            </label>
-                        </div>
-                        <div className="col">
-                            <input
-                                onChange={(e) => app.canvasStyles.horizontalPadding = (e.target.value as unknown as number)}
-                                value={app.canvasStyles.horizontalPadding}
-                                type="range"
-                                className="form-range"
-                                min="0"
-                                max="100"
-                                id="horizontalPadding"
-                            />
+                    <div className="frame-type">
+                        <div className="btn-group btn-group-sm w-100 mb-2">
+                            {Object.keys(FrameType).map(type => {
+                                return (
+                                    <button
+                                        key={type}
+                                        onClick={handleFrameTypeChange}
+                                        className={(app.frameType === type ? 'active' : '') + ' btn btn-success'}>
+                                        {type}
+                                    </button>
+                                )
+                            })}
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col">
-                            <label htmlFor="verticalPadding" className="form-label">
-                                Vertical
-                            </label>
-                        </div>
-                        <div className="col">
-                            <input
-                                onChange={(e) => app.canvasStyles.verticalPadding = (e.target.value as unknown as number)}
-                                value={app.canvasStyles.verticalPadding}
-                                type="range"
-                                className="form-range"
-                                min="0"
-                                max="100"
-                                id="verticalPadding"
-                            />
-                        </div>
-                    </div>
-                    <h3 className="mt-3">Canvas Background</h3>
-                    <div className="row">
-                        <div className="col-3">
-                            <ColorPicker
-                                initialColor={app.canvasStyles.bgColor}
-                                onColorChange={(color => app.canvasStyles.bgColor = rgba2hexa(color))}
-                            />
-                        </div>
-                        <div className="col-9">
-                        <span>
-
-                        </span>
-                        </div>
-                    </div>
-
+                    <ThemeSelector/>
+                    <h3 className="mt-3">Canvas</h3>
+                    <CanvasSettings/>
+                    <h3 className="mt-3">Background</h3>
+                    <BackgroundSettings/>
                     <h3 className="mt-3">Settings</h3>
-                    <div className="form-check form-switch">
-                        <input
-                            onChange={(e) => app.browserSettings.showWindowControls = e.target.checked}
-                            checked={app.browserSettings.showWindowControls}
-                            className="form-check-input"
-                            type="checkbox"
-                            id="toggleWindowControls"/>
-                        <label className="form-check-label" htmlFor="toggleWindowControls">Window Controls</label>
-                    </div>
-                    <div className="form-check form-switch">
-                        <input
-                            onChange={(e) => app.browserSettings.showAddressBar = e.target.checked}
-                            checked={app.browserSettings.showAddressBar}
-                            className="form-check-input"
-                            type="checkbox"
-                            id="toggleUrlBar"/>
-                        <label className="form-check-label" htmlFor="toggleUrlBar">URL Bar</label>
-                    </div>
-                    <div className="form-check form-switch">
-                        <input
-                            onChange={(e) => app.browserSettings.showAddressBarUrl = e.target.checked}
-                            checked={app.browserSettings.showAddressBarUrl}
-                            className="form-check-input"
-                            type="checkbox"
-                            id="toggleUrlText"/>
-                        <label className="form-check-label" htmlFor="toggleUrlText">URL Text</label>
-                    </div>
-                    <div className="form-check form-switch">
-                        <input
-                            onChange={(e) => app.browserSettings.showNavigationButtons = e.target.checked}
-                            checked={app.browserSettings.showNavigationButtons}
-                            className="form-check-input"
-                            type="checkbox"
-                            id="toggleNavButtons"/>
-                        <label className="form-check-label" htmlFor="toggleNavButtons">Nav Buttons</label>
-                    </div>
-                    <div className="form-check form-switch">
-                        <input
-                            onChange={(e) => app.browserSettings.showSettingsButton = e.target.checked}
-                            checked={app.browserSettings.showSettingsButton}
-                            className="form-check-input"
-                            type="checkbox"
-                            id="toggleSettingsButton"/>
-                        <label className="form-check-label" htmlFor="toggleSettingsButton">Settings Button</label>
-                    </div>
-                    <div className="form-check form-switch">
-                        <input
-                            onChange={(e) => app.browserSettings.showBoxShadow = e.target.checked}
-                            checked={app.browserSettings.showBoxShadow}
-                            className="form-check-input"
-                            type="checkbox"
-                            id="toggleBoxShadow"/>
-                        <label className="form-check-label" htmlFor="toggleBoxShadow">Browser Shadow</label>
-                    </div>
+                    <Settings/>
                 </div>
                 <div className="footer">
                     <DownloadButtons/>
                 </div>
             </aside>
             <div className="main-content">
-                <BrowserCanvas
+                <Canvas
                     imageData={app.imageData}
-                    canvasBgColor={app.canvasStyles.bgColor}
+                    canvasBgColor={app.canvasBgColor}
                     canvasBgImage={app.canvasStyles.bgImage}
-                    canvasBgType={app.browserSettings.backgroundType}
                     canvasVerticalPadding={app.canvasStyles.verticalPadding}
                     canvasHorizontalPadding={app.canvasStyles.horizontalPadding}
-                    styles={app.browserStyles}
+                    styles={app.frameType === FrameType.Browser ? browserStore.styles : phoneStore.styles}
                     isDownloadMode={app.isDownloadMode}
-                    showBoxShadow={app.browserSettings.showBoxShadow}
+                    showBoxShadow={app.frameType === FrameType.Browser ? browserStore.settings.showBoxShadow : phoneStore.settings.showShadow}
                     urlTextOverride={'edit-me.com'}
+                    frameType={app.frameType}
+                    isAutoRotateActive={app.isAutoRotateActive}
                 />
             </div>
         </main>

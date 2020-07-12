@@ -1,12 +1,12 @@
 import {view} from "@risingstack/react-easy-state";
 import React, {useEffect} from "react";
-import {Logo, LogoStyle} from "../../common/Logo/index.";
+import {Logo, LogoStyle} from "../../common/Logo";
 import {styles} from "./styles";
-import {app} from "../../../stores/appStore";
-import {BrowserThemes, browserThemes} from "../../common/Browser/styles";
-import {Browser} from "../../common/Browser";
+import {BrowserThemes, browserThemes} from "../../common/Frames/Browser/styles";
+import {BrowserFrame} from "../../common/Frames/Browser";
 import {FaWhatsapp, GiShamrock, RiFacebookCircleLine, RiTwitterLine} from "react-icons/all";
 import {listenForImagePaste} from "../../../utils/image";
+import {browserStore} from "../../../stores/browserStore";
 
 enum SocialProviders {
     Facebook,
@@ -16,7 +16,7 @@ enum SocialProviders {
 
 export const Homepage = view(() => {
     useEffect(() => listenForImagePaste(), []);
-    app.browserSettings.addressBarUrl = 'screenshot.rocks';
+    browserStore.settings.addressBarUrl = 'screenshot.rocks';
 
     const handleContactClick = () => {
         window.location.href = `mailto:dave+screenshot.rocks@earley.email`;
@@ -39,14 +39,15 @@ export const Homepage = view(() => {
     return (
         <div className={styles()}>
             <Logo style={LogoStyle.Light}/>
-            <h1>Create <span>beautiful</span> browser mockups in seconds</h1>
+            <h1>Create <span>beautiful</span> browser & mobile mockups in seconds</h1>
             <div className="m-5">
-                <Browser
+                <BrowserFrame
                     showControlsOnly={false}
                     styles={(browserThemes as any)[BrowserThemes.Default]}
                     isDownloadMode={false}
-                    showBoxShadow={app.browserSettings.showBoxShadow}
+                    showBoxShadow={browserStore.settings.showBoxShadow}
                     urlTextOverride="screenshot.rocks"
+                    isAutoRotateActive={false}
                 />
             </div>
             <div className="share">

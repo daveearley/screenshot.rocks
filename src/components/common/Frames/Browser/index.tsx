@@ -1,13 +1,13 @@
 import {IoIosArrowBack, IoIosArrowForward, IoIosOptions} from "react-icons/io";
 import {FiLock} from "react-icons/all";
 import React from "react";
-import {IBrowserCanvasProps} from "../BrowserCanvas";
+import {ICanvasProps} from "../../Canvas";
 import {styles} from "./styles";
-import {ImageSelector} from "../ImageSelector";
-import {app} from "../../../stores/appStore";
+import {ImageSelector} from "../../ImageSelector";
 import {view} from "@risingstack/react-easy-state";
+import {browserStore} from "../../../../stores/browserStore";
 
-export const Browser = view((props: IBrowserCanvasProps) => {
+export const BrowserFrame = view((props: ICanvasProps) => {
     let browserContent;
     if (!props.showControlsOnly) {
         browserContent = props.imageData
@@ -20,12 +20,12 @@ export const Browser = view((props: IBrowserCanvasProps) => {
     return (
         <div className={styles(props)}>
             <div className="browser-controls">
-                <div className={`window-controls ${!app.browserSettings.showWindowControls ? 'hide' : ''}`}>
+                <div className={`window-controls ${!browserStore.settings.showWindowControls ? 'hide' : ''}`}>
                     <span className="close"/>
                     <span className="minimise"/>
                     <span className="maximise"/>
                 </div>
-                <div className={`page-controls ${!app.browserSettings.showNavigationButtons ? 'hide' : ''}`}>
+                <div className={`page-controls ${!browserStore.settings.showNavigationButtons ? 'hide' : ''}`}>
                     <span className="back browser-container">
                         <IoIosArrowBack/>
                     </span>
@@ -33,26 +33,28 @@ export const Browser = view((props: IBrowserCanvasProps) => {
                         <IoIosArrowForward/>
                     </span>
                 </div>
-                <span className={`url-bar browser-container ${!app.browserSettings.showAddressBar ? 'hide' : ''}`}>
+                <span className={`url-bar browser-container ${!browserStore.settings.showAddressBar ? 'hide' : ''}`}>
                     <span className="lock">
                         <FiLock/>
                     </span>
-                    <span className={`url-text ${!app.browserSettings.showAddressBarUrl ? 'hide' : ''}`}>
+                    <span className={`url-text ${!browserStore.settings.showAddressBarUrl ? 'hide' : ''}`}>
                         <span className="text-success" contentEditable suppressContentEditableWarning>
-                            {app.browserSettings.addressBarUrlProtocol}
+                            {browserStore.settings.addressBarUrlProtocol}
                         </span>
                         <span contentEditable suppressContentEditableWarning>
-                            {props.urlTextOverride || app.browserSettings.addressBarUrl}
+                            {props.urlTextOverride || browserStore.settings.addressBarUrl}
                         </span>
                     </span>
                     </span>
-                <span className={`browser-container ${!app.browserSettings.showSettingsButton ? 'hide' : ''}`}>
+                <span className={`browser-container ${!browserStore.settings.showSettingsButton ? 'hide' : ''}`}>
                     <span className="settings">
                         <IoIosOptions/>
                     </span>
                 </span>
             </div>
-            {browserContent}
+            <div className="content-wrap">
+                {browserContent}
+            </div>
         </div>
     );
 });
