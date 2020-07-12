@@ -1,12 +1,7 @@
 import domtoimage from "dom-to-image";
 import {RGBColor} from "react-color";
 import {app} from "../stores/appStore";
-
-export enum ImageFormats {
-    PNG = 'png',
-    JPEG = 'jpeg',
-    SVG = 'svg',
-}
+import {ImageFormats} from "../types";
 
 export const listenForImagePaste = () => {
     const handlePaste = (e: ClipboardEvent | Event) => {
@@ -89,11 +84,9 @@ export const resizeImage = (
             if ((width > height) && (width > maxWidth)) {
                 height *= maxWidth / width
                 width = maxWidth
-            } else {
-                if (height > maxHeight) {
-                    width *= maxHeight / height
-                    height = maxHeight
-                }
+            } else if (height > maxHeight) {
+                width *= maxHeight / height
+                height = maxHeight
             }
             canvas.width = width
             canvas.height = height
@@ -133,3 +126,38 @@ export const retrieveImageFromClipboardAsBase64 = (pasteEvent: ClipboardEvent | 
     }
 };
 
+export const getImageDimensions = (file: string): Promise<{ width: number, height: number }> => {
+    return loadImageFromBase64(file).then(img => {
+        return {
+            width: img.width,
+            height: img.height
+        }
+    })
+};
+
+const loadImageFromBase64 = (imageData: string): Promise<HTMLImageElement> => {
+    return new Promise((resolved) => {
+        const image = new Image()
+        image.onload = function () {
+            resolved(image)
+        };
+        image.src = imageData
+    });
+}
+
+export const rotateImage = (img: string): Promise<string> => {
+    return loadImageFromBase64(img).then(image => {
+        const degrees = 90;
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = image.height;
+        canvas.height = image.width;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.translate(image.height / 2, image.width / 2);
+        ctx.rotate(degrees * Math.PI / 180);
+        ctx.drawImage(image, -image.width / 2, -image.height / 2);
+
+        return canvas.toDataURL();
+    })
+};

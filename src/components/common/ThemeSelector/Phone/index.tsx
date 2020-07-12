@@ -1,14 +1,12 @@
 import React from "react";
 import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../../stores/appStore";
-import {BrowserThemes, browserThemes} from "../../Frames/BrowserFrame/styles";
 import {ColorPicker} from "../../ColorPicker";
 import {rgba2hexa} from "../../../../utils/image";
-import {browserStore} from "../../../../stores/browserStore";
 import {phoneStore} from "../../../../stores/phoneStore";
 import {styles} from "./styles";
-import {PhoneThemes} from "../../Frames/PhoneFrame/styles";
-import {PhoneFrame} from "../../Frames/PhoneFrame";
+import {PhoneThemes, phoneThemeStyles} from "../../Frames/Phone/styles";
+import {PhoneFrame} from "../../Frames/Phone";
 
 export const PhoneThemeSelector = view(() => {
     const handleThemeClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, theme: PhoneThemes) => {
@@ -16,56 +14,52 @@ export const PhoneThemeSelector = view(() => {
     };
 
     const handleCustomThemeClick = (): void => {
-        phoneStore.activeTheme = (phoneStore.activeTheme === PhoneThemes.Android) ? PhoneThemes.Android : PhoneThemes.Custom;
+        phoneStore.activeTheme = (phoneStore.activeTheme === PhoneThemes.Custom) ? PhoneThemes.Default : PhoneThemes.Custom;
     };
 
-    const browserStyleMap = {
-        browserChromeBgColor: 'BrowserFrame Background',
-        browserControlsBgColor: 'Controls Background',
-        browserControlsTextColor: 'Controls Text',
-        closeButtonColor: 'Close Button',
-        maximizeButtonColor: 'Maximize Button',
-        minimizeButtonColor: 'Minimize Button'
+    const phoneStyleMap = {
+        frameColor: 'Frame Color',
     }
 
     return (
-        <div className={styles()}>
+        <div className={styles(app.canvasStyles.bgColor)}>
             <div className={`theme-selection ${phoneStore.activeTheme === PhoneThemes.Custom ? 'd-none' : ''}`}>
-                {Object.keys(browserThemes).map((theme) => {
+                {Object.keys(phoneThemeStyles).map((theme) => {
                     return (
                         <a href={'/#'}
                            key={theme}
                            onClick={(e) => handleThemeClick(e, theme as any)}
                            className="d-block style-preview">
-                            <PhoneFrame showControlsOnly={true}
-                                          canvasBgColor={app.canvasStyles.bgColor}
-                                          canvasBgImage={app.canvasStyles.bgImage}
-                                          canvasBgType={browserStore.settings.backgroundType}
-                                          styles={(browserThemes as any)[theme]}
-                                          isDownloadMode={false}
-                                          showBoxShadow={browserStore.settings.showBoxShadow}
+                            <PhoneFrame
+                                canvasBgColor={app.canvasStyles.bgColor}
+                                canvasBgImage={app.canvasStyles.bgImage}
+                                styles={(phoneThemeStyles as any)[theme]}
+                                isDownloadMode={false}
+                                showBoxShadow={phoneStore.settings.showShadow}
+                                imageData={app.imageData}
+                                isAutoRotateActive={app.isAutoRotateActive}
                             />
                         </a>
                     )
                 })}
             </div>
-            <div className={`custom-theme-settings ${browserStore.activeTheme !== BrowserThemes.Custom ? 'd-none' : ''}`}>
-                {Object.keys(browserStyleMap).map(browserStyle => {
-                    return <div className="row">
+            <div className={`custom-theme-settings ${phoneStore.activeTheme !== PhoneThemes.Custom ? 'd-none' : ''}`}>
+                {Object.keys(phoneStyleMap).map(browserStyle => {
+                    return <div className="row" key={browserStyle}>
                         <div className="col-3">
                             <ColorPicker
-                                initialColor={(browserStore.styles as any)[browserStyle]}
-                                onColorChange={(color => (browserStore.styles as any)[browserStyle] = rgba2hexa(color))}
+                                initialColor={(phoneStore.styles as any)[browserStyle]}
+                                onColorChange={(color => (phoneStore.styles as any)[browserStyle] = rgba2hexa(color))}
                             />
                         </div>
                         <div className="col-9">
-                            <span>{(browserStyleMap as any)[browserStyle]}</span>
+                            <span>{(phoneStyleMap as any)[browserStyle]}</span>
                         </div>
                     </div>
                 })}
             </div>
             <button onClick={handleCustomThemeClick} className="btn btn-sm btn-link text-white w-100">
-                or <span>{browserStore.activeTheme !== BrowserThemes.Custom ? 'Style Your Own' : 'Choose Style'}</span>
+                or <span>{phoneStore.activeTheme !== PhoneThemes.Custom ? 'Choose a Color' : 'Choose Style'}</span>
             </button>
         </div>
     );

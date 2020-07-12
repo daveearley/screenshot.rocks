@@ -1,113 +1,98 @@
-import {store} from '@risingstack/react-easy-state';
-import {BackgroundType, BrowserThemes, browserThemes} from "../components/common/Browser/styles";
-import {ImageFormats} from "../utils/image";
+import {autoEffect, store} from '@risingstack/react-easy-state';
+import {CanvasBackgroundTypes, FrameType, ImageFormats} from "../types";
+import {getImageDimensions, rotateImage} from "../utils/image";
+
+export const bgImages = [
+    '1.jpg',
+    '2.jpg',
+    '3.png',
+    '4.jpg'
+].map(img => `/images/backgrounds/${img}`);
 
 export const defaultCanvasBgColor = '#a090c1';
-
-export interface IBrowserStyles {
-    browserChromeBgColor: string;
-    browserControlsBgColor: string;
-    browserControlsTextColor: string;
-    closeButtonColor: string;
-    minimizeButtonColor: string;
-    maximizeButtonColor: string;
-    browserBorderRadius: number;
-    controlsBorderRadius: number;
-    controlsHeight: number;
-    chromeHeight: number;
-}
 
 export interface ICanvasStyles {
     bgColor: string;
     bgImage?: string;
     verticalPadding: number;
     horizontalPadding: number;
-}
-
-export interface IBrowserSettings {
-    backgroundType: BackgroundType;
-    showWindowControls: boolean;
-    showAddressBar: boolean;
-    showAddressBarUrl: boolean;
-    addressBarUrlProtocol: string;
-    addressBarUrl: string;
-    showNavigationButtons: boolean;
-    showSettingsButton: boolean;
-    reduceImageQualityOnUpload: boolean;
-    showBoxShadow: boolean;
+    backgroundType: CanvasBackgroundTypes;
+    gradientColorOne: string;
+    gradientColorTwo: string;
+    gradientAngle: number
 }
 
 export interface IStore {
-    imageData?: string,
-    browserSettings: IBrowserSettings,
-    customBrowserStyles?: IBrowserStyles;
-    browserStyles: IBrowserStyles;
+    frameType: FrameType;
+    imageData?: string;
+    originalImageData?: string;
     canvasStyles: ICanvasStyles;
     isDownloadMode: boolean;
     defaultImageFormat: ImageFormats;
-    browserTheme: BrowserThemes
+    canvasBgColor: string;
+    isAutoRotateActive: boolean;
+    disableAutoRotate: boolean;
 
-    setImageData(imageData: string): void,
-
-    setBrowserTheme(browserTheme: BrowserThemes): void,
+    setImageData(imageData: string): void;
 }
 
 export let app = store({
+    frameType: FrameType.Browser,
+    defaultImageFormat: ImageFormats.PNG,
     isDownloadMode: false,
-
-    // Image Data
     imageData: null,
+    originalImageData: null,
+    isAutoRotateActive: false,
+    disableAutoRotate: false,
     setImageData(imageData: string) {
         app.imageData = imageData;
+        app.originalImageData = imageData;
+
+        // switch to mobile for portrait screenshots
+        getImageDimensions(imageData).then(({width, height}) => {
+            app.frameType = height > width ? FrameType.Phone : FrameType.Browser;
+        });
     },
 
-    defaultImageFormat: ImageFormats.PNG,
-
-    // Browser Theme
-    browserTheme: BrowserThemes.Default,
-    setBrowserTheme(browserTheme: BrowserThemes) {
-        app.browserTheme = browserTheme;
-    },
-
-    // Get browser style settings - can either be custom or pre-defined theme
-    get browserStyles(): IBrowserStyles {
-        if (app.browserTheme === BrowserThemes.Custom) {
-            return app.customBrowserStyles;
+    get canvasBgColor(): string {
+        if (app.canvasStyles.backgroundType === CanvasBackgroundTypes.Solid) {
+            return app.canvasStyles.bgColor;
         }
 
-        return (browserThemes as any)[app.browserTheme];
-    },
+        if (app.canvasStyles.backgroundType === CanvasBackgroundTypes.Image) {
+            return `url(${app.canvasStyles.bgImage})`;
+        }
 
-    customBrowserStyles: {
-        browserChromeBgColor: '#ffffff',
-        browserControlsBgColor: '#dddddd',
-        browserControlsTextColor: '#b5b5b5',
-        closeButtonColor: '#FF8585',
-        minimizeButtonColor: '#FFD071',
-        maximizeButtonColor: '#74ED94',
-        browserBorderRadius: 10,
-        controlsBorderRadius: 10,
-        controlsHeight: 30,
-        chromeHeight: 60,
+        return `linear-gradient(-${app.canvasStyles.gradientAngle}deg, ${app.canvasStyles.gradientColorOne}, ${app.canvasStyles.gradientColorTwo})`
     },
 
     canvasStyles: {
         bgColor: defaultCanvasBgColor,
-        bgImage: null,
-        verticalPadding: 20,
-        horizontalPadding: 20,
+        bgImage: '/images/backgrounds/1.jpg',
+        verticalPadding: 40,
+        horizontalPadding: 60,
+        backgroundType: CanvasBackgroundTypes.Image,
+        gradientColorOne: '#7e349c',
+        gradientColorTwo: '#968bbd',
+        gradientAngle: 45,
     },
-
-    browserSettings: {
-        backgroundType: BackgroundType.Color,
-        reduceImageQualityOnUpload: false,
-        showWindowControls: true,
-        showAddressBar: true,
-        showAddressBarUrl: true,
-        addressBarUrlProtocol: 'https://',
-        addressBarUrl: 'screenshot.rocks/edit-me',
-        showNavigationButtons: true,
-        showSettingsButton: true,
-        showBoxShadow: true
-    }
 } as IStore);
+
+autoEffect(() => {
+    // This auto-rotates the image if the user switches to mobile and the image is landscape
+    // Disabled for now
+    if (0 && app.frameType && !app.disableAutoRotate) {
+        getImageDimensions(app.imageData).then(({width, height}) => {
+            if (app.frameType === FrameType.Phone && width > height) {
+                rotateImage(app.imageData).then((rotated) => {
+                    app.imageData = rotated
+                    app.isAutoRotateActive = true;
+                });
+            }
+            if (app.frameType === FrameType.Browser && width < height) {
+                app.imageData = app.originalImageData;
+                app.isAutoRotateActive = false;
+            }
+        })
+    }
+});

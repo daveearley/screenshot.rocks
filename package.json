@@ -15,6 +15,7 @@
     "dom-to-image": "^2.6.0",
     "emotion": "^10.0.27",
     "node-sass": "^4.14.1",
+    "polished": "^3.6.5",
     "react": "^16.13.1",
     "react-color": "^2.18.1",
     "react-dom": "^16.13.1",

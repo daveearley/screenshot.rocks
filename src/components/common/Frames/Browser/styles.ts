@@ -1,5 +1,6 @@
 import {css} from "emotion";
 import {ICanvasProps} from "../../Canvas";
+import {IBrowserStyles} from "../../../../stores/browserStore";
 
 export enum BrowserThemes {
     Default,
@@ -18,8 +19,8 @@ export enum BackgroundType {
 
 export const browserThemes = {
     [BrowserThemes.Default]: {
-        browserChromeBgColor: '#E6ECEF',
-        browserControlsBgColor: '#fff',
+        browserChromeBgColor: '#e6ecefcf',
+        browserControlsBgColor: '#ffffffa8',
         browserControlsTextColor: '#b5b5b5',
         closeButtonColor: '#FF8585',
         minimizeButtonColor: '#FFD071',
@@ -30,7 +31,7 @@ export const browserThemes = {
         chromeHeight: 50,
     },
     [BrowserThemes.Darker]: {
-        browserChromeBgColor: '#000',
+        browserChromeBgColor: '#000000',
         browserControlsBgColor: '#1f1c1c',
         browserControlsTextColor: '#b5b5b5',
         closeButtonColor: '#201d1d',
@@ -43,7 +44,7 @@ export const browserThemes = {
     },
     [BrowserThemes.Dark]: {
         browserChromeBgColor: '#2d373b',
-        browserControlsBgColor: '#fff',
+        browserControlsBgColor: '#ffffff',
         browserControlsTextColor: '#b5b5b5',
         closeButtonColor: '#FF8585',
         minimizeButtonColor: '#FFD071',
@@ -55,7 +56,7 @@ export const browserThemes = {
     },
     [BrowserThemes.Square]: {
         browserChromeBgColor: '#E6ECEF',
-        browserControlsBgColor: '#fff',
+        browserControlsBgColor: '#ffffff',
         browserControlsTextColor: '#b5b5b5',
         closeButtonColor: '#FF8585',
         minimizeButtonColor: '#FFD071',
@@ -66,8 +67,8 @@ export const browserThemes = {
         chromeHeight: 50,
     },
     [BrowserThemes.Rounder]: {
-        browserChromeBgColor: '#fff',
-        browserControlsBgColor: '#fff',
+        browserChromeBgColor: '#ffffff',
+        browserControlsBgColor: '#ffffff',
         browserControlsTextColor: '#b5b5b5',
         closeButtonColor: '#FF8585',
         minimizeButtonColor: '#FFD071',
@@ -92,7 +93,7 @@ export const browserThemes = {
 }
 
 export const styles = (props: ICanvasProps): string => {
-    const styleVars = props.styles;
+    const styleVars = props.styles as IBrowserStyles;
 
     // If we are downloading the image we double the widths etc. so the exported image doesn't look stretched
     const determineWidth = (measurement: number): number => {
@@ -103,7 +104,6 @@ export const styles = (props: ICanvasProps): string => {
        border-radius: ${styleVars.browserBorderRadius}px;
        box-shadow: ${props.showBoxShadow ? '0 2px 4px -1px rgba(0, 0, 0, .4)' : 'none'};
        overflow: hidden;
-       background-color: #ffffff;
        min-width: ${props.imageData ? '400px' : 'none'};
     
       .hide {
@@ -217,6 +217,10 @@ export const styles = (props: ICanvasProps): string => {
         :last-of-type {
           margin-right: 2%;
         }
+      }
+      
+      .content-wrap {
+        background-color: #ffffff;
       }
 `
 };

@@ -52,7 +52,9 @@ export const BrowserFrame = view((props: ICanvasProps) => {
                     </span>
                 </span>
             </div>
-            {browserContent}
+            <div className="content-wrap">
+                {browserContent}
+            </div>
         </div>
     );
 });

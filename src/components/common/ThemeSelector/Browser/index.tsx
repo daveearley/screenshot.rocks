@@ -2,8 +2,8 @@ import React from "react";
 import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../../stores/appStore";
 import {styles} from "./styles";
-import {BrowserFrame} from "../../Frames/BrowserFrame";
-import {BrowserThemes, browserThemes} from "../../Frames/BrowserFrame/styles";
+import {BrowserFrame} from "../../Frames/Browser";
+import {BrowserThemes, browserThemes} from "../../Frames/Browser/styles";
 import {ColorPicker} from "../../ColorPicker";
 import {rgba2hexa} from "../../../../utils/image";
 import {browserStore} from "../../../../stores/browserStore";
@@ -18,7 +18,7 @@ export const BrowserThemeSelector = view(() => {
     };
 
     const browserStyleMap = {
-        browserChromeBgColor: 'BrowserFrame Background',
+        browserChromeBgColor: 'Browser Background',
         browserControlsBgColor: 'Controls Background',
         browserControlsTextColor: 'Controls Text',
         closeButtonColor: 'Close Button',
@@ -35,21 +35,24 @@ export const BrowserThemeSelector = view(() => {
                            key={theme}
                            onClick={(e) => handleThemeClick(e, theme as any)}
                            className="d-block style-preview">
-                            <BrowserFrame showControlsOnly={true}
+                            <BrowserFrame key={theme}
+                                          showControlsOnly={true}
                                           canvasBgColor={app.canvasStyles.bgColor}
                                           canvasBgImage={app.canvasStyles.bgImage}
                                           canvasBgType={browserStore.settings.backgroundType}
                                           styles={(browserThemes as any)[theme]}
                                           isDownloadMode={false}
                                           showBoxShadow={browserStore.settings.showBoxShadow}
+                                          isAutoRotateActive={false}
                             />
                         </a>
                     )
                 })}
             </div>
-            <div className={`custom-theme-settings ${browserStore.activeTheme !== BrowserThemes.Custom ? 'd-none' : ''}`}>
+            <div
+                className={`custom-theme-settings ${browserStore.activeTheme !== BrowserThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(browserStyleMap).map(browserStyle => {
-                    return <div className="row">
+                    return <div className="row" key={browserStyle}>
                         <div className="col-3">
                             <ColorPicker
                                 initialColor={(browserStore.styles as any)[browserStyle]}

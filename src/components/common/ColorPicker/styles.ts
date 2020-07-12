@@ -13,7 +13,7 @@ export const styles = (color: any) => {
           padding: 5px;
           background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==");
           background-color: #ffffff;
-          border-radius: 1px;
+          border-radius: 3px;
           box-shadow: 0 0 0 1px rgba(0, 0, 0, .1);
           display: inline-block;
           cursor: pointer;

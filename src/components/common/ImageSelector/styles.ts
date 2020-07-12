@@ -28,6 +28,25 @@ export const styles = (imageData?: string): string => {
               border-color: #fd7aec;
               border-radius: 0 5px 5px 0 !important;
              }
+             @media screen and (max-width: 500px) {
+              input[type="text"] {
+                width: 100%;
+                border-radius: 5px 5px 0 0 !important;
+              }
+              .input-group-text {
+                border-radius: 0 0 0 5px !important;
+                border-right: none;
+                border-top: none;
+                margin-left: 0;
+                width: 70%;
+              }
+              button {
+                border: none;
+                border-radius: 0 0px 5px 0 !important;
+                margin-left: 0 !important;
+                width: 30%;
+              }
+             }
           }
         
           svg {

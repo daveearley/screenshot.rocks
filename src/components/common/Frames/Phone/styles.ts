@@ -1,14 +1,25 @@
 import {css} from "emotion";
 import {ICanvasProps} from "../../Canvas";
+import {IPhoneStyles} from "../../../../stores/phoneStore";
+import {lighten} from "polished";
 
 export enum PhoneThemes {
+    Default,
     Custom,
-    Android,
-    Iphone,
+    Lighter,
+}
+
+export const phoneThemeStyles = {
+    [PhoneThemes.Default]: {
+        frameColor: '#000000',
+    },
+    [PhoneThemes.Lighter]: {
+        frameColor: '#b6b6b6',
+    }
 }
 
 export const styles = (props: ICanvasProps): string => {
-    const styleVars = props.styles;
+    const styleVars = props.styles as IPhoneStyles;
 
     // If we are downloading the image we double the widths etc. so the exported image doesn't look stretched
     const determineWidth = (measurement: number): number => {
@@ -23,15 +34,16 @@ export const styles = (props: ICanvasProps): string => {
        display: flex;
        vertical-align: middle;
        justify-content: center;
+       box-shadow: ${props.showBoxShadow ? '0px 6px 14px 2px #000000c2' : 'none'};
       
        .bezel {
-        background-color: #1d1a1a;
+        background-color: ${lighten(0.2, styleVars.frameColor)};
         border-radius: ${determineWidth(5)}px;
         position: relative;
         box-shadow: 
-          0px 0px 0px ${determineWidth(6)}px #1a1818,
-          0px 0px 0px ${determineWidth(8)}px #000000, 
-          0px 0px 0px ${determineWidth(9)}px #000;
+          0px 0px 0px ${determineWidth(6)}px ${lighten(0.2, styleVars.frameColor)},
+          0px 0px 0px ${determineWidth(8)}px ${lighten(0.15, styleVars.frameColor)},
+          0px 0px 0px ${determineWidth(9)}px ${lighten(0.1, styleVars.frameColor)};
           
         .volume-buttons {      
           width: ${determineWidth(3)}px;
@@ -44,9 +56,9 @@ export const styles = (props: ICanvasProps): string => {
           
           div {
             height: ${determineWidth(48)}px;
-            background-color: #000000;
-            width: ${determineWidth(5)}px;
-            border-radius: ${determineWidth(2)}px;
+            background-color: ${lighten(0.2, styleVars.frameColor)};
+            width: ${determineWidth(2)}px;
+            border-radius: ${determineWidth(2)}px 0 0 ${determineWidth(2)}px;
           }
           
           div:first-of-type {
@@ -57,7 +69,7 @@ export const styles = (props: ICanvasProps): string => {
         .top {
             top: -${determineWidth(4)}px;
             height: ${determineWidth(10)}px;
-            background: #1c1919;
+            background: transparent;
             position: relative;
             display: flex;
             align-items: center;
