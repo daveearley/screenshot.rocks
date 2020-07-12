@@ -1,5 +1,5 @@
 import {css} from "emotion";
-import {IBrowserCanvasProps} from "../BrowserCanvas";
+import {ICanvasProps} from "../../Canvas";
 
 export enum BrowserThemes {
     Default,
@@ -91,7 +91,7 @@ export const browserThemes = {
     },
 }
 
-export const styles = (props: IBrowserCanvasProps): string => {
+export const styles = (props: ICanvasProps): string => {
     const styleVars = props.styles;
 
     // If we are downloading the image we double the widths etc. so the exported image doesn't look stretched

@@ -1,33 +1,24 @@
 import React from "react";
 import {view} from "@risingstack/react-easy-state";
-import {app, defaultCanvasBgColor} from "../../../stores/appStore";
+import {app} from "../../../../stores/appStore";
 import {styles} from "./styles";
-import {Browser} from "../Browser";
-import {BrowserThemes, browserThemes} from "../Browser/styles";
-import {ColorPicker} from "../ColorPicker";
-import {rgba2hexa} from "../../../utils/image";
+import {BrowserFrame} from "../../Frames/BrowserFrame";
+import {BrowserThemes, browserThemes} from "../../Frames/BrowserFrame/styles";
+import {ColorPicker} from "../../ColorPicker";
+import {rgba2hexa} from "../../../../utils/image";
+import {browserStore} from "../../../../stores/browserStore";
 
 export const BrowserThemeSelector = view(() => {
     const handleThemeClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, theme: BrowserThemes) => {
-        app.setBrowserTheme(theme);
+        browserStore.setBrowserTheme(theme);
     };
 
     const handleCustomThemeClick = (): void => {
-        app.setBrowserTheme((app.browserTheme === BrowserThemes.Custom) ? BrowserThemes.Default : BrowserThemes.Custom);
-    };
-
-    const deriveBgColor = () => {
-        // If we're in a default state make the bg color something nicer
-        // todo - not this
-        if (app.canvasStyles.bgColor === defaultCanvasBgColor) {
-            return '#9F58B6';
-        }
-
-        return app.canvasStyles.bgColor;
+        browserStore.setBrowserTheme((browserStore.activeTheme === BrowserThemes.Custom) ? BrowserThemes.Default : BrowserThemes.Custom);
     };
 
     const browserStyleMap = {
-        browserChromeBgColor: 'Browser Background',
+        browserChromeBgColor: 'BrowserFrame Background',
         browserControlsBgColor: 'Controls Background',
         browserControlsTextColor: 'Controls Text',
         closeButtonColor: 'Close Button',
@@ -36,33 +27,33 @@ export const BrowserThemeSelector = view(() => {
     }
 
     return (
-        <div className={styles(deriveBgColor())}>
-            <div className={`theme-selection ${app.browserTheme === BrowserThemes.Custom ? 'd-none' : ''}`}>
+        <div className={styles(app.canvasStyles.bgColor)}>
+            <div className={`theme-selection ${browserStore.activeTheme === BrowserThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(browserThemes).map((theme) => {
                     return (
                         <a href={'/#'}
                            key={theme}
                            onClick={(e) => handleThemeClick(e, theme as any)}
                            className="d-block style-preview">
-                            <Browser showControlsOnly={true}
-                                     canvasBgColor={deriveBgColor()}
-                                     canvasBgImage={app.canvasStyles.bgImage}
-                                     canvasBgType={app.browserSettings.backgroundType}
-                                     styles={(browserThemes as any)[theme]}
-                                     isDownloadMode={false}
-                                     showBoxShadow={app.browserSettings.showBoxShadow}
+                            <BrowserFrame showControlsOnly={true}
+                                          canvasBgColor={app.canvasStyles.bgColor}
+                                          canvasBgImage={app.canvasStyles.bgImage}
+                                          canvasBgType={browserStore.settings.backgroundType}
+                                          styles={(browserThemes as any)[theme]}
+                                          isDownloadMode={false}
+                                          showBoxShadow={browserStore.settings.showBoxShadow}
                             />
                         </a>
                     )
                 })}
             </div>
-            <div className={`custom-theme-settings ${app.browserTheme !== BrowserThemes.Custom ? 'd-none' : ''}`}>
+            <div className={`custom-theme-settings ${browserStore.activeTheme !== BrowserThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(browserStyleMap).map(browserStyle => {
                     return <div className="row">
                         <div className="col-3">
                             <ColorPicker
-                                initialColor={(app.browserStyles as any)[browserStyle]}
-                                onColorChange={(color => (app.browserStyles as any)[browserStyle] = rgba2hexa(color))}
+                                initialColor={(browserStore.styles as any)[browserStyle]}
+                                onColorChange={(color => (browserStore.styles as any)[browserStyle] = rgba2hexa(color))}
                             />
                         </div>
                         <div className="col-9">
@@ -79,10 +70,10 @@ export const BrowserThemeSelector = view(() => {
                     <div className="col">
                         <input
                             onChange={(e) => {
-                                app.browserStyles.browserBorderRadius = (e.target.value as unknown as number)
-                                app.browserStyles.controlsBorderRadius = (e.target.value as unknown as number)
+                                browserStore.styles.browserBorderRadius = (e.target.value as unknown as number)
+                                browserStore.styles.controlsBorderRadius = (e.target.value as unknown as number)
                             }}
-                            value={app.browserStyles.browserBorderRadius}
+                            value={browserStore.styles.browserBorderRadius}
                             type="range"
                             className="form-range"
                             min="0"
@@ -93,7 +84,7 @@ export const BrowserThemeSelector = view(() => {
                 </div>
             </div>
             <button onClick={handleCustomThemeClick} className="btn btn-sm btn-link text-white w-100">
-                or <span>{app.browserTheme !== BrowserThemes.Custom ? 'Style Your Own' : 'Choose Style'}</span>
+                or <span>{browserStore.activeTheme !== BrowserThemes.Custom ? 'Style Your Own' : 'Choose Style'}</span>
             </button>
         </div>
     );
