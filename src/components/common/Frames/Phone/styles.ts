@@ -34,7 +34,7 @@ export const styles = (props: ICanvasProps): string => {
        display: flex;
        vertical-align: middle;
        justify-content: center;
-       box-shadow: ${props.showBoxShadow ? '0px 6px 14px 2px #000000c2' : 'none'};
+       // box-shadow: ${props.showBoxShadow ? '0px 6px 14px 2px #000000c2' : 'none'};
       
        .bezel {
         background-color: ${lighten(0.2, styleVars.frameColor)};

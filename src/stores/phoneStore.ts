@@ -24,7 +24,7 @@ export let phoneStore = store({
     settings: {
         showSpeaker: true,
         showCamera: true,
-        showShadow: true,
+        showShadow: false,
         showVolumeRocker: true,
     },
 
