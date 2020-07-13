@@ -4,7 +4,7 @@
 
 # Screenshot.rocks
 
-This is the source code for [Screenshot.rocks](https://screenshot.rocks)
+This is the source code for [Screenshot.rocks](https://screenshot.rocks?utm_source=github)
 
 *Screenshot.rocks* is an online tool which allows you to create beautiful mobile & browser mockups from screenshots.
 
