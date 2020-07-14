@@ -4,7 +4,7 @@ import {app} from "../stores/appStore";
 import {ImageFormats} from "../types";
 import {validURL} from "./url";
 
-export const listenForImagePaste = () => {
+export const checkForImageFromLocalstorageUrlOrPaste = () => {
     const handlePaste = (e: ClipboardEvent | Event) => {
         retrieveImageFromClipboardAsBase64(e, (base64Data: string) => {
             app.imageData = base64Data;
@@ -12,6 +12,7 @@ export const listenForImagePaste = () => {
     };
     window.addEventListener("paste", handlePaste, false);
 
+    // Allow passing an image URL as a query param
     const urlParams = new URLSearchParams(window.location.search);
     const imageUrl = urlParams.get('image');
     if (imageUrl && validURL(imageUrl)) {
@@ -20,6 +21,7 @@ export const listenForImagePaste = () => {
         })
     }
 
+    // If a user is coming from the Chrome extension the image is in localstorage
     if (localStorage.hasOwnProperty('imageFromPost')) {
         app.imageData = localStorage.getItem('imageFromPost');
         localStorage.removeItem('imageFromPost');

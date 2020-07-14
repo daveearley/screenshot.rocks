@@ -1,3 +1,6 @@
+/**
+ * Serverless function to take base64 encoded image from the post body and set it in local storage.
+ */
 module.exports = async (req, res) => {
     const {body} = req
     res.end(`
@@ -17,7 +20,7 @@ module.exports = async (req, res) => {
 </style>
 </head>
 <body>
-Parsing screenshot...
+    Parsing screenshot...
 </body>
 </html>
 `)
