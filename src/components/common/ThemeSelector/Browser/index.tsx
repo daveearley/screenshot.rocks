@@ -31,7 +31,7 @@ export const BrowserThemeSelector = view(() => {
             <div className={`theme-selection ${browserStore.activeTheme === BrowserThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(browserThemes).map((theme) => {
                     return (
-                        <a href={'/#'}
+                        <a href={'#'}
                            key={theme}
                            onClick={(e) => handleThemeClick(e, theme as any)}
                            className="d-block style-preview">
