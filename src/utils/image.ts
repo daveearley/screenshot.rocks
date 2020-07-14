@@ -12,13 +12,17 @@ export const listenForImagePaste = () => {
     };
     window.addEventListener("paste", handlePaste, false);
 
-
     const urlParams = new URLSearchParams(window.location.search);
     const imageUrl = urlParams.get('image');
     if (imageUrl && validURL(imageUrl)) {
         loadImageFromImageUrl(imageUrl).then(imageData => {
             app.imageData = imageData as string;
         })
+    }
+
+    if (localStorage.hasOwnProperty('imageFromPost')) {
+        app.imageData = localStorage.getItem('imageFromPost');
+        localStorage.removeItem('imageFromPost');
     }
 
     return () => window.removeEventListener("paste", handlePaste)

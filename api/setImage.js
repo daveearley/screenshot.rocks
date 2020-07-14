@@ -7,13 +7,12 @@ module.exports = async (req, res) => {
 <script>
     localStorage.setItem('imageFromPost', '${body.image}');
     setTimeout(() => {
-        window.location.href = 'https://screenshot.rocks?utm_source=extension';
-    }, 1000)
-    
+        window.location.href = 'https://screenshot-rocks-git-extension-prep.daveearley.vercel.app/?utm_source=extension';
+    }, 500)
 </script>
 </head>
 <body>
-Please wait...
+Redirecting...
 </body>
 </html>
 `)
