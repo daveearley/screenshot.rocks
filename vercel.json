@@ -1,0 +1,9 @@
+{
+  "routes": [
+    {
+      "src": "/api/setImage.js",
+      "methods": ["POST"],
+      "dest": "/api/setImage.js"
+    }
+  ]
+}

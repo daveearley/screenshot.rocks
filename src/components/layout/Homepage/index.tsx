@@ -5,7 +5,7 @@ import {styles} from "./styles";
 import {BrowserThemes, browserThemes} from "../../common/Frames/Browser/styles";
 import {BrowserFrame} from "../../common/Frames/Browser";
 import {FaWhatsapp, GiShamrock, RiFacebookCircleLine, RiTwitterLine} from "react-icons/all";
-import {listenForImagePaste} from "../../../utils/image";
+import {checkForImageFromLocalstorageUrlOrPaste} from "../../../utils/image";
 import {browserStore} from "../../../stores/browserStore";
 
 enum SocialProviders {
@@ -15,7 +15,7 @@ enum SocialProviders {
 }
 
 export const Homepage = view(() => {
-    useEffect(() => listenForImagePaste(), []);
+    useEffect(() => checkForImageFromLocalstorageUrlOrPaste(), []);
     browserStore.settings.addressBarUrl = 'screenshot.rocks';
 
     const handleContactClick = () => {

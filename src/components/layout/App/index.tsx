@@ -5,7 +5,7 @@ import {DownloadButtons} from "../../common/DownloadButton";
 import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../stores/appStore";
 import {styles} from "./styles";
-import {listenForImagePaste} from "../../../utils/image";
+import {checkForImageFromLocalstorageUrlOrPaste} from "../../../utils/image";
 import {Logo, LogoStyle} from "../../common/Logo";
 import {browserStore} from "../../../stores/browserStore";
 import {Settings} from "../../common/Settings/Settings";
@@ -16,7 +16,7 @@ import {BackgroundSettings} from "../../common/Settings/BackgroundSettings";
 import {CanvasSettings} from "../../common/Settings/CanvasSettings";
 
 export const App = view(() => {
-    useEffect(() => listenForImagePaste(), [])
+    useEffect(() => checkForImageFromLocalstorageUrlOrPaste(), [])
 
     const handleFrameTypeChange = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         app.frameType = ((e.target as HTMLElement).innerText as FrameType);
