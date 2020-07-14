@@ -2,6 +2,7 @@ import domtoimage from "dom-to-image";
 import {RGBColor} from "react-color";
 import {app} from "../stores/appStore";
 import {ImageFormats} from "../types";
+import {validURL} from "./url";
 
 export const listenForImagePaste = () => {
     const handlePaste = (e: ClipboardEvent | Event) => {
@@ -9,8 +10,17 @@ export const listenForImagePaste = () => {
             app.imageData = base64Data;
         });
     };
-
     window.addEventListener("paste", handlePaste, false);
+
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const imageUrl = urlParams.get('image');
+    if (imageUrl && validURL(imageUrl)) {
+        loadImageFromImageUrl(imageUrl).then(imageData => {
+            app.imageData = imageData as string;
+        })
+    }
+
     return () => window.removeEventListener("paste", handlePaste)
 }
 
@@ -135,7 +145,7 @@ export const getImageDimensions = (file: string): Promise<{ width: number, heigh
     })
 };
 
-const loadImageFromBase64 = (imageData: string): Promise<HTMLImageElement> => {
+export const loadImageFromBase64 = (imageData: string): Promise<HTMLImageElement> => {
     return new Promise((resolved) => {
         const image = new Image()
         image.onload = function () {
@@ -161,3 +171,22 @@ export const rotateImage = (img: string): Promise<string> => {
         return canvas.toDataURL();
     })
 };
+
+export const loadImageFromImageUrl = (url: string): Promise<string | ArrayBuffer> => {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.responseType = "blob";
+        xhr.send();
+        xhr.addEventListener("load", function () {
+            const reader = new FileReader();
+            reader.readAsDataURL(xhr.response);
+            reader.addEventListener("loadend", function () {
+                resolve(reader.result);
+            });
+        });
+        xhr.onerror = (e: ProgressEvent) => {
+            reject(e);
+        };
+    });
+}
