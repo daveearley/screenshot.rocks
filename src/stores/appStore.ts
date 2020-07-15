@@ -1,6 +1,6 @@
 import {autoEffect, store} from '@risingstack/react-easy-state';
 import {CanvasBackgroundTypes, FrameType, ImageFormats} from "../types";
-import {getImageDimensions, rotateImage} from "../utils/image";
+import {getImageDimensions} from "../utils/image";
 import {phoneStore} from "./phoneStore";
 
 export const bgImages = [
@@ -56,15 +56,16 @@ export let app = store({
     },
 
     get canvasBgColor(): string {
-        if (app.canvasStyles.backgroundType === CanvasBackgroundTypes.Solid) {
-            return app.canvasStyles.bgColor;
+        switch (app.canvasStyles.backgroundType) {
+            case CanvasBackgroundTypes.Gradient:
+                return `linear-gradient(-${app.canvasStyles.gradientAngle}deg, ${app.canvasStyles.gradientColorOne}, ${app.canvasStyles.gradientColorTwo})`;
+            case CanvasBackgroundTypes.Image:
+                return `url(${app.canvasStyles.bgImage})`;
+            case CanvasBackgroundTypes.None:
+                return 'transparent';
+            case CanvasBackgroundTypes.Solid:
+                return app.canvasStyles.bgColor;
         }
-
-        if (app.canvasStyles.backgroundType === CanvasBackgroundTypes.Image) {
-            return `url(${app.canvasStyles.bgImage})`;
-        }
-
-        return `linear-gradient(-${app.canvasStyles.gradientAngle}deg, ${app.canvasStyles.gradientColorOne}, ${app.canvasStyles.gradientColorTwo})`
     },
 
     canvasStyles: {

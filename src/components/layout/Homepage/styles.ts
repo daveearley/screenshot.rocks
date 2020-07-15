@@ -59,6 +59,13 @@ export const styles = () => {
          }
        }
        
+       .browser-extensions {
+        max-width: 400px;
+        margin: 20px auto;
+        color: #ffffff;
+        text-align: center;
+       }
+       
        .share {
         text-align: center;
         button {

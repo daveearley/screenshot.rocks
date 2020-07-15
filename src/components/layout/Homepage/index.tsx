@@ -7,6 +7,7 @@ import {BrowserFrame} from "../../common/Frames/Browser";
 import {FaWhatsapp, GiShamrock, RiFacebookCircleLine, RiTwitterLine} from "react-icons/all";
 import {checkForImageFromLocalstorageUrlOrPaste} from "../../../utils/image";
 import {browserStore} from "../../../stores/browserStore";
+import {BrowserExtensionBanner} from "../../common/BrowserExtensionBanner";
 
 enum SocialProviders {
     Facebook,
@@ -17,6 +18,7 @@ enum SocialProviders {
 export const Homepage = view(() => {
     useEffect(() => checkForImageFromLocalstorageUrlOrPaste(), []);
     browserStore.settings.addressBarUrl = 'screenshot.rocks';
+
 
     const handleContactClick = () => {
         window.location.href = `mailto:dave+screenshot.rocks@earley.email`;
@@ -37,41 +39,44 @@ export const Homepage = view(() => {
     }
 
     return (
-        <div className={styles()}>
-            <Logo style={LogoStyle.Light}/>
-            <h1>Create <span>beautiful</span> browser & mobile mockups in seconds</h1>
-            <div className="m-5">
-                <BrowserFrame
-                    showControlsOnly={false}
-                    styles={(browserThemes as any)[BrowserThemes.Default]}
-                    isDownloadMode={false}
-                    showBoxShadow={browserStore.settings.showBoxShadow}
-                    urlTextOverride="screenshot.rocks"
-                    isAutoRotateActive={false}
-                />
+        <>
+            <BrowserExtensionBanner/>
+            <div className={styles()}>
+                <Logo style={LogoStyle.Light}/>
+                <h1>Create <span>beautiful</span> browser & mobile mockups in seconds</h1>
+                <div className="m-5">
+                    <BrowserFrame
+                        showControlsOnly={false}
+                        styles={(browserThemes as any)[BrowserThemes.Default]}
+                        isDownloadMode={false}
+                        showBoxShadow={browserStore.settings.showBoxShadow}
+                        urlTextOverride="screenshot.rocks"
+                        isAutoRotateActive={false}
+                    />
+                </div>
+                <div className="share">
+                    <button onClick={() => handleShareClick(SocialProviders.Facebook)}>
+                        <RiFacebookCircleLine/>
+                    </button>
+                    <button onClick={() => handleShareClick(SocialProviders.Twitter)}>
+                        <RiTwitterLine/>
+                    </button>
+                    <button onClick={() => handleShareClick(SocialProviders.WhatsApp)}>
+                        <FaWhatsapp/>
+                    </button>
+                </div>
+                <div className="footer">
+                    <button className="btn btn-link">
+                        &copy; 2020 Dave Earley
+                    </button>
+                    <button className="btn btn-link" onClick={handleContactClick}>
+                        Contact
+                    </button>
+                    <button className="btn btn-link">
+                        Made In Dublin <GiShamrock/>
+                    </button>
+                </div>
             </div>
-            <div className="share">
-                <button onClick={() => handleShareClick(SocialProviders.Facebook)}>
-                    <RiFacebookCircleLine/>
-                </button>
-                <button onClick={() => handleShareClick(SocialProviders.Twitter)}>
-                    <RiTwitterLine/>
-                </button>
-                <button onClick={() => handleShareClick(SocialProviders.WhatsApp)}>
-                    <FaWhatsapp/>
-                </button>
-            </div>
-            <div className="footer">
-                <button className="btn btn-link">
-                    &copy; 2020 Dave Earley
-                </button>
-                <button className="btn btn-link" onClick={handleContactClick}>
-                    Contact
-                </button>
-                <button className="btn btn-link">
-                    Made In Dublin <GiShamrock/>
-                </button>
-            </div>
-        </div>
+        </>
     );
 });
