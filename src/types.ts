@@ -13,4 +13,11 @@ export enum CanvasBackgroundTypes {
     Image = 'Image',
     Solid = 'Solid',
     Gradient = 'Gradient',
+    None = 'None',
+}
+
+export enum Browsers {
+    Edge,
+    Chrome,
+    Firefox,
 }

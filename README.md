@@ -8,7 +8,12 @@ This is the source code for [Screenshot.rocks](https://screenshot.rocks?utm_sour
 
 *Screenshot.rocks* is an online tool which allows you to create beautiful mobile & browser mockups from screenshots.
 
-# Installation :cd: 
+## Browser Extensions :rocket:
+1. [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/one-click-design-mockups/)
+2. Chrome (In review, Coming soon)
+3. Edge (In review, Coming soon)
+
+## Installation :cd: 
 1. `git clone git@github.com:daveearley/screenshot.rocks.git`
 2. `yarn start`
 

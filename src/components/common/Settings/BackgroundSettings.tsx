@@ -77,8 +77,7 @@ export const BackgroundSettings = view(() => {
                         />
                     </div>
                 </div>
-            </>
-            }
+            </>}
             {equals(app.canvasStyles.backgroundType, CanvasBackgroundTypes.Image) &&
             <div className="row g-0">
                 {bgImages.map(img => {

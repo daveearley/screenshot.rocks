@@ -180,19 +180,16 @@ export const rotateImage = (img: string): Promise<string> => {
 
 export const loadImageFromImageUrl = (url: string): Promise<string | ArrayBuffer> => {
     return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", url);
-        xhr.responseType = "blob";
-        xhr.send();
-        xhr.addEventListener("load", function () {
+        fetch(url).then((res) => {
+            return res.blob();
+        }).then((blob) => {
             const reader = new FileReader();
-            reader.readAsDataURL(xhr.response);
+            reader.readAsDataURL(blob);
             reader.addEventListener("loadend", function () {
-                resolve(reader.result);
+                resolve(reader.result)
             });
-        });
-        xhr.onerror = (e: ProgressEvent) => {
-            reject(e);
-        };
+        }).catch((err) => {
+            reject(err);
+        })
     });
 }
