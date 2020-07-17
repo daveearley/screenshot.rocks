@@ -26,7 +26,7 @@ export const PhoneThemeSelector = view(() => {
             <div className={`theme-selection ${phoneStore.activeTheme === PhoneThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(phoneThemeStyles).map((theme) => {
                     return (
-                        <a href={'/#'}
+                        <a href={'#'}
                            key={theme}
                            onClick={(e) => handleThemeClick(e, theme as any)}
                            className="d-block style-preview">
