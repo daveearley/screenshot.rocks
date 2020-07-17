@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
 <head>
 <title>Redirecting...</title>
 <script>
-    localStorage.setItem('imageFromPost', '${body.image || null}');
+    sessionStorage.setItem('imageFromPost', '${body.image || null}');
     window.location.href = 'https://screenshot.rocks/?utm_source=extension';
 </script>
 <style>
