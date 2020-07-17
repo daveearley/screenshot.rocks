@@ -10,7 +10,7 @@ This is the source code for [Screenshot.rocks](https://screenshot.rocks?utm_sour
 
 ## Browser Extensions :rocket:
 1. [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/one-click-design-mockups/)
-2. Chrome (In review, Coming soon)
+2. [Chrome](https://chrome.google.com/webstore/detail/screenshotrocks-one-click/oolmphedpohnagciifbnfpemadolahki/)
 3. [Edge](https://microsoftedge.microsoft.com/addons/detail/clennbaklmghlnlamipjmfikdnlhiaem)
 
 ## Installation :cd: 

@@ -14,6 +14,10 @@ export const BrowserExtensionBanner = () => {
         [Browsers.Edge]: {
             link: 'https://microsoftedge.microsoft.com/addons/detail/clennbaklmghlnlamipjmfikdnlhiaem',
             name: 'Edge Add-On',
+        },
+        [Browsers.Chrome]: {
+            link: 'https://chrome.google.com/webstore/detail/screenshotrocks-one-click/oolmphedpohnagciifbnfpemadolahki/',
+            name: 'Chrome Extension',
         }
     };
 
