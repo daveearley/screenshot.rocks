@@ -22,7 +22,7 @@ export const checkForImageFromLocalstorageUrlOrPaste = () => {
     }
 
     // If a user is coming from the Chrome extension the image is in localstorage
-    if (localStorage.hasOwnProperty('imageFromPost')) {
+    if (sessionStorage.hasOwnProperty('imageFromPost')) {
         app.setImageData(sessionStorage.getItem('imageFromPost'));
         sessionStorage.removeItem('imageFromPost');
     }
