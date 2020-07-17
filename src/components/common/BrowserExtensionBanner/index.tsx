@@ -9,8 +9,12 @@ export const BrowserExtensionBanner = () => {
     const availableExtension = {
         [Browsers.Firefox]: {
             link: 'https://addons.mozilla.org/en-US/firefox/addon/one-click-design-mockups',
-            name: 'FireFox Add-On'
+            name: 'FireFox Add-On',
         },
+        [Browsers.Edge]: {
+            link: 'https://microsoftedge.microsoft.com/addons/detail/clennbaklmghlnlamipjmfikdnlhiaem',
+            name: 'Edge Add-On',
+        }
     };
 
     if (!availableExtension.hasOwnProperty(browser)) {
