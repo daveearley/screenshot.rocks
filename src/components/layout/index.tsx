@@ -20,7 +20,7 @@ export const MainApp = view(() => {
         case Routes.Home:
             return <Homepage />;
         default:
-            console.log('no match');
-            return <>404</>;
+            //todo - add 404 page
+            return <Homepage />;
     }
 });
