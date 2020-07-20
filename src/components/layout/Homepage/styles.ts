@@ -2,9 +2,8 @@ import {css} from "emotion";
 
 export const styles = () => {
     return css`
-      max-width: 900px;
+      max-width: 100%;
       margin: 0 auto;
-      
       @media screen and (max-width: 500px) {
           .url-bar {
            opacity: 0 !important;
@@ -25,6 +24,21 @@ export const styles = () => {
           }
         }
        
+       section {
+        max-width: 850px;
+        margin: 0 auto;
+        
+        @media screen and (max-width: 576px) {
+          .row img {
+            max-width: 300px;
+          }
+        }
+       }
+       
+       a {
+       color: #fe79ed;
+       }
+       
       .logo {
         max-width: 350px;
         margin: 20px auto 0;
@@ -42,6 +56,14 @@ export const styles = () => {
        h2 {
         font-size: 1em;
         color: #fe79ed;
+       }
+       
+       h2.features {
+        color: #ffffff;
+        font-size: 2.5em;
+        border-bottom: 2px solid #fd7aec;
+        max-width: 300px;
+        margin: 0 auto;     
        }
        
        .ImageSelector {
@@ -95,6 +117,12 @@ export const styles = () => {
           svg {
             width: 25px;
             fill: #29bc9b;
+          }
+          
+          &.github {
+            svg {
+              fill: #ffffff;
+            }
           }
           
           @media screen and (max-width: 500px) {

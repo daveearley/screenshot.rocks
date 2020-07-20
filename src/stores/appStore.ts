@@ -2,6 +2,7 @@ import {autoEffect, store} from '@risingstack/react-easy-state';
 import {CanvasBackgroundTypes, FrameType, ImageFormats} from "../types";
 import {getImageDimensions} from "../utils/image";
 import {phoneStore} from "./phoneStore";
+import {Routes, routeStore} from "./routeStore";
 
 export const bgImages = [
     '1.jpg',
@@ -53,6 +54,8 @@ export let app = store({
         getImageDimensions(imageData).then(({width, height}) => {
             app.frameType = height > width ? FrameType.Phone : FrameType.Browser;
         });
+
+        routeStore.goToRoute(Routes.App);
     },
 
     get canvasBgColor(): string {

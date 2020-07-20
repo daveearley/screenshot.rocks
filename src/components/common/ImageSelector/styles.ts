@@ -1,11 +1,12 @@
 import {css} from "emotion";
+import {Routes} from "../../../stores/routeStore";
 
-export const styles = (imageData?: string): string => {
+export const styles = (currentRoute?: Routes): string => {
     return css`
           width: 100%;
           background-color: #ffffff;
           padding: 50px 30px;
-          min-height: ${imageData ? '40vh' : 'auto'};
+          min-height: ${currentRoute === Routes.App ? '40vh' : 'auto'};
           text-align: center;
           font-size: 1.2em;
           cursor: pointer;
@@ -17,6 +18,15 @@ export const styles = (imageData?: string): string => {
         
           .dropzone {
             height: fit-content;
+          }
+          
+          .drop-here {
+            padding: 70px;
+            border: 2px dashed #e4e4e4;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #a2a2a2;
+            background: #f9f9f9;
           }
           
           .url-form {
