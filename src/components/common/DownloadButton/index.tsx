@@ -3,6 +3,7 @@ import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../stores/appStore";
 import {downloadImage} from "../../../utils/image";
 import {ImageFormats} from "../../../types";
+import {Routes, routeStore} from "../../../stores/routeStore";
 
 export const DownloadButtons = view(() => {
     let [imageFormat, setImageFormat] = useState<ImageFormats>(app.defaultImageFormat);
@@ -40,7 +41,7 @@ export const DownloadButtons = view(() => {
             {app.imageData &&
             <button
                 className="btn btn-sm btn-link text-white w-100"
-                onClick={() => app.setImageData(null)}>or start over
+                onClick={() => routeStore.goToRoute(Routes.Home)}>or start over
             </button>}
         </>
     );

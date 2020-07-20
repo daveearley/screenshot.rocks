@@ -4,6 +4,7 @@ import {app} from '../../../stores/appStore'
 import {useDropzone} from "react-dropzone";
 import {styles} from "./styles";
 import {validURL} from "../../../utils/url";
+import {routeStore} from "../../../stores/routeStore";
 
 export const ImageSelector = view(() => {
     const [urlValue, setUrlValue] = useState(null);
@@ -53,15 +54,15 @@ export const ImageSelector = view(() => {
     }
 
     return (
-        <div className={`${styles(app.imageData)} ${isDragActive ? ' dragActive' : ''}`}>
+        <div className={`${styles(routeStore.currentRoute)} ${isDragActive ? ' dragActive' : ''}`}>
             <div {...getRootProps()}>
                 <input {...getInputProps()} />
                 {
                     isDragActive ?
-                        <p>Drop the image ...</p> :
+                        <div className="drop-here">Drop your image here...</div> :
                         <div>
                             <div className="dropzone">
-                                <p><b>Drop</b>, <b>paste</b> or <b>click</b> to upload an image...</p>
+                                <p><b>Drop</b>, <b>paste</b> or <b>click</b> here to upload an image...</p>
                                 <p>or enter a URL</p>
                             </div>
                         </div>
