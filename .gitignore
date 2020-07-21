@@ -24,3 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 .vercel
 ./browser-extension/extension.zip
+./screenshot-lambda/function.zip
