@@ -28,10 +28,8 @@ export const styles = () => {
         max-width: 850px;
         margin: 0 auto;
         
-        @media screen and (max-width: 576px) {
-          .row img {
-            max-width: 300px;
-          }
+        .row img {
+          max-width: 340px;
         }
        }
        

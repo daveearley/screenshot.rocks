@@ -70,7 +70,7 @@ export const Homepage = view(() => {
                 </section>
                 <section className="features">
                     <div className="row align-items-center justify-center text-white">
-                        <div className="col-12 col-sm-6 text-center text-sm-right">
+                        <div className="col-12 col-sm-6 text-center">
                             <img alt="browser mockup features" className="img-fluid"
                                  src="/images/home/feature-features.png"/>
                         </div>
@@ -82,7 +82,7 @@ export const Homepage = view(() => {
                         </div>
                     </div>
                     <div className="row align-items-center justify-center text-white flex-row-reverse">
-                        <div className="col-12 col-sm-6 text-center text-sm-right p-5">
+                        <div className="col-12 col-sm-6 text-center">
                             <img alt="browser mockups browser extensions" className="img-fluid"
                                  src="/images/home/feature-browser-extensions.png"/>
                         </div>
@@ -91,7 +91,7 @@ export const Homepage = view(() => {
                             <p>Use our browser extensions to create a mobile or browser mockup from any tab in one-click.
                                 Our extension is available for all major browsers.</p>
                             <p>
-                                <a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/one-click-design-mockup">Firefox</a>, <a target="_blank"
+                                <a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/one-click-design-mockups">Firefox</a>, <a target="_blank"
                                 href="https://chrome.google.com/webstore/detail/screenshotrocks-one-click/oolmphedpohnagciifbnfpemadolahki">Chrome</a>, <a
                                 target="_blank"
                                 href="https://microsoftedge.microsoft.com/addons/detail/clennbaklmghlnlamipjmfikdnlhiaem">Edge</a>
@@ -99,7 +99,7 @@ export const Homepage = view(() => {
                         </div>
                     </div>
                     <div className="row align-items-center justify-center text-white">
-                        <div className="col-12 col-sm-6 text-center text-sm-right p-4">
+                        <div className="col-12 col-sm-6 text-center">
                             <img alt="open-source browser mockup tool" className="img-fluid"
                                  src="/images/home/feature-open-source.png"/>
                         </div>
