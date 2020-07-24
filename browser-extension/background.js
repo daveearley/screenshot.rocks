@@ -1,14 +1,11 @@
-window.browser = (function () {
-    return window.msBrowser ||
-        window.browser ||
-        window.chrome;
-})();
+window.browser = (() => window.msBrowser || window.browser || window.chrome)();
 
-const postUrl = 'https://screenshot.rocks/api/setImage'
+const endpoint = 'https://screenshot.rocks/api/setImage'
+
 const postData = (url, data) => {
     browser.tabs.create(
         {url: browser.runtime.getURL("post.html")}, (tab) => {
-            const handler = function (tabId, changeInfo) {
+            const handler = (tabId, changeInfo) => {
                 if (tabId === tab.id && changeInfo.status === "complete") {
                     browser.tabs.onUpdated.removeListener(handler);
                     browser.tabs.sendMessage(tabId, {url: url, data: data});
@@ -23,6 +20,6 @@ const postData = (url, data) => {
 
 browser.browserAction.onClicked.addListener(() => {
     browser.tabs.captureVisibleTab((screenshotUrl) => {
-        postData(postUrl, {"image": screenshotUrl});
+        postData(endpoint, {"image": screenshotUrl});
     });
 });
