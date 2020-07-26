@@ -1,8 +1,4 @@
-window.browser = (function () {
-    return window.msBrowser ||
-        window.browser ||
-        window.chrome;
-})();
+window.browser = (() => window.msBrowser || window.browser || window.chrome)();
 
 const handler = (message) => {
     browser.runtime.onMessage.removeListener(handler);
