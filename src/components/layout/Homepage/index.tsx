@@ -116,7 +116,7 @@ export const Homepage = view(() => {
                 </section>
                 <section className="footer">
                     <button className="btn btn-link">
-                        &copy; 2020 Dave Earley
+                        &copy; {(new Date()).getFullYear()} Dave Earley
                     </button>
                     <button className="btn btn-link" onClick={handleContactClick}>
                         Contact
