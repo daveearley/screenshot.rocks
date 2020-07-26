@@ -56,13 +56,6 @@ export const Homepage = view(() => {
                         />
                     </div>
                 </section>
-                <section className="producthunt text-center">
-                    <a href="https://www.producthunt.com/posts/screenshot-rocks-2?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-screenshot-rocks-2"
-                       target="_blank"><img
-                        src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=221324&theme=light&period=daily"
-                        alt="Screenshot Rocks - Beautiful browser & mobile mockups in one click | Product Hunt Embed"
-                        style={{width: '250px', height: '54px'}} width="250px" height="54px"/></a>
-                </section>
                 <section className="share mt-2">
                     <h2 className="text-white">Share</h2>
                     <button onClick={() => handleShareClick(SocialProviders.Facebook)}>

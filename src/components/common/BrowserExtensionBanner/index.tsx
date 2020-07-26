@@ -28,7 +28,7 @@ export const BrowserExtensionBanner = () => {
     const {link, name} = (availableExtension as any)[browser];
     return (
         <div className={styles()}>
-            🚀 Try our <a target="_blank" href={link}><span>{name}</span></a> for one-click mockups from any page
+            <span role="img">🚀</span> Try our <a target="_blank" href={link}><span>{name}</span></a> for one-click mockups from any page
         </div>
     );
 }
