@@ -1,6 +1,6 @@
 import {IoIosArrowBack, IoIosArrowForward, IoIosOptions} from "react-icons/io";
 import {FiLock} from "react-icons/all";
-import React from "react";
+import React, {FormEvent} from "react";
 import {ICanvasProps} from "../../Canvas";
 import {styles} from "./styles";
 import {ImageSelector} from "../../ImageSelector";
@@ -33,7 +33,7 @@ export const BrowserFrame = view((props: ICanvasProps) => {
                         <IoIosArrowForward/>
                     </span>
                 </div>
-                <span className={`url-bar browser-container ${!browserStore.settings.showAddressBar ? 'hide' : ''}`}>
+                <span className={`url-bar browser-container ${!browserStore.settings.showAddressBar || props.hideAddressBarOverride ? 'hide' : ''}`}>
                     <span className="lock">
                         <FiLock/>
                     </span>
@@ -41,9 +41,12 @@ export const BrowserFrame = view((props: ICanvasProps) => {
                         <span className="text-success" contentEditable suppressContentEditableWarning>
                             {browserStore.settings.addressBarUrlProtocol}
                         </span>
-                        <span contentEditable suppressContentEditableWarning>
-                            {props.urlTextOverride || browserStore.settings.addressBarUrl}
-                        </span>
+                        <input
+                            className="urlInput"
+                            value={browserStore.settings.addressBarUrl}
+                            type="text"
+                            onInput={(e:FormEvent<HTMLInputElement>) => {browserStore.settings.addressBarUrl = e.currentTarget.value}}>
+                        </input>
                     </span>
                     </span>
                 <span className={`browser-container ${!browserStore.settings.showSettingsButton ? 'hide' : ''}`}>

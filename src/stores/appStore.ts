@@ -3,6 +3,7 @@ import {CanvasBackgroundTypes, FrameType, ImageFormats} from "../types";
 import {getImageDimensions} from "../utils/image";
 import {phoneStore} from "./phoneStore";
 import {Routes, routeStore} from "./routeStore";
+import { observe } from '@nx-js/observer-util'
 
 export const bgImages = [
     '1.jpg',
@@ -83,6 +84,10 @@ export let app = store({
     },
 } as IStore);
 
+if (localStorage.getItem('canvasStyles')) {
+    app.canvasStyles = JSON.parse(localStorage.getItem('canvasStyles'))
+}
+
 autoEffect(() => {
     // This auto-rotates the image if the user switches to mobile and the image is landscape
     if (app.frameType && !app.disableAutoRotate) {
@@ -102,3 +107,6 @@ autoEffect(() => {
         })
     }
 });
+
+// Handle syncing some settings with localStorage
+observe(() => localStorage.setItem('canvasStyles', JSON.stringify(app.canvasStyles)));

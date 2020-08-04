@@ -21,8 +21,8 @@ export interface ICanvasProps {
     isDownloadMode: boolean;
     isAutoRotateActive: boolean;
     showBoxShadow: boolean;
-    urlTextOverride?: string;
     frameType?: FrameType;
+    hideAddressBarOverride?: boolean;
 }
 
 export const Canvas = view((props: ICanvasProps) => {

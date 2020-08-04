@@ -181,11 +181,20 @@ export const styles = (props: ICanvasProps): string => {
         margin-left: 2%;
         margin-right: 2%;
         font-family: monospace;
-        color: darken(${styleVars.browserControlsBgColor}, 20%);
         overflow: hidden;
         height: ${determineWidth(styleVars.controlsHeight)}px;
         line-height: ${determineWidth(styleVars.controlsHeight)}px;
         font-size: ${determineWidth(1)}em;
+        
+        .urlInput {
+          border: none;
+          outline: none;
+          color: ${styleVars.browserControlsTextColor};
+          background: transparent;
+          display: inline;
+          box-shadow: none;
+          width: auto;
+        }
         
         .lock {
           height: 100%;

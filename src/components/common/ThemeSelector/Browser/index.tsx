@@ -14,7 +14,7 @@ export const BrowserThemeSelector = view(() => {
     };
 
     const handleCustomThemeClick = (): void => {
-        browserStore.setBrowserTheme((browserStore.activeTheme === BrowserThemes.Custom) ? BrowserThemes.Default : BrowserThemes.Custom);
+        browserStore.setBrowserTheme((browserStore.settings.activeTheme === BrowserThemes.Custom) ? BrowserThemes.Default : BrowserThemes.Custom);
     };
 
     const browserStyleMap = {
@@ -28,7 +28,7 @@ export const BrowserThemeSelector = view(() => {
 
     return (
         <div className={styles(app.canvasStyles.bgColor)}>
-            <div className={`theme-selection ${browserStore.activeTheme === BrowserThemes.Custom ? 'd-none' : ''}`}>
+            <div className={`theme-selection ${browserStore.settings.activeTheme === BrowserThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(browserThemes).map((theme) => {
                     return (
                         <a href={'#'}
@@ -50,7 +50,7 @@ export const BrowserThemeSelector = view(() => {
                 })}
             </div>
             <div
-                className={`custom-theme-settings ${browserStore.activeTheme !== BrowserThemes.Custom ? 'd-none' : ''}`}>
+                className={`custom-theme-settings ${browserStore.settings.activeTheme !== BrowserThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(browserStyleMap).map(browserStyle => {
                     return <div className="row" key={browserStyle}>
                         <div className="col-3">
@@ -87,7 +87,7 @@ export const BrowserThemeSelector = view(() => {
                 </div>
             </div>
             <button onClick={handleCustomThemeClick} className="btn btn-sm btn-link text-white w-100">
-                or <span>{browserStore.activeTheme !== BrowserThemes.Custom ? 'Style Your Own' : 'Choose Style'}</span>
+                or <span>{browserStore.settings.activeTheme !== BrowserThemes.Custom ? 'Style Your Own' : 'Choose Style'}</span>
             </button>
         </div>
     );

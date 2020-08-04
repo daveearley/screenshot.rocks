@@ -63,7 +63,6 @@ export const App = view(() => {
                     styles={app.frameType === FrameType.Browser ? browserStore.styles : phoneStore.styles}
                     isDownloadMode={app.isDownloadMode}
                     showBoxShadow={app.frameType === FrameType.Browser ? browserStore.settings.showBoxShadow : phoneStore.settings.showShadow}
-                    urlTextOverride={'edit-me.com'}
                     frameType={app.frameType}
                     isAutoRotateActive={app.isAutoRotateActive}
                 />

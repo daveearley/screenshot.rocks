@@ -10,11 +10,11 @@ import {PhoneFrame} from "../../Frames/Phone";
 
 export const PhoneThemeSelector = view(() => {
     const handleThemeClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, theme: PhoneThemes) => {
-        phoneStore.activeTheme = theme;
+        phoneStore.settings.activeTheme = theme;
     };
 
     const handleCustomThemeClick = (): void => {
-        phoneStore.activeTheme = (phoneStore.activeTheme === PhoneThemes.Custom) ? PhoneThemes.Default : PhoneThemes.Custom;
+        phoneStore.settings.activeTheme = (phoneStore.settings.activeTheme === PhoneThemes.Custom) ? PhoneThemes.Default : PhoneThemes.Custom;
     };
 
     const phoneStyleMap = {
@@ -23,7 +23,7 @@ export const PhoneThemeSelector = view(() => {
 
     return (
         <div className={styles(app.canvasStyles.bgColor)}>
-            <div className={`theme-selection ${phoneStore.activeTheme === PhoneThemes.Custom ? 'd-none' : ''}`}>
+            <div className={`theme-selection ${phoneStore.settings.activeTheme === PhoneThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(phoneThemeStyles).map((theme) => {
                     return (
                         <a href={'#'}
@@ -43,7 +43,7 @@ export const PhoneThemeSelector = view(() => {
                     )
                 })}
             </div>
-            <div className={`custom-theme-settings ${phoneStore.activeTheme !== PhoneThemes.Custom ? 'd-none' : ''}`}>
+            <div className={`custom-theme-settings ${phoneStore.settings.activeTheme !== PhoneThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(phoneStyleMap).map(browserStyle => {
                     return <div className="row" key={browserStyle}>
                         <div className="col-3">
@@ -59,7 +59,7 @@ export const PhoneThemeSelector = view(() => {
                 })}
             </div>
             <button onClick={handleCustomThemeClick} className="btn btn-sm btn-link text-white w-100">
-                or <span>{phoneStore.activeTheme !== PhoneThemes.Custom ? 'Choose a Color' : 'Choose Style'}</span>
+                or <span>{phoneStore.settings.activeTheme !== PhoneThemes.Custom ? 'Choose a Color' : 'Choose Style'}</span>
             </button>
         </div>
     );

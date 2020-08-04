@@ -1,6 +1,7 @@
 import {store} from '@risingstack/react-easy-state';
 import {BackgroundType, BrowserThemes, browserThemes} from "../components/common/Frames/Browser/styles";
 import {ImageFormats} from "../types";
+import {observe} from "@nx-js/observer-util";
 
 export interface IBrowserStyles {
     browserChromeBgColor: string;
@@ -16,6 +17,7 @@ export interface IBrowserStyles {
 }
 
 export interface IBrowserSettings {
+    activeTheme: BrowserThemes;
     backgroundType: BackgroundType;
     showWindowControls: boolean;
     showAddressBar: boolean;
@@ -33,7 +35,6 @@ export interface IBrowserStore {
     customStyles?: IBrowserStyles;
     styles: IBrowserStyles;
     defaultImageFormat: ImageFormats;
-    activeTheme: BrowserThemes
 
     setImageData(imageData: string): void,
 
@@ -41,17 +42,16 @@ export interface IBrowserStore {
 }
 
 export let browserStore = store({
-    activeTheme: BrowserThemes.Default,
     setBrowserTheme(browserTheme: BrowserThemes) {
-        browserStore.activeTheme = browserTheme;
+        browserStore.settings.activeTheme = browserTheme;
     },
 
     get styles(): IBrowserStyles {
-        if (browserStore.activeTheme === BrowserThemes.Custom) {
+        if (browserStore.settings.activeTheme === BrowserThemes.Custom) {
             return browserStore.customStyles;
         }
 
-        return (browserThemes as any)[browserStore.activeTheme];
+        return (browserThemes as any)[browserStore.settings.activeTheme];
     },
 
     customStyles: {
@@ -68,15 +68,29 @@ export let browserStore = store({
     },
 
     settings: {
+        activeTheme: BrowserThemes.Default,
         backgroundType: BackgroundType.Color,
         reduceImageQualityOnUpload: false,
         showWindowControls: true,
         showAddressBar: true,
         showAddressBarUrl: true,
         addressBarUrlProtocol: 'https://',
-        addressBarUrl: 'screenshot.rocks/edit-me',
+        addressBarUrl: 'edit-me.com',
         showNavigationButtons: true,
         showSettingsButton: true,
         showBoxShadow: true
     }
 } as IBrowserStore);
+
+if (localStorage.getItem('browserStoreSettings')) {
+    const localStore = JSON.parse(localStorage.getItem('browserStoreSettings'));
+    browserStore.settings = localStore.settings;
+    browserStore.customStyles = localStore.styles;
+}
+
+observe(() => {
+    localStorage.setItem('browserStoreSettings', JSON.stringify({
+        settings: browserStore.settings,
+        styles: browserStore.styles,
+    }))
+});

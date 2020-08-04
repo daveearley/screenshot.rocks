@@ -17,8 +17,6 @@ enum SocialProviders {
 
 export const Homepage = view(() => {
     useEffect(() => checkForImageFromLocalstorageUrlOrPaste(), []);
-    browserStore.settings.addressBarUrl = 'screenshot.rocks';
-
 
     const handleContactClick = () => {
         window.location.href = `mailto:dave+screenshot.rocks@earley.email`;
@@ -51,7 +49,7 @@ export const Homepage = view(() => {
                             styles={(browserThemes as any)[BrowserThemes.Default]}
                             isDownloadMode={false}
                             showBoxShadow={browserStore.settings.showBoxShadow}
-                            urlTextOverride="screenshot.rocks"
+                            hideAddressBarOverride={true}
                             isAutoRotateActive={false}
                         />
                     </div>
