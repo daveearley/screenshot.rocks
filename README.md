@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-    <img align="center" width="300" alt="Create beautiful mobile & browser mockups from screenshots" src="https://i.imgur.com/U3ArkBK.png" />
+    <img width="300" alt="Create beautiful mobile & browser mockups from screenshots" src="https://i.imgur.com/U3ArkBK.png" />
 </div>
 
 # Screenshot.rocks
