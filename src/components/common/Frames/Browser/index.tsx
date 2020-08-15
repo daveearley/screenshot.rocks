@@ -37,7 +37,7 @@ export const BrowserFrame = view((props: ICanvasProps) => {
                     <span className="lock">
                         <FiLock/>
                     </span>
-                    <span className={`url-text ${!browserStore.settings.showAddressBarUrl ? 'hide' : ''}`}>
+                    <div className={`url-text ${!browserStore.settings.showAddressBarUrl ? 'hide' : ''}`}>
                         <span className="text-success" contentEditable suppressContentEditableWarning>
                             {browserStore.settings.addressBarUrlProtocol}
                         </span>
@@ -47,7 +47,7 @@ export const BrowserFrame = view((props: ICanvasProps) => {
                             type="text"
                             onInput={(e:FormEvent<HTMLInputElement>) => {browserStore.settings.addressBarUrl = e.currentTarget.value}}>
                         </input>
-                    </span>
+                    </div>
                     </span>
                 <span className={`browser-container ${!browserStore.settings.showSettingsButton ? 'hide' : ''}`}>
                     <span className="settings">

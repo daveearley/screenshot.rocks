@@ -193,7 +193,7 @@ export const styles = (props: ICanvasProps): string => {
           background: transparent;
           display: inline;
           box-shadow: none;
-          width: auto;
+          min-width: 90%;
         }
         
         .lock {
@@ -205,7 +205,7 @@ export const styles = (props: ICanvasProps): string => {
         .url-text {
           overflow: hidden;
           white-space: nowrap;
-          text-overflow: ellipsis;
+          min-width: 90%;
         }
       }
     

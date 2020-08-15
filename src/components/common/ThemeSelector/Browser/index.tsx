@@ -27,7 +27,7 @@ export const BrowserThemeSelector = view(() => {
     }
 
     return (
-        <div className={styles(app.canvasStyles.bgColor)}>
+        <div className={styles(app.canvasBgColor)}>
             <div className={`theme-selection ${browserStore.settings.activeTheme === BrowserThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(browserThemes).map((theme) => {
                     return (
