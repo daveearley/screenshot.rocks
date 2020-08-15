@@ -31,7 +31,10 @@ export const checkForImageFromLocalstorageUrlOrPaste = () => {
 }
 
 export const hex2rgba = (hex: string, alpha: number = 1): RGBColor => {
-    const [r, g, b] = hex.match(/\w\w/g).map(x => parseInt(x, 16));
+    const [r, g, b] = (hex.length === 3)
+        ? hex.match(/\w/g).map(x => parseInt(x + x, 16))
+        : hex.match(/\w\w/g).map(x => parseInt(x, 16))
+
     return {
         r: r,
         g: g,
@@ -41,25 +44,13 @@ export const hex2rgba = (hex: string, alpha: number = 1): RGBColor => {
 };
 
 export const rgba2hexa = (color: RGBColor) => {
-    let r = color.r.toString(16);
-    let g = color.g.toString(16);
-    let b = color.b.toString(16);
-    let a = Math.round(color.a * 255).toString(16);
+    const r = color.r.toString(16);
+    const g = color.g.toString(16);
+    const b = color.b.toString(16);
+    const a = Math.round(color.a * 255).toString(16);
+    const pad = (str: string) => str.length === 1 ? '0' + str : str;
 
-    if (r.length === 1) {
-        r = "0" + r;
-    }
-    if (g.length === 1) {
-        g = "0" + g;
-    }
-    if (b.length === 1) {
-        b = "0" + b;
-    }
-    if (a.length === 1) {
-        a = "0" + a;
-    }
-
-    return "#" + r + g + b + a;
+    return "#" + pad(r) + pad(g) + pad(b) + pad(a);
 };
 
 export const downloadImage = (elementToDownload: HTMLElement, imageFormat: ImageFormats, quality: number = 1) => {

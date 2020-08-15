@@ -22,7 +22,7 @@ export const PhoneThemeSelector = view(() => {
     }
 
     return (
-        <div className={styles(app.canvasStyles.bgColor)}>
+        <div className={styles(app.canvasBgColor)}>
             <div className={`theme-selection ${phoneStore.settings.activeTheme === PhoneThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(phoneThemeStyles).map((theme) => {
                     return (

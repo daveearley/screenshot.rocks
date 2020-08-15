@@ -3,6 +3,7 @@ import {ICanvasProps} from "../../Canvas";
 import {view} from "@risingstack/react-easy-state";
 import {styles} from "./styles";
 import {phoneStore} from "../../../../stores/phoneStore";
+import {ImageSelector} from "../../ImageSelector";
 
 export const PhoneFrame = view((props: ICanvasProps) => {
     return (
@@ -21,9 +22,11 @@ export const PhoneFrame = view((props: ICanvasProps) => {
                         {phoneStore.settings.showCamera && <div className="camera"/>}
                     </div>
                 </div>
-                <img id="screenshot"
-                     src={props.imageData}
-                     alt="Screenshot.rocks browser mockup"/>
+                {props.imageData
+                    ? <img id="screenshot"
+                           src={props.imageData}
+                           alt="Screenshot.rocks browser mockup"/>
+                    : <ImageSelector/>}
             </div>
         </div>
     );
