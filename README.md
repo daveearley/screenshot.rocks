@@ -1,12 +1,19 @@
 <div style="text-align: center;">
-    <img style="max-width: 350px;" alt="Create beautiful mobile & browser mockups from screenshots" src="https://i.imgur.com/SBXwpFX.png" />
+    <img align="center" width="300" alt="Create beautiful mobile & browser mockups from screenshots" src="https://i.imgur.com/U3ArkBK.png" />
 </div>
 
 # Screenshot.rocks
-
+ 
 This is the source code for [Screenshot.rocks](https://screenshot.rocks?utm_source=github)
-
+ 
 *Screenshot.rocks* is an online tool which allows you to create beautiful mobile & browser mockups from screenshots.
+
+## Contents
+ - [Browser Extensions](#browser-extensions-rocket)
+ - [Installation](#installation-cd)
+ - [License](#license-page_with_curl)
+ - [Sample Mockups](#sample-browser--mobile-mockups-rainbow)
+
 
 ## Browser Extensions :rocket:
 1. [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/one-click-design-mockups/)
