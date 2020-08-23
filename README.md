@@ -20,8 +20,10 @@ This is the source code for [Screenshot.rocks](https://screenshot.rocks?utm_sour
 2. [Chrome](https://chrome.google.com/webstore/detail/screenshotrocks-one-click/oolmphedpohnagciifbnfpemadolahki/)
 3. [Edge](https://microsoftedge.microsoft.com/addons/detail/clennbaklmghlnlamipjmfikdnlhiaem)
 
-## Installation :cd: 
+## Installation :cd:
 1. `git clone git@github.com:daveearley/screenshot.rocks.git`
+2. `cd screenshot.rocks`
+2. `yarn install`
 2. `yarn start`
 
 ## Contribution :wrench:
