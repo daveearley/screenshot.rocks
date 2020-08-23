@@ -11,6 +11,10 @@ export const BackgroundSettings = view(() => {
         app.canvasStyles.backgroundType = ((e.target as HTMLElement).innerText as CanvasBackgroundTypes);
     };
 
+    const handleBgImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        app.canvasStyles.bgImage = URL.createObjectURL(e.target.files[0]);
+    }
+
     return (
         <>
             <div className="btn-group btn-group-sm w-100 mb-2">
@@ -88,6 +92,11 @@ export const BackgroundSettings = view(() => {
                         />
                     </div>
                 })}
+                <div className="col">
+                    <div className={`bg-image-preview bg-image-preview--file`}>
+                        <input type="file" accept="image/*" onChange={handleBgImageUpload}></input>
+                    </div>
+                </div>
             </div>}
         </>
     )
