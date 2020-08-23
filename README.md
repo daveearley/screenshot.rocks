@@ -23,8 +23,8 @@ This is the source code for [Screenshot.rocks](https://screenshot.rocks?utm_sour
 ## Installation :cd:
 1. `git clone git@github.com:daveearley/screenshot.rocks.git`
 2. `cd screenshot.rocks`
-2. `yarn install`
-2. `yarn start`
+3. `yarn install`
+4. `yarn start`
 
 ## Contribution :wrench:
 Contributions are more than welcome. If you think there's a feature that could be added please create an issue first.
