@@ -1,12 +1,29 @@
 import React, {useState} from "react";
 import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../stores/appStore";
-import {downloadImage} from "../../../utils/image";
-import {ImageFormats} from "../../../types";
+import {copyImageToClipboard, downloadImage} from "../../../utils/image";
+import {Browsers, ImageFormats} from "../../../types";
 import {Routes, routeStore} from "../../../stores/routeStore";
+import {useBrowserType} from "../../../hooks/useBrowserType";
 
 export const DownloadButtons = view(() => {
-    let [imageFormat, setImageFormat] = useState<ImageFormats>(app.defaultImageFormat);
+    const [imageFormat, setImageFormat] = useState<ImageFormats>(app.defaultImageFormat);
+    const browser = useBrowserType();
+
+    const canCopyToClipboard = () => {
+        // Copying images to clipboard is currently not supported in firefox
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=1560373
+        if (browser === Browsers.Firefox) {
+            return false;
+        }
+        try {
+            return navigator.permissions.query({name: 'clipboard-write' as PermissionName}).then(res => {
+                return res.state === 'granted';
+            });
+        } catch (error) {
+            return false
+        }
+    };
 
     const handleImageDownload = () => {
         app.isDownloadMode = true;
@@ -14,6 +31,13 @@ export const DownloadButtons = view(() => {
             app.isDownloadMode = false;
         });
     };
+
+    const handleImageCopy = () => {
+        app.isDownloadMode = true;
+        copyImageToClipboard(document.getElementById('canvas')).then(() => {
+            app.isDownloadMode = false;
+        })
+    }
 
     const handleImageTypeSwitch = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const input = e.target as HTMLElement;
@@ -35,9 +59,13 @@ export const DownloadButtons = view(() => {
                 })}
             </div>
             <button disabled={!app.imageData || app.isDownloadMode} onClick={handleImageDownload}
-                    className="btn btn-success w-100 btn-lg">
+                    className="btn btn-success w-100 btn-s">
                 {app.isDownloadMode ? 'Downloading...' : `Download ${imageFormat.toUpperCase()}`}
             </button>
+            {canCopyToClipboard() && <button disabled={!app.imageData || app.isDownloadMode} onClick={handleImageCopy}
+                                             className="btn btn-success w-100 btn-s mt-2 mb-2">
+                {app.isDownloadMode ? 'Copying...' : `Copy to Clipboard`}
+            </button>}
             {app.imageData &&
             <button
                 className="btn btn-sm btn-link text-white w-100"
