@@ -53,6 +53,16 @@ export const rgba2hexa = (color: RGBColor) => {
     return "#" + pad(r) + pad(g) + pad(b) + pad(a);
 };
 
+export const copyImageToClipboard = (elementToDownload: HTMLElement): Promise<any> => {
+    const setToClipboard = async (blob: Blob) => {
+        const data = [new ClipboardItem({[blob.type]: blob})]
+        return navigator.clipboard.write(data)
+    }
+
+    return domtoimage.toBlob(elementToDownload)
+        .then((data: Blob) => setToClipboard(data));
+}
+
 export const downloadImage = (elementToDownload: HTMLElement, imageFormat: ImageFormats, quality: number = 1) => {
     const handleDownload = (dataUrl: string, extension: ImageFormats) => {
         let link = document.createElement('a');
