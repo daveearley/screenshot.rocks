@@ -106,7 +106,7 @@ export const Homepage = view(() => {
                             <p>
                                 Screenshot.rocks is fully <a target="_blank" href="https://github.com/daveearley/screenshot.rocks">open-source</a>, so you can see exactly how we
                                 process
-                                your images. No image data is saved on our servers; all image processing in the browser
+                                your images. No image data is saved on our servers; all image processing occurs in the browser
                                 or in memory.
                             </p>
                         </div>
