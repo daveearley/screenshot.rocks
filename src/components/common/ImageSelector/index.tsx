@@ -7,7 +7,15 @@ import {validURL} from "../../../utils/url";
 import {routeStore} from "../../../stores/routeStore";
 
 export const ImageSelector = view(() => {
-    const [urlValue, setUrlValue] = useState(null);
+    const existingUrl = () => {
+        const parsedUrl = new URL(window.location.href);
+        if(parsedUrl.searchParams.get('text')){
+            return parsedUrl.searchParams.get('text');
+        }
+        return null;
+    }
+
+    const [urlValue, setUrlValue] = useState(existingUrl());
     const [urlIsInvalid, setUrlIsInvalid] = useState(false);
     const [urlLoading, setUrlLoading] = useState(false);
     const [requestFailed, setRequestFailed] = useState(false);
@@ -76,6 +84,7 @@ export const ImageSelector = view(() => {
                     type="text"
                     className={`form-control ${urlIsInvalid || requestFailed ? 'is-invalid' : ''}`}
                     placeholder="https://your-website.com"
+                    value={urlValue}
                 />
                 <div className="input-group-text">
                     <label htmlFor="mobile">Mobile</label>
