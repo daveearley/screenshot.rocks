@@ -16,5 +16,12 @@
     "theme_color": "#a090c1",
     "background_color": "#a090c1",
     "display": "standalone",
-    "start_url": "https://screenshot.rocks?start=pwa"
+    "start_url": "https://screenshot.rocks?start=pwa",
+    "share_target": {
+        "action": "/",
+        "method": "GET",
+        "params": {
+          "text": "text"
+        }
+      }
 }
