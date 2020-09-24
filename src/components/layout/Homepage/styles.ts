@@ -31,6 +31,11 @@ export const styles = () => {
         .row img {
           max-width: 340px;
         }
+
+        .row {
+          margin-left: unset;
+          margin-right: unset;
+        }
        }
        
        a {
