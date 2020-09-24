@@ -84,6 +84,7 @@ export const ImageSelector = view(() => {
                     type="text"
                     className={`form-control ${urlIsInvalid || requestFailed ? 'is-invalid' : ''}`}
                     placeholder="https://your-website.com"
+                    value={urlValue}
                 />
                 <div className="input-group-text">
                     <label htmlFor="mobile">Mobile</label>
