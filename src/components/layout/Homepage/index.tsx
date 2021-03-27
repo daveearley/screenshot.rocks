@@ -42,7 +42,7 @@ export const Homepage = view(() => {
             <div className={styles()}>
                 <section className="aboveFold">
                     <Logo style={LogoStyle.Light}/>
-                    <h1>Create <span>beautiful</span> browser & mobile mockups in seconds</h1>
+                    <h1>Create <span>beautiful</span> mobile & browser screenshots in seconds</h1>
                     <div className="m-5">
                         <BrowserFrame
                             showControlsOnly={false}
@@ -69,24 +69,24 @@ export const Homepage = view(() => {
                 <section className="features">
                     <div className="row align-items-center justify-center text-white">
                         <div className="col-12 col-sm-6 text-center">
-                            <img alt="browser mockup features" className="img-fluid"
+                            <img alt="browser screenshot & mockup features" className="img-fluid"
                                  src="/images/home/feature-features.png"/>
                         </div>
                         <div className="col-12 p-5 col-sm-6 text-center text-sm-left">
                             <h4>Create Eye-Catching Mockups</h4>
-                            <p>With the ability to customize every aspect of your mockup, Screenshot.rocks makes it easy
+                            <p>With the ability to customize every aspect of your screenshot, Screenshot.rocks makes it easy
                                 to
-                                create a mockup that suits your brand's identity.</p>
+                                create a screenshot mockup that suits your brand's identity.</p>
                         </div>
                     </div>
                     <div className="row align-items-center justify-center text-white flex-row-reverse">
                         <div className="col-12 col-sm-6 text-center">
-                            <img alt="browser mockups browser extensions" className="img-fluid"
+                            <img alt="browser screenshots & mockups browser extensions" className="img-fluid"
                                  src="/images/home/feature-browser-extensions.png"/>
                         </div>
                         <div className="col-12 p-5 col-sm-6 text-center text-sm-left">
                             <h4>Browser Extensions Available</h4>
-                            <p>Use our browser extensions to create a mobile or browser mockup from any tab in one-click.
+                            <p>Use our browser extensions to create a mobile or browser screenshot from any tab in one-click.
                                 Our extension is available for all major browsers.</p>
                             <p>
                                 <a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/one-click-design-mockups">Firefox</a>, <a target="_blank"
@@ -98,7 +98,7 @@ export const Homepage = view(() => {
                     </div>
                     <div className="row align-items-center justify-center text-white">
                         <div className="col-12 col-sm-6 text-center">
-                            <img alt="open-source browser mockup tool" className="img-fluid"
+                            <img alt="open-source browser screenshot & mockup tool" className="img-fluid"
                                  src="/images/home/feature-open-source.png"/>
                         </div>
                         <div className="col-12 p-5 col-sm-6 text-center text-sm-left">
