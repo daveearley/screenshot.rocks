@@ -17,7 +17,6 @@ const browserSettings = {
 const phoneSettings = {
     showSpeaker: 'Show Speaker',
     showCamera: 'Show Camera',
-    // showShadow: 'Show Shadow',
     showVolumeRocker: 'Show Volume Rocker',
 }
 
