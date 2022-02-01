@@ -144,7 +144,7 @@ export const styles = (props: ICanvasProps): string => {
           width: ${determineWidth(15)}px;
           height: ${determineWidth(15)}px;
           border-radius: 50px;
-          margin-right: ${determineWidth(3)}px;
+          margin-right: ${determineWidth(8)}px;
           &.close {
             background: ${styleVars.closeButtonColor};
             opacity: 1;
