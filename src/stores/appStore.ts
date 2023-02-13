@@ -3,7 +3,7 @@ import {CanvasBackgroundTypes, FrameType, ImageFormats} from "../types";
 import {getImageDimensions} from "../utils/image";
 import {phoneStore} from "./phoneStore";
 import {Routes, routeStore} from "./routeStore";
-import { observe } from '@nx-js/observer-util'
+import {observe} from '@nx-js/observer-util'
 
 export const bgImages = [
     '1.jpg',
@@ -52,7 +52,9 @@ export let app = store({
     disableAutoRotate: false,
     hasDownloaded: false,
     get shouldShowRatingPrompt(): boolean {
-       return app.hasDownloaded && localStorage.getItem('hasReviewed') === null;
+        return app.hasDownloaded
+            && localStorage.getItem('hasReviewed') === null
+            && window.location.href.includes('extension');
     },
     setImageData(imageData: string) {
         app.imageData = imageData;
