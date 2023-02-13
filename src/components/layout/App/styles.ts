@@ -5,7 +5,7 @@ export const styles = () => {
           display: grid;
           grid-template-areas: 
                          "sidebar main-content";
-          grid-template-columns: 250px auto;
+          grid-template-columns: 275px auto;
           height: 100vh;
 
           .navbar {
@@ -53,6 +53,13 @@ export const styles = () => {
                 color: #ff79ee;
               }
               
+              .section-wrap {
+                padding: 10px 12px;
+                background: #ffffff20;
+                border-radius: 10px;
+                margin-top: 10px;
+              }
+              
               .bg-image-preview {
                  padding: 5px;
                  height: 40px;
@@ -88,7 +95,7 @@ export const styles = () => {
             }
         
             .footer {
-              padding: 20px;
+              padding: 12px;
             }
         
             color: #fff;

@@ -4,6 +4,7 @@ import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../stores/appStore";
 import {FrameType} from "../../../types";
 import {phoneStore} from "../../../stores/phoneStore";
+import {noFrameStore} from "../../../stores/noFrameStore";
 
 const browserSettings = {
     showWindowControls: 'Window Controls',
@@ -18,6 +19,23 @@ const phoneSettings = {
     showSpeaker: 'Show Speaker',
     showCamera: 'Show Camera',
     showVolumeRocker: 'Show Volume Rocker',
+    showShadow: 'Show Shadow',
+}
+
+const noFrameSettings = {
+    showShadow: 'Show Shadow',
+}
+
+const frameTypeToSettingsMap = {
+    [FrameType.Browser]: browserSettings,
+    [FrameType.Phone]: phoneSettings,
+    [FrameType.None]: noFrameSettings,
+}
+
+const frameTypeToStoreMap = {
+    [FrameType.Browser]: browserStore,
+    [FrameType.Phone]: phoneStore,
+    [FrameType.None]: noFrameStore,
 }
 
 interface settingToggleProps {
@@ -43,47 +61,23 @@ const SettingToggle = ({onChange, checked, id, label}: settingToggleProps) => {
     );
 }
 
-const BrowserSettings = view(() => {
+export const Settings = view(() => {
+    const settings = frameTypeToSettingsMap[app.frameType] as any;
+    const store = (frameTypeToStoreMap as any)[app.frameType];
     return (
         <>
-            {Object.keys(browserSettings).map((setting) => {
+            {Object.keys(settings).map((setting) => {
+                const checked = store.settings[setting];
                 return (
                     <SettingToggle
                         key={setting}
-                        onChange={(e) => (browserStore.settings as any)[setting] = e.target.checked}
-                        checked={(browserStore.settings as any)[setting]}
+                        onChange={(e) => store.settings[setting] = e.target.checked}
+                        checked={checked}
                         id={setting}
-                        label={(browserSettings as any)[setting]}
+                        label={settings[setting]}
                     />
                 );
             })}
         </>
     );
-})
-
-const PhoneSettings = view(() => {
-    return (
-        <>
-            {Object.keys(phoneSettings).map((setting) => {
-                return (
-                    <SettingToggle
-                        key={setting}
-                        onChange={(e) => (phoneStore.settings as any)[setting] = e.target.checked}
-                        checked={(phoneStore.settings as any)[setting]}
-                        id={setting}
-                        label={(phoneSettings as any)[setting]}
-                    />
-                );
-            })}
-        </>
-    );
-})
-
-export const Settings = () => {
-    return (
-        <>
-            {app.frameType === FrameType.Browser && <BrowserSettings/>}
-            {app.frameType === FrameType.Phone && <PhoneSettings/>}
-        </>
-    );
-};
+});

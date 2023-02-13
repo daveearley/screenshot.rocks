@@ -1,23 +1,24 @@
 import React from "react";
 import {styles} from "./styles";
 import {BrowserFrame} from "../Frames/Browser";
-import {BackgroundType} from "../Frames/Browser/styles";
 import {IBrowserStyles} from "../../../stores/browserStore";
-import {FrameType} from "../../../types";
+import {CanvasBackgroundTypes, FrameType} from "../../../types";
 import {PhoneFrame} from "../Frames/Phone";
 import {IPhoneStyles} from "../../../stores/phoneStore";
 import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../stores/appStore";
+import {NoFrameFrame} from "../Frames/NoFrame";
+import {INoFrameStyles} from "../../../stores/noFrameStore";
 
 export interface ICanvasProps {
     showControlsOnly?: boolean;
     imageData?: string;
     canvasBgColor?: string;
     canvasBgImage?: string;
-    canvasBgType?: BackgroundType;
+    canvasBgType?: CanvasBackgroundTypes;
     canvasVerticalPadding?: number;
     canvasHorizontalPadding?: number;
-    styles: IBrowserStyles | IPhoneStyles;
+    styles: IBrowserStyles | IPhoneStyles | INoFrameStyles;
     isDownloadMode: boolean;
     isAutoRotateActive: boolean;
     showBoxShadow: boolean;
@@ -40,6 +41,7 @@ export const Canvas = view((props: ICanvasProps) => {
             <div className="canvas" id="canvas">
                 {(props.frameType === FrameType.Browser || !props.frameType) && <BrowserFrame {...props} />}
                 {props.frameType === FrameType.Phone && <PhoneFrame {...props} />}
+                {props.frameType === FrameType.None && <NoFrameFrame {...props} />}
             </div>
         </div>
     );

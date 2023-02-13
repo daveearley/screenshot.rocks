@@ -7,6 +7,7 @@ export enum ImageFormats {
 export enum FrameType {
     Browser = 'Browser',
     Phone = 'Phone',
+    None = 'None',
 }
 
 export enum CanvasBackgroundTypes {

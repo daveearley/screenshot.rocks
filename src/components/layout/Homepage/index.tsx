@@ -42,7 +42,7 @@ export const Homepage = view(() => {
             <div className={styles()}>
                 <section className="aboveFold">
                     <Logo style={LogoStyle.Light}/>
-                    <h1>Create <span>beautiful</span> mobile & browser screenshots in seconds</h1>
+                    <h1>Create <span>beautiful</span> mobile & browser screenshot mockups in seconds</h1>
                     <div className="m-5">
                         <BrowserFrame
                             showControlsOnly={false}

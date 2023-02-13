@@ -3,13 +3,13 @@ import {CanvasBackgroundTypes, FrameType, ImageFormats} from "../types";
 import {getImageDimensions} from "../utils/image";
 import {phoneStore} from "./phoneStore";
 import {Routes, routeStore} from "./routeStore";
-import { observe } from '@nx-js/observer-util'
+import {observe} from '@nx-js/observer-util'
 
 export const bgImages = [
     '1.jpg',
     '2.jpg',
     '3.png',
-    '4.jpg'
+    '4.jpg',
 ].map(img => `/images/backgrounds/${img}`);
 
 export const defaultCanvasBgColor = '#a090c1';
@@ -22,7 +22,8 @@ export interface ICanvasStyles {
     backgroundType: CanvasBackgroundTypes;
     gradientColorOne: string;
     gradientColorTwo: string;
-    gradientAngle: number
+    gradientAngle: number;
+    shadowSize: number;
 }
 
 export interface IStore {
@@ -35,6 +36,8 @@ export interface IStore {
     canvasBgColor: string;
     isAutoRotateActive: boolean;
     disableAutoRotate: boolean;
+    hasDownloaded: boolean;
+    shouldShowRatingPrompt: boolean;
 
     setImageData(imageData: string): void;
 }
@@ -47,6 +50,12 @@ export let app = store({
     originalImageData: null,
     isAutoRotateActive: false,
     disableAutoRotate: false,
+    hasDownloaded: false,
+    get shouldShowRatingPrompt(): boolean {
+        return app.hasDownloaded
+            && localStorage.getItem('hasReviewed') === null
+            && window.location.href.includes('extension');
+    },
     setImageData(imageData: string) {
         app.imageData = imageData;
         app.originalImageData = imageData;
@@ -65,22 +74,24 @@ export let app = store({
                 return `linear-gradient(-${app.canvasStyles.gradientAngle}deg, ${app.canvasStyles.gradientColorOne}, ${app.canvasStyles.gradientColorTwo})`;
             case CanvasBackgroundTypes.Image:
                 return `url(${app.canvasStyles.bgImage})`;
-            case CanvasBackgroundTypes.None:
-                return 'transparent';
             case CanvasBackgroundTypes.Solid:
                 return app.canvasStyles.bgColor;
+            case CanvasBackgroundTypes.None:
+            default:
+                return app.isDownloadMode ? 'transparent' : 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==")';
         }
     },
 
     canvasStyles: {
         bgColor: defaultCanvasBgColor,
         bgImage: '/images/backgrounds/1.jpg',
-        verticalPadding: 40,
-        horizontalPadding: 60,
+        verticalPadding: 60,
+        horizontalPadding: 80,
         backgroundType: CanvasBackgroundTypes.Image,
         gradientColorOne: '#7e349c',
         gradientColorTwo: '#968bbd',
         gradientAngle: 45,
+        shadowSize: 4,
     },
 } as IStore);
 

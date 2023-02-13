@@ -25,7 +25,7 @@ export let phoneStore = store({
         activeTheme: PhoneThemes.Default,
         showSpeaker: true,
         showCamera: true,
-        showShadow: false,
+        showShadow: true,
         showVolumeRocker: true,
     },
 
