@@ -14,6 +14,8 @@ import {ThemeSelector} from "../../common/ThemeSelector";
 import {phoneStore} from "../../../stores/phoneStore";
 import {BackgroundSettings} from "../../common/Settings/BackgroundSettings";
 import {CanvasSettings} from "../../common/Settings/CanvasSettings";
+import {noFrameStore} from "../../../stores/noFrameStore";
+import {RatingPromptBox} from "../../common/RatingPromptBox";
 
 export const App = view(() => {
     useEffect(() => checkForImageFromLocalstorageUrlOrPaste(), [])
@@ -22,32 +24,54 @@ export const App = view(() => {
         app.frameType = ((e.target as HTMLElement).innerText as FrameType);
     };
 
+    const frameToStyleMap = {
+        [FrameType.Phone]: phoneStore.styles,
+        [FrameType.Browser]: browserStore.styles,
+        [FrameType.None]: noFrameStore.styles,
+    };
+
+    const frameToShadow = {
+        [FrameType.Browser]: browserStore.settings.showBoxShadow,
+        [FrameType.Phone]: phoneStore.settings.showShadow,
+        [FrameType.None]: noFrameStore.settings.showShadow,
+    };
+
     return (
         <main className={styles()}>
             <aside className="sidebar">
                 <Logo style={LogoStyle.Light}/>
                 <div className="settings">
-                    <div className="frame-type">
-                        <div className="btn-group btn-group-sm w-100 mb-2">
-                            {Object.keys(FrameType).map(type => {
-                                return (
-                                    <button
-                                        key={type}
-                                        onClick={handleFrameTypeChange}
-                                        className={(app.frameType === type ? 'active' : '') + ' btn btn-success'}>
-                                        {type}
-                                    </button>
-                                )
-                            })}
+                    <div className={'section-wrap'}>
+                        <div className="frame-type">
+                            <h3>Frame Type</h3>
+                            <div className="btn-group btn-group-sm w-100 mb-3">
+                                {Object.keys(FrameType).map(type => {
+                                    return (
+                                        <button
+                                            key={type}
+                                            onClick={handleFrameTypeChange}
+                                            className={(app.frameType === type ? 'active' : '') + ' btn btn-success'}>
+                                            {type}
+                                        </button>
+                                    )
+                                })}
+                            </div>
                         </div>
+                        <ThemeSelector/>
                     </div>
-                    <ThemeSelector/>
-                    <h3 className="mt-3">Canvas</h3>
-                    <CanvasSettings/>
-                    <h3 className="mt-3">Background</h3>
-                    <BackgroundSettings/>
-                    <h3 className="mt-3">Settings</h3>
-                    <Settings/>
+                    <div className={'section-wrap'}>
+                        <h3>Canvas</h3>
+                        <CanvasSettings/>
+                    </div>
+                    <div className={'section-wrap'}>
+                        <h3>Background</h3>
+                        <BackgroundSettings/>
+                    </div>
+                    <div className={'section-wrap'}>
+                        <h3>Settings</h3>
+                        <Settings/>
+                    </div>
+                    <RatingPromptBox/>
                 </div>
                 <div className="footer">
                     <DownloadButtons/>
@@ -60,11 +84,12 @@ export const App = view(() => {
                     canvasBgImage={app.canvasStyles.bgImage}
                     canvasVerticalPadding={app.canvasStyles.verticalPadding}
                     canvasHorizontalPadding={app.canvasStyles.horizontalPadding}
-                    styles={app.frameType === FrameType.Browser ? browserStore.styles : phoneStore.styles}
+                    styles={(frameToStyleMap as any)[app.frameType]}
                     isDownloadMode={app.isDownloadMode}
-                    showBoxShadow={app.frameType === FrameType.Browser ? browserStore.settings.showBoxShadow : phoneStore.settings.showShadow}
+                    showBoxShadow={(frameToShadow as any)[app.frameType]}
                     frameType={app.frameType}
                     isAutoRotateActive={app.isAutoRotateActive}
+                    canvasBgType={app.canvasStyles.backgroundType}
                 />
             </div>
         </main>

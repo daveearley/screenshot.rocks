@@ -2,6 +2,7 @@ import {css} from "emotion";
 import {ICanvasProps} from "../../Canvas";
 import {IPhoneStyles} from "../../../../stores/phoneStore";
 import {lighten} from "polished";
+import {app} from "../../../../stores/appStore";
 
 export enum PhoneThemes {
     Default,
@@ -34,7 +35,7 @@ export const styles = (props: ICanvasProps): string => {
        display: flex;
        vertical-align: middle;
        justify-content: center;
-       // box-shadow: ${props.showBoxShadow ? '0px 6px 14px 2px #000000c2' : 'none'};
+       box-shadow: ${props.showBoxShadow ? `0 2px ${app.canvasStyles.shadowSize}px -1px rgba(0, 0, 0, .4)` : 'none'};
       
        .bezel {
         background-color: ${lighten(0.2, styleVars.frameColor)};

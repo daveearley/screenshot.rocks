@@ -1,7 +1,7 @@
 import {css} from "emotion";
 import {ICanvasProps} from "./index";
 import {app} from "../../../stores/appStore";
-import {FrameType} from "../../../types";
+import {CanvasBackgroundTypes, FrameType} from "../../../types";
 import {darken} from "polished";
 
 export const styles = (props: ICanvasProps): string => {
@@ -20,6 +20,8 @@ export const styles = (props: ICanvasProps): string => {
     }
 
     return css`
+      position: sticky;
+      top: 0;
       .rotate-alert {
         padding: 20px;
         text-align: center;
@@ -34,6 +36,7 @@ export const styles = (props: ICanvasProps): string => {
       .canvas {
         width: ${props.isDownloadMode ? `${getDownloadCanvasWidth()}px` : 'auto'};
         background: ${props.canvasBgColor};
+        background-color: ${props.canvasBgType === CanvasBackgroundTypes.None && !app.isDownloadMode ? '#fff' : ''};
         padding-top: ${determineWidth(props.canvasVerticalPadding)}px;
         padding-bottom: ${determineWidth(props.canvasVerticalPadding)}px;
         padding-left: ${determineWidth(props.canvasHorizontalPadding)}px;
@@ -41,7 +44,7 @@ export const styles = (props: ICanvasProps): string => {
         margin: ${props.isDownloadMode ? '0' : '20px'};
         transform: scale(${props.isDownloadMode ? `1` : '.8'}) ${props.isAutoRotateActive ? ' rotate(270deg)' : ''};
         transform-origin: center;
-        background-size: cover;
+        background-size: ${props.canvasBgType !== CanvasBackgroundTypes.None ? 'cover' : ''};
       }
 `
 };

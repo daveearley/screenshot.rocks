@@ -17,7 +17,7 @@ export const BackgroundSettings = view(() => {
 
     return (
         <>
-            <div className="btn-group btn-group-sm w-100 mb-2">
+            <div className="btn-group btn-group-sm w-100 mb-3">
                 {Object.keys(CanvasBackgroundTypes).map((bgType) => {
                     return <button
                         key={bgType}

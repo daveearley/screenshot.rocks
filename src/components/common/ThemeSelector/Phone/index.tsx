@@ -26,7 +26,7 @@ export const PhoneThemeSelector = view(() => {
             <div className={`theme-selection ${phoneStore.settings.activeTheme === PhoneThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(phoneThemeStyles).map((theme) => {
                     return (
-                        <a href={'#'}
+                        <a href={'#!'}
                            key={theme}
                            onClick={(e) => handleThemeClick(e, theme as any)}
                            className="d-block style-preview">
@@ -58,7 +58,7 @@ export const PhoneThemeSelector = view(() => {
                     </div>
                 })}
             </div>
-            <button onClick={handleCustomThemeClick} className="btn btn-sm btn-link text-white w-100">
+            <button onClick={handleCustomThemeClick} className="btn btn-m btn-link text-white w-100">
                 or <span>{phoneStore.settings.activeTheme !== PhoneThemes.Custom ? 'Choose a Color' : 'Choose Style'}</span>
             </button>
         </div>

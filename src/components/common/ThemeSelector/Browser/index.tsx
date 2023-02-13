@@ -31,7 +31,7 @@ export const BrowserThemeSelector = view(() => {
             <div className={`theme-selection ${browserStore.settings.activeTheme === BrowserThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(browserThemes).map((theme) => {
                     return (
-                        <a href={'#'}
+                        <a href={'#!'}
                            key={theme}
                            onClick={(e) => handleThemeClick(e, theme as any)}
                            className="d-block style-preview">
@@ -39,7 +39,7 @@ export const BrowserThemeSelector = view(() => {
                                           showControlsOnly={true}
                                           canvasBgColor={app.canvasStyles.bgColor}
                                           canvasBgImage={app.canvasStyles.bgImage}
-                                          canvasBgType={browserStore.settings.backgroundType}
+                                          canvasBgType={app.canvasStyles.backgroundType}
                                           styles={(browserThemes as any)[theme]}
                                           isDownloadMode={false}
                                           showBoxShadow={browserStore.settings.showBoxShadow}
@@ -64,29 +64,8 @@ export const BrowserThemeSelector = view(() => {
                         </div>
                     </div>
                 })}
-                <div className="row">
-                    <div className="col">
-                        <label htmlFor="horizontalPadding" className="form-label">
-                            Border Radius
-                        </label>
-                    </div>
-                    <div className="col">
-                        <input
-                            onChange={(e) => {
-                                browserStore.styles.browserBorderRadius = (e.target.value as unknown as number)
-                                browserStore.styles.controlsBorderRadius = (e.target.value as unknown as number)
-                            }}
-                            value={browserStore.styles.browserBorderRadius}
-                            type="range"
-                            className="form-range"
-                            min="0"
-                            max="100"
-                            id="horizontalPadding"
-                        />
-                    </div>
-                </div>
             </div>
-            <button onClick={handleCustomThemeClick} className="btn btn-sm btn-link text-white w-100">
+            <button onClick={handleCustomThemeClick} className="btn btn-m btn-link text-white w-100">
                 or <span>{browserStore.settings.activeTheme !== BrowserThemes.Custom ? 'Style Your Own' : 'Choose Style'}</span>
             </button>
         </div>

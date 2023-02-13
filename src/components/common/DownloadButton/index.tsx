@@ -4,11 +4,11 @@ import {app} from "../../../stores/appStore";
 import {copyImageToClipboard, downloadImage} from "../../../utils/image";
 import {Browsers, ImageFormats} from "../../../types";
 import {Routes, routeStore} from "../../../stores/routeStore";
-import {useBrowserType} from "../../../hooks/useBrowserType";
+import {getBrowserType} from "../../../utils/misc";
 
 export const DownloadButtons = view(() => {
     const [imageFormat, setImageFormat] = useState<ImageFormats>(app.defaultImageFormat);
-    const browser = useBrowserType();
+    const browser = getBrowserType();
 
     const canCopyToClipboard = () => {
         // Copying images to clipboard is currently not supported in firefox
@@ -25,18 +25,20 @@ export const DownloadButtons = view(() => {
         }
     };
 
+    const handlePostDownload =  () => {
+        app.isDownloadMode = false;
+        app.hasDownloaded = true;
+        localStorage.setItem('hasDownloaded', 'true');
+    };
+
     const handleImageDownload = () => {
         app.isDownloadMode = true;
-        downloadImage(document.getElementById('canvas'), imageFormat).then(() => {
-            app.isDownloadMode = false;
-        });
+        downloadImage(document.getElementById('canvas'), imageFormat).then(handlePostDownload);
     };
 
     const handleImageCopy = () => {
         app.isDownloadMode = true;
-        copyImageToClipboard(document.getElementById('canvas')).then(() => {
-            app.isDownloadMode = false;
-        })
+        copyImageToClipboard(document.getElementById('canvas')).then(handlePostDownload)
     }
 
     const handleImageTypeSwitch = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

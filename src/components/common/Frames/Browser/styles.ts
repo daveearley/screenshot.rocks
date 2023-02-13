@@ -1,6 +1,7 @@
 import {css} from "emotion";
 import {ICanvasProps} from "../../Canvas";
 import {IBrowserStyles} from "../../../../stores/browserStore";
+import {app} from "../../../../stores/appStore";
 
 export enum BrowserThemes {
     Default,
@@ -85,7 +86,7 @@ export const browserThemes = {
         closeButtonColor: '#822163',
         minimizeButtonColor: '#822163',
         maximizeButtonColor: '#822163',
-        browserBorderRadius: 0,
+        browserBorderRadius: 1,
         controlsBorderRadius: 4,
         controlsHeight: 30,
         chromeHeight: 60,
@@ -102,7 +103,7 @@ export const styles = (props: ICanvasProps): string => {
 
     return css`
        border-radius: ${styleVars.browserBorderRadius}px;
-       box-shadow: ${props.showBoxShadow ? '0 2px 4px -1px rgba(0, 0, 0, .4)' : 'none'};
+       box-shadow: ${props.showBoxShadow ? `0 2px ${app.canvasStyles.shadowSize}px -1px rgba(0, 0, 0, .4)` : 'none'};
        overflow: hidden;
        min-width: ${props.imageData ? '400px' : 'none'};
     
