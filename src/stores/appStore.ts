@@ -53,8 +53,10 @@ export interface IStore {
     disableAutoRotate: boolean;
     hasDownloaded: boolean;
     shouldShowRatingPrompt: boolean;
+    cssTransformString: string;
 
     setImageData(imageData: string): void;
+    adjustMeasurementForDownload(width: number): number;
 }
 
 export let app = store({
@@ -95,6 +97,16 @@ export let app = store({
             default:
                 return app.isDownloadMode ? 'transparent' : 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==")';
         }
+    },
+
+    // helper function which increases an element's width while in download mode
+    adjustMeasurementForDownload(measurement: number): number {
+        const multiplier = FrameType.Phone ? 3 : 2;
+        return app.isDownloadMode ? measurement * multiplier : measurement;
+    },
+
+    get cssTransformString(): string {
+         return `scale(${app.isDownloadMode ? (app.canvasStyles.size/100)*.99 : app.canvasStyles.size/100}) perspective(${app.adjustMeasurementForDownload(800)}px) rotateX(${app.canvasStyles.rotateX}deg) rotateY(${app.canvasStyles.rotateY}deg)`;
     },
 
     canvasStyles: {

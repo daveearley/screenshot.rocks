@@ -3,8 +3,8 @@ import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../stores/appStore";
 import {copyImageToClipboard, downloadImage} from "../../../utils/image";
 import {Browsers, ImageFormats} from "../../../types";
-import {Routes, routeStore} from "../../../stores/routeStore";
 import {getBrowserType} from "../../../utils/misc";
+import {css} from "emotion";
 
 export const DownloadButtons = view(() => {
     const [imageFormat, setImageFormat] = useState<ImageFormats>(app.defaultImageFormat);
@@ -67,11 +67,13 @@ export const DownloadButtons = view(() => {
             {canCopyToClipboard() && <button disabled={!app.imageData || app.isDownloadMode} onClick={handleImageCopy}
                                              className="btn btn-success w-100 btn-s mt-2 mb-2">
                 {app.isDownloadMode ? 'Copying...' : `Copy to Clipboard`}
+                <br/>
+                    <span className={css`font-size: .7em;`}>Can be pasted in Twitter, GitHub etc.</span>
             </button>}
             {app.imageData &&
             <button
                 className="btn btn-m btn-link text-white w-100"
-                onClick={() => routeStore.goToRoute(Routes.Home)}>or start over
+                onClick={() => app.imageData = null}>or Choose a new image
             </button>}
         </>
     );

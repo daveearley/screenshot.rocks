@@ -96,19 +96,12 @@ export const browserThemes = {
 export const styles = (props: ICanvasProps): string => {
     const styleVars = props.styles as IBrowserStyles;
 
-    // If we are downloading the image we double the widths etc. so the exported image doesn't look stretched
-    const determineWidth = (measurement: number): number => {
-        return props.isDownloadMode ? measurement * 2 : measurement;
-    }
-
-    const transform = `scale(${app.isDownloadMode ? (app.canvasStyles.size/100)*.99 : app.canvasStyles.size/100}) perspective(${determineWidth(800)}px) rotateX(${app.canvasStyles.rotateX}deg) rotateY(${app.canvasStyles.rotateY}deg)`;
-
     return css`
        border-radius: ${props.borderRadius}px;
        box-shadow: ${props.showBoxShadow ? `0 2px ${app.canvasStyles.shadowSize}px -1px rgba(0, 0, 0, .4)` : 'none'};
        overflow: hidden;
        min-width: ${props.imageData ? '400px' : 'none'};
-       transform: ${app.imageData ? transform : ''};
+       transform: ${app.imageData ? app.cssTransformString : ''};
     
       .hide {
         display: none !important;
@@ -130,7 +123,7 @@ export const styles = (props: ICanvasProps): string => {
       }
     
       .browser-controls {
-        height: ${determineWidth(styleVars.chromeHeight)}px;
+        height: ${app.adjustMeasurementForDownload(styleVars.chromeHeight)}px;
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -139,16 +132,16 @@ export const styles = (props: ICanvasProps): string => {
       }
     
       .window-controls {
-        flex: 0 0 ${determineWidth(60)}px;
+        flex: 0 0 ${app.adjustMeasurementForDownload(60)}px;
         margin: 0 2%;
         display: flex;
     
         span {
           display: inline-flex;
-          width: ${determineWidth(15)}px;
-          height: ${determineWidth(15)}px;
+          width: ${app.adjustMeasurementForDownload(15)}px;
+          height: ${app.adjustMeasurementForDownload(15)}px;
           border-radius: 50px;
-          margin-right: ${determineWidth(9)}px;
+          margin-right: ${app.adjustMeasurementForDownload(9)}px;
           &.close {
             background: ${styleVars.closeButtonColor};
             opacity: 1;
@@ -165,13 +158,13 @@ export const styles = (props: ICanvasProps): string => {
       }
     
       .page-controls {
-        flex: 0 0 ${determineWidth(70)}px;
+        flex: 0 0 ${app.adjustMeasurementForDownload(70)}px;
         margin-left: 2%;
-        height: ${determineWidth(styleVars.controlsHeight)}px;
+        height: ${app.adjustMeasurementForDownload(styleVars.controlsHeight)}px;
     
         span {
           display: inline-block;
-          width: ${determineWidth(30)}px;
+          width: ${app.adjustMeasurementForDownload(30)}px;
           text-align: center;
           
           &.back {
@@ -186,9 +179,9 @@ export const styles = (props: ICanvasProps): string => {
         margin-right: 2%;
         font-family: monospace;
         overflow: hidden;
-        height: ${determineWidth(styleVars.controlsHeight)}px;
-        line-height: ${determineWidth(styleVars.controlsHeight)}px;
-        font-size: ${determineWidth(1)}em;
+        height: ${app.adjustMeasurementForDownload(styleVars.controlsHeight)}px;
+        line-height: ${app.adjustMeasurementForDownload(styleVars.controlsHeight)}px;
+        font-size: ${app.adjustMeasurementForDownload(1)}em;
         
         .urlInput {
           border: none;
@@ -203,7 +196,7 @@ export const styles = (props: ICanvasProps): string => {
         .lock {
           height: 100%;
           display: flex;
-          margin: 0 ${determineWidth(5)}px;
+          margin: 0 ${app.adjustMeasurementForDownload(5)}px;
         }
         
         .url-text {
@@ -215,7 +208,7 @@ export const styles = (props: ICanvasProps): string => {
     
       .settings {
         display: flex;
-        width: ${determineWidth(styleVars.controlsHeight)}px;
+        width: ${app.adjustMeasurementForDownload(styleVars.controlsHeight)}px;
         text-align: center;
       }
     
@@ -223,9 +216,9 @@ export const styles = (props: ICanvasProps): string => {
         display: flex;
         background-color: ${styleVars.browserControlsBgColor};
         align-items: center;
-        height: ${determineWidth(styleVars.controlsHeight)}px;
+        height: ${app.adjustMeasurementForDownload(styleVars.controlsHeight)}px;
         border-radius: ${styleVars.controlsBorderRadius}px;
-        font-size: ${determineWidth(1)}em;
+        font-size: ${app.adjustMeasurementForDownload(1)}em;
         
         :last-of-type {
           margin-right: 2%;
