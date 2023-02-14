@@ -101,7 +101,7 @@ export let app = store({
 
     // helper function which increases an element's width while in download mode
     adjustMeasurementForDownload(measurement: number): number {
-        const multiplier = FrameType.Phone ? 3 : 2;
+        const multiplier = app.frameType === FrameType.Phone ? 3 : 2;
         return app.isDownloadMode ? measurement * multiplier : measurement;
     },
 
