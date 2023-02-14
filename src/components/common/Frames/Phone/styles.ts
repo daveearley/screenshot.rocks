@@ -21,14 +21,8 @@ export const phoneThemeStyles = {
 
 export const styles = (props: ICanvasProps): string => {
     const styleVars = props.styles as IPhoneStyles;
-
-    // If we are downloading the image we double the widths etc. so the exported image doesn't look stretched
-    const determineWidth = (measurement: number): number => {
-        return props.isDownloadMode ? measurement * 3 : measurement;
-    }
-    const transform = `scale(${app.isDownloadMode ? (app.canvasStyles.size/100)*.99 : app.canvasStyles.size/100}) perspective(${determineWidth(800)}px) rotateX(${app.canvasStyles.rotateX}deg) rotateY(${app.canvasStyles.rotateY}deg)`;
     return css`
-       border-radius: ${determineWidth(10)}px;
+       border-radius: ${app.adjustMeasurementForDownload(10)}px;
        max-width: ${props.isDownloadMode ? 'none' : '300px'};
        min-width: 200px;
        position: relative;
@@ -36,42 +30,42 @@ export const styles = (props: ICanvasProps): string => {
        vertical-align: middle;
        justify-content: center;
        box-shadow: ${props.showBoxShadow ? `0 2px ${app.canvasStyles.shadowSize}px -1px rgba(0, 0, 0, .4)` : 'none'};
-       transform: ${app.imageData ? transform : ''};
+       transform: ${app.imageData ? app.cssTransformString : ''};
 
 
       .bezel {
         background-color: ${lighten(0.2, styleVars.frameColor)};
-        border-radius: ${determineWidth(5)}px;
+        border-radius: ${app.adjustMeasurementForDownload(5)}px;
         position: relative;
         box-shadow: 
-          0px 0px 0px ${determineWidth(6)}px ${lighten(0.2, styleVars.frameColor)},
-          0px 0px 0px ${determineWidth(8)}px ${lighten(0.15, styleVars.frameColor)},
-          0px 0px 0px ${determineWidth(9)}px ${lighten(0.1, styleVars.frameColor)};
+          0px 0px 0px ${app.adjustMeasurementForDownload(6)}px ${lighten(0.2, styleVars.frameColor)},
+          0px 0px 0px ${app.adjustMeasurementForDownload(8)}px ${lighten(0.15, styleVars.frameColor)},
+          0px 0px 0px ${app.adjustMeasurementForDownload(9)}px ${lighten(0.1, styleVars.frameColor)};
           
         .volume-buttons {      
-          width: ${determineWidth(3)}px;
-          height: ${determineWidth(100)}px;
+          width: ${app.adjustMeasurementForDownload(3)}px;
+          height: ${app.adjustMeasurementForDownload(100)}px;
           display: flex;
           flex-direction: column;
           margin-top: 25%;
           position: absolute;
-          left: -${determineWidth(11)}px;
+          left: -${app.adjustMeasurementForDownload(11)}px;
           
           div {
-            height: ${determineWidth(48)}px;
+            height: ${app.adjustMeasurementForDownload(48)}px;
             background-color: ${lighten(0.2, styleVars.frameColor)};
-            width: ${determineWidth(2)}px;
-            border-radius: ${determineWidth(2)}px 0 0 ${determineWidth(2)}px;
+            width: ${app.adjustMeasurementForDownload(2)}px;
+            border-radius: ${app.adjustMeasurementForDownload(2)}px 0 0 ${app.adjustMeasurementForDownload(2)}px;
           }
           
           div:first-of-type {
-            margin-bottom: ${determineWidth(4)}px;
+            margin-bottom: ${app.adjustMeasurementForDownload(4)}px;
           }
         }
           
         .top {
-            top: -${determineWidth(4)}px;
-            height: ${determineWidth(10)}px;
+            top: -${app.adjustMeasurementForDownload(4)}px;
+            height: ${app.adjustMeasurementForDownload(10)}px;
             background: transparent;
             position: relative;
             display: flex;
@@ -84,14 +78,14 @@ export const styles = (props: ICanvasProps): string => {
              display: flex;
              justify-content: center;
              align-items: center;
-             top: ${determineWidth(1)}px;
+             top: ${app.adjustMeasurementForDownload(1)}px;
              position: relative;
              
              .camera {
-                width: ${determineWidth(12)}px;
-                height: ${determineWidth(12)}px;
+                width: ${app.adjustMeasurementForDownload(12)}px;
+                height: ${app.adjustMeasurementForDownload(12)}px;
                 background-color: #101010;
-                border-radius: ${determineWidth(12)}px;
+                border-radius: ${app.adjustMeasurementForDownload(12)}px;
                 box-shadow: inset 0px -3px 2px 0px rgba(256, 256, 256, 0.2);
                 position: relative;
                 display: block;
@@ -100,20 +94,20 @@ export const styles = (props: ICanvasProps): string => {
                       content: '';
                       position: absolute;
                       background-color: #2d4d76;
-                      width: ${determineWidth(6)}px;
-                      height: ${determineWidth(6)}px;
-                      top: ${determineWidth(3)}px;;
-                      left: ${determineWidth(3)}px;
+                      width: ${app.adjustMeasurementForDownload(6)}px;
+                      height: ${app.adjustMeasurementForDownload(6)}px;
+                      top: ${app.adjustMeasurementForDownload(3)}px;;
+                      left: ${app.adjustMeasurementForDownload(3)}px;
                       display: block;
-                      border-radius: ${determineWidth(4)}px;
+                      border-radius: ${app.adjustMeasurementForDownload(4)}px;
                       box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.5);
                     }
              }
             .speaker {
                 width: 15%;
-                height: ${determineWidth(4)}px;
+                height: ${app.adjustMeasurementForDownload(4)}px;
                 background-color: #101010;
-                border-radius: ${determineWidth(8)}px;
+                border-radius: ${app.adjustMeasurementForDownload(8)}px;
                 box-shadow: inset 0px -3px 3px 0px rgba(256, 256, 256, 0.2);
                 position: relative;
                 display: block;
@@ -131,7 +125,7 @@ export const styles = (props: ICanvasProps): string => {
       img {
         max-width: 100%;
         min-width: 100%;
-        border-radius: ${determineWidth(5)}px;
+        border-radius: ${app.adjustMeasurementForDownload(5)}px;
       }
 `
 };
