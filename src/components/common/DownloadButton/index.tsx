@@ -25,7 +25,7 @@ export const DownloadButtons = view(() => {
         }
     };
 
-    const handlePostDownload =  () => {
+    const handlePostDownload = () => {
         app.isDownloadMode = false;
         app.hasDownloaded = true;
         localStorage.setItem('hasDownloaded', 'true');
@@ -68,13 +68,13 @@ export const DownloadButtons = view(() => {
                                              className="btn btn-success w-100 btn-s mt-2 mb-2">
                 {app.isDownloadMode ? 'Copying...' : `Copy to Clipboard`}
                 <br/>
-                    <span className={css`font-size: .7em;`}>Can be pasted in Twitter, GitHub etc.</span>
+                <span className={css`font-size: .7em;`}>Can be pasted in Twitter, GitHub etc.</span>
             </button>}
             {app.imageData &&
-            <button
-                className="btn btn-m btn-link text-white w-100"
-                onClick={() => app.imageData = null}>or Choose a new image
-            </button>}
+                <button
+                    className="btn btn-m btn-link text-white w-100"
+                    onClick={() => app.imageData = null}>or Choose a new image
+                </button>}
         </>
     );
 });
