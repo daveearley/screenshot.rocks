@@ -26,7 +26,7 @@ export const styles = (props: ICanvasProps): string => {
     const determineWidth = (measurement: number): number => {
         return props.isDownloadMode ? measurement * 3 : measurement;
     }
-
+    const transform = `scale(${app.isDownloadMode ? (app.canvasStyles.size/100)*.99 : app.canvasStyles.size/100}) perspective(${determineWidth(800)}px) rotateX(${app.canvasStyles.rotateX}deg) rotateY(${app.canvasStyles.rotateY}deg)`;
     return css`
        border-radius: ${determineWidth(10)}px;
        max-width: ${props.isDownloadMode ? 'none' : '300px'};
@@ -36,8 +36,10 @@ export const styles = (props: ICanvasProps): string => {
        vertical-align: middle;
        justify-content: center;
        box-shadow: ${props.showBoxShadow ? `0 2px ${app.canvasStyles.shadowSize}px -1px rgba(0, 0, 0, .4)` : 'none'};
-      
-       .bezel {
+       transform: ${app.imageData ? transform : ''};
+
+
+      .bezel {
         background-color: ${lighten(0.2, styleVars.frameColor)};
         border-radius: ${determineWidth(5)}px;
         position: relative;

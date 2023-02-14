@@ -9,7 +9,7 @@ export const styles = (bgColor: string) => {
         }
 
         a.style-preview {
-            flex: 0 105px;
+            flex: 0 120px;
             position: relative;
             overflow: hidden;
             height: 30px;

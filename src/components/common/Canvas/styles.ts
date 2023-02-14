@@ -13,6 +13,7 @@ export const styles = (props: ICanvasProps): string => {
     const getDownloadCanvasWidth = (): number => {
         switch (app.frameType) {
             case FrameType.Browser:
+            case FrameType.None:
                 return 2300;
             case FrameType.Phone:
                 return 1200;
@@ -22,17 +23,21 @@ export const styles = (props: ICanvasProps): string => {
     return css`
       position: sticky;
       top: 0;
+
       .rotate-alert {
         padding: 20px;
         text-align: center;
         color: #ffffff;
+
         a {
           color: #fe79ed;
+
           &:hover {
             color: ${darken(.1, '#fe79ed')};
           }
         }
       }
+
       .canvas {
         width: ${props.isDownloadMode ? `${getDownloadCanvasWidth()}px` : 'auto'};
         background: ${props.canvasBgColor};
@@ -45,6 +50,7 @@ export const styles = (props: ICanvasProps): string => {
         transform: scale(${props.isDownloadMode ? `1` : '.8'}) ${props.isAutoRotateActive ? ' rotate(270deg)' : ''};
         transform-origin: center;
         background-size: ${props.canvasBgType !== CanvasBackgroundTypes.None ? 'cover' : ''};
+        overflow: hidden;
       }
-`
+    `
 };

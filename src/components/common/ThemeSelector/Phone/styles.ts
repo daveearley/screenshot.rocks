@@ -10,7 +10,7 @@ export const styles = (bgColor: string) => {
           justify-content: space-between;
           
           a {
-            flex: 0 105px;
+            flex: 0 120px;
             position: relative;
             overflow: hidden;
             height: 65px;
@@ -20,7 +20,7 @@ export const styles = (bgColor: string) => {
             margin-bottom: 8px;     
             > div {
               transform: scale(.35);
-              transform-origin: 25px 18px;
+              transform-origin: 35px 18px;
               position: absolute;
             }
           }

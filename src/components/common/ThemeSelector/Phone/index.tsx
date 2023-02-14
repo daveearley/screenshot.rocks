@@ -38,6 +38,7 @@ export const PhoneThemeSelector = view(() => {
                                 showBoxShadow={phoneStore.settings.showShadow}
                                 imageData={app.imageData}
                                 isAutoRotateActive={app.isAutoRotateActive}
+                                borderRadius={app.canvasStyles.borderRadius}
                             />
                         </a>
                     )
@@ -46,14 +47,14 @@ export const PhoneThemeSelector = view(() => {
             <div className={`custom-theme-settings ${phoneStore.settings.activeTheme !== PhoneThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(phoneStyleMap).map(browserStyle => {
                     return <div className="row" key={browserStyle}>
+                        <div className="col-9">
+                            <span>{(phoneStyleMap as any)[browserStyle]}</span>
+                        </div>
                         <div className="col-3">
                             <ColorPicker
                                 initialColor={(phoneStore.styles as any)[browserStyle]}
                                 onColorChange={(color => (phoneStore.styles as any)[browserStyle] = rgba2hexa(color))}
                             />
-                        </div>
-                        <div className="col-9">
-                            <span>{(phoneStyleMap as any)[browserStyle]}</span>
                         </div>
                     </div>
                 })}

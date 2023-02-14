@@ -5,7 +5,7 @@ export const styles = (currentRoute?: Routes): string => {
     return css`
           width: 100%;
           background-color: #ffffff;
-          padding: 50px 30px;
+          padding: 50px 30px 50px 30px;
           min-height: ${currentRoute === Routes.App ? '40vh' : 'auto'};
           text-align: center;
           font-size: 1.2em;
@@ -67,6 +67,21 @@ export const styles = (currentRoute?: Routes): string => {
         
           &.dragActive {
             background-color: #fff;
+          }
+      
+          .demo-image {
+            margin-top: 10px;
+            
+            button {
+              padding: 0;
+              margin: 0;
+              color: #534473;
+              text-decoration: none;
+              
+              :hover {
+                text-shadow: 0 1px 15px #53447387
+              }
+            }
           }
 `
 };

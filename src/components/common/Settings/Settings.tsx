@@ -7,11 +7,11 @@ import {phoneStore} from "../../../stores/phoneStore";
 import {noFrameStore} from "../../../stores/noFrameStore";
 
 const browserSettings = {
-    showWindowControls: 'Window Controls',
-    showAddressBar: 'URL Bar',
-    showAddressBarUrl: 'URL Text',
-    showNavigationButtons: 'Nav Buttons',
-    showSettingsButton: 'Settings Button',
+    showWindowControls: 'Show Window Controls',
+    showAddressBar: 'Show URL Bar',
+    showAddressBarUrl: 'Show URL Text',
+    showNavigationButtons: 'Show Nav Buttons',
+    showSettingsButton: 'Show Settings Button',
     showBoxShadow: 'Show Shadow',
 }
 
@@ -48,15 +48,15 @@ interface settingToggleProps {
 const SettingToggle = ({onChange, checked, id, label}: settingToggleProps) => {
     return (
         <div className="form-check form-switch">
+            <label className="form-check-label" htmlFor={id}>
+                {label}
+            </label>
             <input
                 onChange={onChange}
                 checked={checked}
                 className="form-check-input"
                 type="checkbox"
                 id={id}/>
-            <label className="form-check-label" htmlFor={id}>
-                {label}
-            </label>
         </div>
     );
 }

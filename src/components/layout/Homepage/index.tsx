@@ -51,6 +51,7 @@ export const Homepage = view(() => {
                             showBoxShadow={browserStore.settings.showBoxShadow}
                             hideAddressBarOverride={true}
                             isAutoRotateActive={false}
+                            borderRadius={10}
                         />
                     </div>
                 </section>

@@ -101,11 +101,14 @@ export const styles = (props: ICanvasProps): string => {
         return props.isDownloadMode ? measurement * 2 : measurement;
     }
 
+    const transform = `scale(${app.isDownloadMode ? (app.canvasStyles.size/100)*.99 : app.canvasStyles.size/100}) perspective(${determineWidth(800)}px) rotateX(${app.canvasStyles.rotateX}deg) rotateY(${app.canvasStyles.rotateY}deg)`;
+
     return css`
-       border-radius: ${styleVars.browserBorderRadius}px;
+       border-radius: ${props.borderRadius}px;
        box-shadow: ${props.showBoxShadow ? `0 2px ${app.canvasStyles.shadowSize}px -1px rgba(0, 0, 0, .4)` : 'none'};
        overflow: hidden;
        min-width: ${props.imageData ? '400px' : 'none'};
+       transform: ${app.imageData ? transform : ''};
     
       .hide {
         display: none !important;
