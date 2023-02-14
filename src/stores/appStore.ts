@@ -14,6 +14,17 @@ export const bgImages = [
 
 export const defaultCanvasBgColor = '#a090c1';
 
+export const defaultResettableCanvasStyles = {
+    verticalPadding: 60,
+    horizontalPadding: 80,
+    gradientAngle: 45,
+    shadowSize: 4,
+    rotateX: 0,
+    rotateY: 0,
+    borderRadius: 10,
+    size: 100,
+}
+
 export interface ICanvasStyles {
     bgColor: string;
     bgImage?: string;
@@ -24,6 +35,10 @@ export interface ICanvasStyles {
     gradientColorTwo: string;
     gradientAngle: number;
     shadowSize: number;
+    rotateX: number;
+    rotateY: number;
+    borderRadius: number;
+    size: number;
 }
 
 export interface IStore {
@@ -83,15 +98,13 @@ export let app = store({
     },
 
     canvasStyles: {
-        bgColor: defaultCanvasBgColor,
-        bgImage: '/images/backgrounds/1.jpg',
-        verticalPadding: 60,
-        horizontalPadding: 80,
-        backgroundType: CanvasBackgroundTypes.Image,
-        gradientColorOne: '#7e349c',
-        gradientColorTwo: '#968bbd',
-        gradientAngle: 45,
-        shadowSize: 4,
+        ...defaultResettableCanvasStyles, ...{
+            bgColor: defaultCanvasBgColor,
+            bgImage: '/images/backgrounds/1.jpg',
+            backgroundType: CanvasBackgroundTypes.Image,
+            gradientColorOne: '#7e349c',
+            gradientColorTwo: '#968bbd',
+        }
     },
 } as IStore);
 

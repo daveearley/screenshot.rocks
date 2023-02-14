@@ -24,6 +24,7 @@ export interface ICanvasProps {
     showBoxShadow: boolean;
     frameType?: FrameType;
     hideAddressBarOverride?: boolean;
+    borderRadius: number;
 }
 
 export const Canvas = view((props: ICanvasProps) => {

@@ -44,6 +44,7 @@ export const BrowserThemeSelector = view(() => {
                                           isDownloadMode={false}
                                           showBoxShadow={browserStore.settings.showBoxShadow}
                                           isAutoRotateActive={false}
+                                          borderRadius={app.canvasStyles.borderRadius}
                             />
                         </a>
                     )
@@ -53,14 +54,14 @@ export const BrowserThemeSelector = view(() => {
                 className={`custom-theme-settings ${browserStore.settings.activeTheme !== BrowserThemes.Custom ? 'd-none' : ''}`}>
                 {Object.keys(browserStyleMap).map(browserStyle => {
                     return <div className="row" key={browserStyle}>
+                        <div className="col-9">
+                            <span>{(browserStyleMap as any)[browserStyle]}</span>
+                        </div>
                         <div className="col-3">
                             <ColorPicker
                                 initialColor={(browserStore.styles as any)[browserStyle]}
                                 onColorChange={(color => (browserStore.styles as any)[browserStyle] = rgba2hexa(color))}
                             />
-                        </div>
-                        <div className="col-9">
-                            <span>{(browserStyleMap as any)[browserStyle]}</span>
                         </div>
                     </div>
                 })}

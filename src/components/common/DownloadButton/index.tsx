@@ -70,7 +70,7 @@ export const DownloadButtons = view(() => {
             </button>}
             {app.imageData &&
             <button
-                className="btn btn-sm btn-link text-white w-100"
+                className="btn btn-m btn-link text-white w-100"
                 onClick={() => routeStore.goToRoute(Routes.Home)}>or start over
             </button>}
         </>

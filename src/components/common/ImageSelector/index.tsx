@@ -5,6 +5,7 @@ import {useDropzone} from "react-dropzone";
 import {styles} from "./styles";
 import {validURL} from "../../../utils/url";
 import {routeStore} from "../../../stores/routeStore";
+import {loadImageFromImageUrl} from "../../../utils/image";
 
 export const ImageSelector = view(() => {
     const existingUrl = () => {
@@ -61,6 +62,12 @@ export const ImageSelector = view(() => {
         setUrlValue(e.target.value);
     }
 
+    const handleDemoImage = () => {
+         loadImageFromImageUrl('/images/demo-image.png').then((img) => {
+             app.setImageData(img as string);
+         })
+    };
+
     return (
         <div className={`${styles(routeStore.currentRoute)} ${isDragActive ? ' dragActive' : ''}`}>
             <div {...getRootProps()}>
@@ -103,6 +110,9 @@ export const ImageSelector = view(() => {
                     {urlIsInvalid && 'Whoops! Looks like you entered an invalid URL.'}
                     {requestFailed && 'Something has gone wrong. Please check your URL is valid and try again.'}
                 </div>
+            </div>
+            <div className="demo-image">
+                or <button className="btn btn-link" onClick={handleDemoImage}>Try a demo image <span aria-label="try demo image emoji" role="img">🤟</span></button>
             </div>
         </div>
     );

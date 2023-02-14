@@ -5,7 +5,7 @@ export const styles = () => {
           display: grid;
           grid-template-areas: 
                          "sidebar main-content";
-          grid-template-columns: 275px auto;
+          grid-template-columns: 310px auto;
           height: 100vh;
 
           .navbar {
@@ -51,6 +51,8 @@ export const styles = () => {
               h3 {
                 font-size: 1.2em;
                 color: #ff79ee;
+                text-align: center;
+                margin-bottom: .7em;
               }
               
               .section-wrap {
@@ -79,7 +81,8 @@ export const styles = () => {
                     background-size: 40%;
                     background-repeat: no-repeat;
                     background-position: center;
-
+                    cursor: pointer;
+                   
                     input[type="file"] {
                       position: absolute;
                       top: 0;

@@ -60,15 +60,15 @@ export const App = view(() => {
                         <ThemeSelector/>
                     </div>
                     <div className={'section-wrap'}>
-                        <h3>Canvas</h3>
+                        <h3>Canvas Settings</h3>
                         <CanvasSettings/>
                     </div>
                     <div className={'section-wrap'}>
-                        <h3>Background</h3>
+                        <h3>Background Settings</h3>
                         <BackgroundSettings/>
                     </div>
                     <div className={'section-wrap'}>
-                        <h3>Settings</h3>
+                        <h3>General Settings</h3>
                         <Settings/>
                     </div>
                     <RatingPromptBox/>
@@ -85,6 +85,7 @@ export const App = view(() => {
                     canvasVerticalPadding={app.canvasStyles.verticalPadding}
                     canvasHorizontalPadding={app.canvasStyles.horizontalPadding}
                     styles={(frameToStyleMap as any)[app.frameType]}
+                    borderRadius={app.canvasStyles.borderRadius}
                     isDownloadMode={app.isDownloadMode}
                     showBoxShadow={(frameToShadow as any)[app.frameType]}
                     frameType={app.frameType}
