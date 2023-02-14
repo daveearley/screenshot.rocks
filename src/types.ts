@@ -21,4 +21,5 @@ export enum Browsers {
     Edge,
     Chrome,
     Firefox,
+    Safari,
 }
