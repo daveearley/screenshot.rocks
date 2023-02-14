@@ -30,7 +30,7 @@ export const ImageSelector = view(() => {
         }
     }, [])
 
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,  accept: ['.jpeg', '.png']})
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,  accept: ['.jpeg', '.png', '.jpg']})
 
     const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
