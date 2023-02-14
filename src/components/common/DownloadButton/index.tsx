@@ -13,7 +13,7 @@ export const DownloadButtons = view(() => {
     const canCopyToClipboard = () => {
         // Copying images to clipboard is currently not supported in firefox
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1560373
-        if (browser === Browsers.Firefox) {
+        if (browser === Browsers.Firefox || browser === Browsers.Safari) {
             return false;
         }
         try {

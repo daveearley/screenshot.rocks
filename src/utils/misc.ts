@@ -14,6 +14,10 @@ export const getBrowserType = (): Browsers | null => {
         return Browsers.Chrome;
     }
 
+    if (userAgent.includes('Safari')) {
+        return Browsers.Safari;
+    }
+
     return null;
 }
 
