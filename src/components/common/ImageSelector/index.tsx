@@ -6,6 +6,7 @@ import {styles} from "./styles";
 import {validURL} from "../../../utils/url";
 import {routeStore} from "../../../stores/routeStore";
 import {loadImageFromImageUrl} from "../../../utils/image";
+import {browserStore} from "../../../stores/browserStore";
 
 export const ImageSelector = view(() => {
     const existingUrl = () => {
@@ -66,7 +67,10 @@ export const ImageSelector = view(() => {
                 setUrlLoading(false);
                 setRequestFailed(true);
             })
-            .finally(() => setUrlLoading(false));
+            .finally(() => {
+                setUrlLoading(false);
+                browserStore.settings.addressBarUrl = url.replace(/https?:\/\//, '')
+            });
     }
 
     const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
