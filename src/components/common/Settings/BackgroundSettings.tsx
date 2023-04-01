@@ -78,7 +78,7 @@ export const BackgroundSettings = view(() => {
                                 className="form-range"
                                 min="0"
                                 max="360"
-                                id="horizontalPadding"
+                                id="horizontalPosition"
                             />
                         </div>
                     </div>

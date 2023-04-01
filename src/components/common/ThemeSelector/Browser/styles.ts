@@ -9,7 +9,7 @@ export const styles = (bgColor: string) => {
         }
 
         a.style-preview {
-            flex: 0 120px;
+            flex: 0 130px;
             position: relative;
             overflow: hidden;
             height: 30px;
@@ -20,9 +20,9 @@ export const styles = (bgColor: string) => {
            
              > div {
                 position: absolute;
-                left: 5px;
+                left: 15px;
                 top: 8px;
-                transform: scale(.5);
+                transform: scale(.3);
                 width: 440px;
                 margin: 0 auto;
                 transform-origin: 0 0;

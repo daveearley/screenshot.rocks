@@ -42,7 +42,6 @@ export const BrowserThemeSelector = view(() => {
                                           canvasBgType={app.canvasStyles.backgroundType}
                                           styles={(browserThemes as any)[theme]}
                                           isDownloadMode={false}
-                                          showBoxShadow={browserStore.settings.showBoxShadow}
                                           isAutoRotateActive={false}
                                           borderRadius={app.canvasStyles.borderRadius}
                             />

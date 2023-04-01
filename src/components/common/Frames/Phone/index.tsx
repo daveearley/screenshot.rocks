@@ -2,31 +2,28 @@ import React from "react";
 import {ICanvasProps} from "../../Canvas";
 import {view} from "@risingstack/react-easy-state";
 import {styles} from "./styles";
-import {phoneStore} from "../../../../stores/phoneStore";
-import {ImageSelector} from "../../ImageSelector";
+import "../../../../css/devices.css";
+import {deviceIdMap, phoneStore} from "../../../../stores/phoneStore";
+import {app} from "../../../../stores/appStore";
 
 export const PhoneFrame = view((props: ICanvasProps) => {
+    const colourVariant = phoneStore.getColourVariant() ? `device-${phoneStore.getColourVariant()}` : '';
     return (
         <div className={styles(props)}>
-            <div className="bezel">
-                {phoneStore.settings.showVolumeRocker &&
-                <div className="volume-buttons">
-                    <div/>
-                    <div/>
+            <div className={`device ${colourVariant} device-${deviceIdMap[phoneStore.activeTheme]}`}>
+                <div className="device-frame">
+                    <img className="device-screen"
+                         src={app.croppedImageData || props.imageData}
+                         loading="lazy"
+                         alt="Mobile mockup"
+                    />
                 </div>
-                }
-                <div className="power-button"/>
-                <div className="top">
-                    <div className="inner-top">
-                        {phoneStore.settings.showSpeaker && <div className="speaker"/>}
-                        {phoneStore.settings.showCamera && <div className="camera"/>}
-                    </div>
-                </div>
-                {props.imageData
-                    ? <img id="screenshot"
-                           src={props.imageData}
-                           alt="Screenshot.rocks browser mockup"/>
-                    : <ImageSelector/>}
+                <div className="device-stripe"/>
+                <div className="device-header"/>
+                <div className="device-sensors"/>
+                <div className="device-btns"/>
+                <div className="device-power"/>
+                <div className="device-home"/>
             </div>
         </div>
     );

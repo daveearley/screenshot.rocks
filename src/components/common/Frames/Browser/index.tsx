@@ -3,20 +3,11 @@ import {FiLock} from "react-icons/all";
 import React, {FormEvent} from "react";
 import {ICanvasProps} from "../../Canvas";
 import {styles} from "./styles";
-import {ImageSelector} from "../../ImageSelector";
 import {view} from "@risingstack/react-easy-state";
 import {browserStore} from "../../../../stores/browserStore";
+import {app} from "../../../../stores/appStore";
 
 export const BrowserFrame = view((props: ICanvasProps) => {
-    let browserContent;
-    if (!props.showControlsOnly) {
-        browserContent = props.imageData
-            ? <img id="screenshot"
-                   src={props.imageData}
-                   alt="Screenshot.rocks browser mockup"/>
-            : <ImageSelector/>
-    }
-
     return (
         <div className={styles(props)}>
             <div className="browser-controls">
@@ -33,7 +24,8 @@ export const BrowserFrame = view((props: ICanvasProps) => {
                         <IoIosArrowForward/>
                     </span>
                 </div>
-                <span className={`url-bar browser-container ${!browserStore.settings.showAddressBar || props.hideAddressBarOverride ? 'hide' : ''}`}>
+                <span
+                    className={`url-bar browser-container ${!browserStore.settings.showAddressBar || props.hideAddressBarOverride ? 'hide' : ''}`}>
                     <span className="lock">
                         <FiLock/>
                     </span>
@@ -45,7 +37,9 @@ export const BrowserFrame = view((props: ICanvasProps) => {
                             className="urlInput"
                             value={browserStore.settings.addressBarUrl}
                             type="text"
-                            onInput={(e:FormEvent<HTMLInputElement>) => {browserStore.settings.addressBarUrl = e.currentTarget.value}}>
+                            onChange={(e: FormEvent<HTMLInputElement>) => {
+                                browserStore.settings.addressBarUrl = e.currentTarget.value
+                            }}>
                         </input>
                     </div>
                     </span>
@@ -56,7 +50,9 @@ export const BrowserFrame = view((props: ICanvasProps) => {
                 </span>
             </div>
             <div className="content-wrap">
-                {browserContent}
+                <div id="screenshot-wrap">
+                    {!props.showControlsOnly && <img alt={'Screenshot'} id="screenshot" src={app.croppedImageData || app.imageData}/>}
+                </div>
             </div>
         </div>
     );
