@@ -9,7 +9,7 @@ import {app} from "../../../../stores/appStore";
 export const PhoneFrame = view((props: ICanvasProps) => {
     const colourVariant = phoneStore.getColourVariant() ? `device-${phoneStore.getColourVariant()}` : '';
     return (
-        <div className={styles(props)}>
+        <div className={styles()}>
             <div className={`device ${colourVariant} device-${deviceIdMap[phoneStore.activeTheme]}`}>
                 <div className="device-frame">
                     <img className="device-screen"
