@@ -67,7 +67,7 @@ export const App = view(() => {
                     <div className="share-this">
                         {showSharePrompt && (
                             <div className={'share-prompt'}>
-                                Find this app useful? Please Share 👆
+                                Find this app useful? Please Share&nbsp;&nbsp; 👉
                             </div>
                         )}
                         <ShareButtons/>

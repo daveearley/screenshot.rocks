@@ -31,22 +31,20 @@ export const styles = () => {
           display: flex;
           color: #ffffff;
           position: relative;
-          
+
           .share-prompt {
-            position: absolute;
-            background-color: white;
-            color: #524573;
-            padding: 10px 5px;
+            background-color: #2114406b;
+            color: #ffffff;
+            padding: 2px 10px;
             border-radius: 5px;
-            top: 40px;
-            right: 30px;
-            width: 300px;
             text-align: center;
           }
-          
+
           svg {
-            width: 20px; !important;
-            height: 20px; !important;
+            width: 20px;
+          !important;
+            height: 20px;
+          !important;
           }
         }
       }
