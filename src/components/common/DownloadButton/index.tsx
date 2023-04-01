@@ -26,9 +26,11 @@ export const DownloadButtons = view(() => {
     };
 
     const handlePostDownload = () => {
-        app.isDownloadMode = false;
-        app.hasDownloaded = true;
-        localStorage.setItem('hasDownloaded', 'true');
+        setTimeout(function () {
+            app.isDownloadMode = false;
+            app.hasDownloaded = true;
+            localStorage.setItem('hasDownloaded', 'true');
+        }, 500);
     };
 
     const handleImageDownload = () => {
@@ -70,11 +72,6 @@ export const DownloadButtons = view(() => {
                 <br/>
                 <span className={css`font-size: .7em;`}>Can be pasted in Twitter, GitHub etc.</span>
             </button>}
-            {app.imageData &&
-                <button
-                    className="btn btn-m btn-link text-white w-100"
-                    onClick={() => app.imageData = null}>or Choose a new image
-                </button>}
         </>
     );
 });

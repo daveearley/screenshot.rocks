@@ -95,13 +95,15 @@ export const browserThemes = {
 
 export const styles = (props: ICanvasProps): string => {
     const styleVars = props.styles as IBrowserStyles;
+    const translateString = props.showControlsOnly ? '' : `${app.canvasStyles.horizontalPosition}% ${app.canvasStyles.verticalPosition}%`;
 
     return css`
        border-radius: ${props.borderRadius}px;
-       box-shadow: ${props.showBoxShadow ? `0 2px ${app.canvasStyles.shadowSize}px -1px rgba(0, 0, 0, .4)` : 'none'};
+       box-shadow: 0 2px ${app.canvasStyles.shadowSize}px -1px rgba(0, 0, 0, .4);
        overflow: hidden;
        min-width: ${props.imageData ? '400px' : 'none'};
        transform: ${app.imageData ? app.cssTransformString : ''};
+       translate: ${translateString};
     
       .hide {
         display: none !important;
@@ -227,6 +229,10 @@ export const styles = (props: ICanvasProps): string => {
       
       .content-wrap {
         background-color: #ffffff;
+      }
+      
+      #screenshot-wrap {
+        overflow: hidden;
       }
 `
 };

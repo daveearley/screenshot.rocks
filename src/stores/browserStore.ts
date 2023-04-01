@@ -27,7 +27,6 @@ export interface IBrowserSettings {
     showNavigationButtons: boolean;
     showSettingsButton: boolean;
     reduceImageQualityOnUpload: boolean;
-    showBoxShadow: boolean;
 }
 
 export interface IBrowserStore {
@@ -78,7 +77,6 @@ export let browserStore = store({
         addressBarUrl: 'edit-me.com',
         showNavigationButtons: true,
         showSettingsButton: true,
-        showBoxShadow: true
     }
 } as IBrowserStore);
 

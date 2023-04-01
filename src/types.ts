@@ -4,10 +4,12 @@ export enum ImageFormats {
     SVG = 'svg',
 }
 
-export enum FrameType {
+export enum ScreenshotType {
     Browser = 'Browser',
-    Phone = 'Phone',
+    Device = 'Device',
     None = 'None',
+    Twitter = 'Twitter',
+    Code = 'Code'
 }
 
 export enum CanvasBackgroundTypes {
@@ -22,4 +24,10 @@ export enum Browsers {
     Chrome,
     Firefox,
     Safari,
+}
+
+export enum SocialProviders {
+    Facebook,
+    Twitter,
+    WhatsApp,
 }

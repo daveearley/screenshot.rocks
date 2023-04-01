@@ -1,4 +1,4 @@
-import {Browsers} from "../types";
+import {Browsers, SocialProviders} from "../types";
 
 export const getBrowserType = (): Browsers | null => {
     const userAgent = window.navigator.userAgent;
@@ -43,6 +43,10 @@ export const getBrowserExtensionInfo = () => {
     }
 
     return (availableExtension as any)[browser];
+}
+
+export const clamp = (number: number, min: number, max: number): number => {
+    return Math.max(min, Math.min(number, max));
 }
 
 export const equals = (thing1: any, thing2: any): boolean => (thing1 === thing2);

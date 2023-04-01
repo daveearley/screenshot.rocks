@@ -2,18 +2,11 @@ import {view} from "@risingstack/react-easy-state";
 import React, {useEffect} from "react";
 import {Logo, LogoStyle} from "../../common/Logo";
 import {styles} from "./styles";
-import {BrowserThemes, browserThemes} from "../../common/Frames/Browser/styles";
-import {BrowserFrame} from "../../common/Frames/Browser";
-import {FaGithub, FaWhatsapp, GiShamrock, RiFacebookCircleLine, RiTwitterLine} from "react-icons/all";
+import {FaGithub, GiShamrock} from "react-icons/all";
 import {checkForImageFromLocalstorageUrlOrPaste} from "../../../utils/image";
-import {browserStore} from "../../../stores/browserStore";
 import {BrowserExtensionBanner} from "../../common/BrowserExtensionBanner";
-
-enum SocialProviders {
-    Facebook,
-    Twitter,
-    WhatsApp,
-}
+import {ImageSelector} from "../../common/ImageSelector";
+import {ShareButtons} from "../../common/ShareButtons";
 
 export const Homepage = view(() => {
     useEffect(() => checkForImageFromLocalstorageUrlOrPaste(), []);
@@ -21,20 +14,6 @@ export const Homepage = view(() => {
     const handleContactClick = () => {
         window.location.href = `mailto:dave+screenshot.rocks@earley.email`;
     };
-
-    const handleShareClick = (provider: SocialProviders) => {
-        switch (provider) {
-            case SocialProviders.WhatsApp:
-                window.location.href = 'whatsapp://send?text=Create%20beautiful%20browser%20mockups%20in%20seconds+https%3A%2F%2Fscreenshot.rocks';
-                break
-            case SocialProviders.Facebook:
-                window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fscreenshot.rocks%20');
-                break;
-            case SocialProviders.Twitter:
-                window.open('https://twitter.com/intent/tweet?url=https%3A%2F%2Fscreenshot.rocks%20&text=Create%20beautiful%20browser%20mockups%20in%20seconds');
-                break;
-        }
-    }
 
     return (
         <>
@@ -44,28 +23,12 @@ export const Homepage = view(() => {
                     <Logo style={LogoStyle.Light}/>
                     <h1>Create <span>beautiful</span> mobile & browser screenshot mockups in seconds</h1>
                     <div className="m-5">
-                        <BrowserFrame
-                            showControlsOnly={false}
-                            styles={(browserThemes as any)[BrowserThemes.Default]}
-                            isDownloadMode={false}
-                            showBoxShadow={browserStore.settings.showBoxShadow}
-                            hideAddressBarOverride={true}
-                            isAutoRotateActive={false}
-                            borderRadius={10}
-                        />
+                        <ImageSelector/>
                     </div>
                 </section>
                 <section className="share mt-2">
                     <h2 className="text-white">Share</h2>
-                    <button onClick={() => handleShareClick(SocialProviders.Facebook)}>
-                        <RiFacebookCircleLine/>
-                    </button>
-                    <button onClick={() => handleShareClick(SocialProviders.Twitter)}>
-                        <RiTwitterLine/>
-                    </button>
-                    <button onClick={() => handleShareClick(SocialProviders.WhatsApp)}>
-                        <FaWhatsapp/>
-                    </button>
+                    <ShareButtons/>
                 </section>
                 <section className="features">
                     <div className="row align-items-center justify-center text-white">

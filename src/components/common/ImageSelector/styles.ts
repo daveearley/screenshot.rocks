@@ -15,6 +15,7 @@ export const styles = (currentRoute?: Routes): string => {
           justify-content: center;
           align-items: center;
           flex-direction: column;
+          border-radius: 10px;
         
           .dropzone {
             height: fit-content;
@@ -52,7 +53,7 @@ export const styles = (currentRoute?: Routes): string => {
               }
               button {
                 border: none;
-                border-radius: 0 0px 5px 0 !important;
+                border-radius: 0 0 5px 0 !important;
                 margin-left: 0 !important;
                 width: 30%;
               }
@@ -70,13 +71,15 @@ export const styles = (currentRoute?: Routes): string => {
           }
       
           .demo-image {
-            margin-top: 10px;
+            margin-top: 30px;
             
             button {
               padding: 0;
               margin: 0;
               color: #534473;
               text-decoration: none;
+              border-bottom: 2px solid #fe79ed;
+              border-radius: 0;
               
               :hover {
                 text-shadow: 0 1px 15px #53447387

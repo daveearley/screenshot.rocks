@@ -91,20 +91,6 @@ export const styles = () => {
         text-align: center;
        }
        
-       .share {
-        text-align: center;
-        button {
-          background: none;
-          border: none;
-        }
-        svg {
-          fill: #fff;
-          width: 30px;
-          height: 30px;
-          margin: 0 10px;
-        }
-       }
-       
        .footer {
         display: flex;
         text-align: center;

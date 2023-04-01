@@ -10,7 +10,7 @@ import {loadImageFromImageUrl} from "../../../utils/image";
 export const ImageSelector = view(() => {
     const existingUrl = () => {
         const parsedUrl = new URL(window.location.href);
-        if(parsedUrl.searchParams.get('text')){
+        if (parsedUrl.searchParams.get('text')) {
             return parsedUrl.searchParams.get('text');
         }
         return null;
@@ -25,12 +25,12 @@ export const ImageSelector = view(() => {
     const onDrop = useCallback(files => {
         if (files && files[0]) {
             const fileReader = new FileReader();
-            fileReader.addEventListener("load", e => app.setImageData(e.target.result as string));
+            fileReader.addEventListener('load', e => app.setImageData(e.target.result as string));
             fileReader.readAsDataURL(files[0]);
         }
     }, [])
 
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop,  accept: ['.jpeg', '.png', '.jpg']})
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, accept: ['.jpeg', '.png', '.jpg']})
 
     const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
@@ -45,7 +45,21 @@ export const ImageSelector = view(() => {
         }
 
         setUrlLoading(true);
-        fetch(`${process.env.REACT_APP_SCREENSHOT_API}?url=${urlValue}${enableMobileScreenshot ? '&mobile=1' : ''}`)
+
+        let url = urlValue;
+        if (!url) {
+            setUrlIsInvalid(false);
+            return;
+        }
+
+        if (!url.includes('http')) {
+            url = 'https://' + url;
+        }
+
+        setUrlIsInvalid(false);
+        setRequestFailed(false);
+
+        fetch(`${process.env.REACT_APP_SCREENSHOT_API}?url=${url}${enableMobileScreenshot ? '&mobile=1' : ''}`)
             .then(response => response.json())
             .then(data => app.setImageData(`data:image/png;base64, ${data.imageBase64}`))
             .catch(() => {
@@ -62,10 +76,10 @@ export const ImageSelector = view(() => {
         setUrlValue(e.target.value);
     }
 
-    const handleDemoImage = () => {
-         loadImageFromImageUrl('/images/demo-image.png').then((img) => {
-             app.setImageData(img as string);
-         })
+    const handleDemoImage = (mobile: boolean) => {
+        loadImageFromImageUrl(`/images/demo-image${mobile ? '-mobile' : ''}.png`).then((img) => {
+            app.setImageData(img as string);
+        })
     };
 
     return (
@@ -77,7 +91,7 @@ export const ImageSelector = view(() => {
                         <div className="drop-here">Drop your image here...</div> :
                         <div>
                             <div className="dropzone">
-                                <p><b>Drop</b>, <b>paste</b> or <b>click</b> here to upload an image...</p>
+                                <p><b>Drag & Drop</b> or <b>Click</b> here to upload an image...</p>
                                 <p>or enter a URL</p>
                             </div>
                         </div>
@@ -90,8 +104,8 @@ export const ImageSelector = view(() => {
                     onChange={handleUrlChange}
                     type="text"
                     className={`form-control ${urlIsInvalid || requestFailed ? 'is-invalid' : ''}`}
-                    placeholder="https://your-website.com"
-                    value={urlValue}
+                    placeholder="your-website.com"
+                    value={urlValue || ''}
                 />
                 <div className="input-group-text">
                     <label htmlFor="mobile">Mobile</label>
@@ -112,7 +126,9 @@ export const ImageSelector = view(() => {
                 </div>
             </div>
             <div className="demo-image">
-                or <button className="btn btn-link" onClick={handleDemoImage}>Try a demo image <span aria-label="try demo image emoji" role="img">🤟</span></button>
+                👉 Try a demo image: <button className="btn btn-link"
+                                             onClick={() => handleDemoImage(false)}>Browser</button> or <button
+                className="btn btn-link" onClick={() => handleDemoImage(true)}>Mobile</button> 👈
             </div>
         </div>
     );
