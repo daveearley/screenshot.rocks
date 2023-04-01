@@ -35,7 +35,12 @@ export const DownloadButtons = view(() => {
 
     const handleImageDownload = () => {
         app.isDownloadMode = true;
-        downloadImage(document.getElementById('canvas'), imageFormat).then(handlePostDownload);
+        downloadImage(
+            document.getElementById('canvas'),
+            imageFormat,
+            app.getCanvasDimensions().height,
+            app.getCanvasDimensions().width,
+        ).then(handlePostDownload);
     };
 
     const handleImageCopy = () => {

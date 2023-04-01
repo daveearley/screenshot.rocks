@@ -63,7 +63,13 @@ export const copyImageToClipboard = (elementToDownload: HTMLElement): Promise<an
         .then((data: Blob) => setToClipboard(data));
 }
 
-export const downloadImage = (elementToDownload: HTMLElement, imageFormat: ImageFormats, quality: number = 1) => {
+export const downloadImage = (
+    elementToDownload: HTMLElement,
+    imageFormat: ImageFormats,
+    height: number,
+    width: number,
+    quality: number = 1,
+) => {
     const handleDownload = (dataUrl: string, extension: ImageFormats) => {
         let link = document.createElement('a');
         link.download = `screenshot-rocks.${extension}`;
@@ -71,16 +77,18 @@ export const downloadImage = (elementToDownload: HTMLElement, imageFormat: Image
         link.click();
     };
 
+    const settings = {quality: quality, width: width, height: height};
+
     switch (imageFormat) {
         default:
         case ImageFormats.JPEG:
-            return domtoimage.toJpeg(elementToDownload, {quality: quality})
+            return domtoimage.toJpeg(elementToDownload, settings)
                 .then((data: string) => handleDownload(data, ImageFormats.JPEG));
         case ImageFormats.PNG:
-            return domtoimage.toPng(elementToDownload)
+            return domtoimage.toPng(elementToDownload, settings)
                 .then((data: string) => handleDownload(data, ImageFormats.PNG));
         case ImageFormats.SVG:
-            return domtoimage.toSvg(elementToDownload)
+            return domtoimage.toSvg(elementToDownload, settings)
                 .then((data: string) => handleDownload(data, ImageFormats.SVG));
     }
 };
