@@ -2,7 +2,7 @@
     <img style="max-width: 350px;" alt="Create beautiful mobile & browser mockups from screenshots" src="https://i.imgur.com/SBXwpFX.png" />
 </div>
 
-# Screenshot.rocks 🤘
+# Screenshot.rocks 🤘 
  
 This is the source code for [Screenshot.rocks](https://screenshot.rocks?utm_source=github)
  
