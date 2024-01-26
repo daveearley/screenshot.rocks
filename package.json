@@ -26,8 +26,8 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start  --host 0.0.0.0",
-    "build": "react-scripts build",
+    "start": "export SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts start  --host 0.0.0.0",
+    "build": "export SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -57,6 +57,7 @@
     "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-react-hooks": "^2.5.1"
+    "eslint-plugin-react-hooks": "^2.5.1",
+    "node-gyp": "^8.4.1"
   }
 }
