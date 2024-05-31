@@ -70,6 +70,16 @@ export const App = view(() => {
                                 Find this app useful? Please Share&nbsp;&nbsp; 👉
                             </div>
                         )}
+
+                        {!showSharePrompt && (
+                            <div className={'hi-events'}>
+                            Sponsored by <a
+                                title={'Sell event tickets online with Hi.Events'}
+                                href="https://hi.events?utm_source=screenshot.rocks" target="_blank">Hi.Events -
+                                Open-source event ticketing</a>
+                            </div>
+                        )}
+
                         <ShareButtons/>
                     </div>
                 </div>

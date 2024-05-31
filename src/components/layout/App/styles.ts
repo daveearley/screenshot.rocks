@@ -27,6 +27,22 @@ export const styles = () => {
           }
         }
 
+        .hi-events {
+          font-size: 0.9em;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 5px;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+          }
+        }
+
         .share-this {
           display: flex;
           color: #ffffff;
