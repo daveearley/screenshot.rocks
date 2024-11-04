@@ -34,7 +34,7 @@ export const getBrowserExtensionInfo = () => {
             name: 'Edge Add-On',
         },
         [Browsers.Chrome]: {
-            link: 'https://chrome.google.com/webstore/detail/screenshotrocks-one-click/oolmphedpohnagciifbnfpemadolahki/',
+            link: 'https://chromewebstore.google.com/detail/screenshotrocks-one-click/oolmphedpohnagciifbnfpemadolahki',
             name: 'Chrome Extension',
         }
     };
