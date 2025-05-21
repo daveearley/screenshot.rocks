@@ -78,6 +78,11 @@ export interface IStore {
     cropIsActive: boolean;
     canvasSizeMap?: Map<ScreenshotType, number>;
     canvasDimensionsMap?: Map<ScreenshotType, Dimensions>;
+    annotations: IAnnotation[];
+    selectedAnnotationTool: AnnotationType | null;
+    annotationColor: string;
+    annotationFontSize: number;
+    annotationStrokeWidth: number;
 
     setImageData(imageData: string): void;
 
@@ -98,6 +103,37 @@ export interface IStore {
     getAspectRatio(): number;
 
     resetImage(): void;
+
+    addAnnotation(annotation: Omit<IAnnotation, 'id'>): void;
+    updateAnnotation(id: string, updates: Partial<IAnnotation>): void;
+    removeAnnotation(id: string): void;
+    clearAnnotations(): void;
+
+    setSelectedAnnotationTool(tool: AnnotationType | null): void;
+    setAnnotationColor(color: string): void;
+    setAnnotationFontSize(size: number): void;
+    setAnnotationStrokeWidth(width: number): void;
+}
+
+export enum AnnotationType {
+    Text = 'text',
+    Rectangle = 'rectangle',
+    Circle = 'circle',
+    Arrow = 'arrow',
+}
+
+export interface IAnnotation {
+    id: string;
+    type: AnnotationType;
+    x: number;
+    y: number;
+    width?: number;
+    height?: number;
+    text?: string;
+    color: string;
+    fontSize?: number;
+    strokeWidth?: number;
+    rotation?: number;
 }
 
 export let app = store({
@@ -110,6 +146,11 @@ export let app = store({
     disableAutoRotate: false,
     hasDownloaded: false,
     cropIsActive: false,
+    annotations: [] as IAnnotation[],
+    selectedAnnotationTool: null as AnnotationType | null,
+    annotationColor: '#ff0000',
+    annotationFontSize: 16,
+    annotationStrokeWidth: 2,
     canvasSizeMap: new Map(defaultCanvasSizeMap),
     canvasDimensionsMap: new Map<ScreenshotType, Dimensions>([
         [ScreenshotType.Browser, new Dimensions(1920, 1200)],
@@ -182,6 +223,45 @@ export let app = store({
         app.previousCropData = null;
         app.croppedImageData = null;
         app.previousCroppedImageData = null;
+        app.clearAnnotations(); // Also clear annotations when image is reset
+    },
+
+    addAnnotation(annotation: Omit<IAnnotation, 'id'>): void {
+        const newAnnotation: IAnnotation = {
+            ...annotation,
+            id: Date.now().toString() + Math.random().toString(36).substring(2, 9), // more unique id
+        };
+        app.annotations = [...app.annotations, newAnnotation];
+    },
+
+    updateAnnotation(id: string, updates: Partial<IAnnotation>): void {
+        app.annotations = app.annotations.map(ann =>
+            ann.id === id ? { ...ann, ...updates } : ann
+        );
+    },
+
+    removeAnnotation(id: string): void {
+        app.annotations = app.annotations.filter(ann => ann.id !== id);
+    },
+
+    clearAnnotations(): void {
+        app.annotations = [];
+    },
+
+    setSelectedAnnotationTool(tool: AnnotationType | null): void {
+        app.selectedAnnotationTool = tool;
+    },
+
+    setAnnotationColor(color: string): void {
+        app.annotationColor = color;
+    },
+
+    setAnnotationFontSize(size: number): void {
+        app.annotationFontSize = size;
+    },
+
+    setAnnotationStrokeWidth(width: number): void {
+        app.annotationStrokeWidth = width;
     },
 
     get cssTransformString(): string {

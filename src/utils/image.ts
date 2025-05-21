@@ -59,7 +59,16 @@ export const copyImageToClipboard = (elementToDownload: HTMLElement): Promise<an
         return navigator.clipboard.write(data)
     }
 
-    return domtoimage.toBlob(elementToDownload)
+    const options = {
+        style: {
+            'transform': 'none',
+            '-webkit-transform': 'none',
+            'margin': '0',
+        }
+        // width & height are not explicitly set for blob, let dom-to-image use element's natural size
+        // or we might need to calculate them if copy quality is poor.
+    };
+    return domtoimage.toBlob(elementToDownload, options)
         .then((data: Blob) => setToClipboard(data));
 }
 
@@ -77,7 +86,16 @@ export const downloadImage = (
         link.click();
     };
 
-    const settings = {quality: quality, width: width, height: height};
+    const settings = {
+        quality: quality,
+        width: width,
+        height: height,
+        style: {
+            'transform': 'none',
+            '-webkit-transform': 'none',
+            'margin': '0', // Reset margin to ensure clean capture at specified dimensions
+        }
+    };
 
     switch (imageFormat) {
         default:

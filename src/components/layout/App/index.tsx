@@ -20,6 +20,7 @@ import {CONFIG} from "../../../config";
 import {SideBarSection} from "../../common/SideBarSection";
 import {DownloadMask} from "../../common/DownloadMask";
 import {ShareButtons} from "../../common/ShareButtons";
+import AnnotationToolbar from "../../common/AnnotationToolbar";
 
 export const App = view(() => {
     const [showSharePrompt, setShowSharePrompt] = useState(false);
@@ -116,6 +117,9 @@ export const App = view(() => {
                         </SideBarSection>
                         <SideBarSection title={'Canvas Settings'} isDisabled={!app.imageData}>
                             <CanvasSettings/>
+                        </SideBarSection>
+                        <SideBarSection title="Annotations" isDisabled={!app.imageData}>
+                            <AnnotationToolbar />
                         </SideBarSection>
                         <RatingPromptBox/>
                     </div>
