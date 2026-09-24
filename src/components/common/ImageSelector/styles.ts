@@ -1,90 +1,37 @@
 import {css} from "emotion";
-import {Routes} from "../../../stores/routeStore";
 
-export const styles = (currentRoute?: Routes): string => {
-    return css`
-          width: 100%;
-          background-color: #ffffff;
-          padding: 50px 30px 50px 30px;
-          min-height: ${currentRoute === Routes.App ? '40vh' : 'auto'};
-          text-align: center;
-          font-size: 1.2em;
-          cursor: pointer;
-          display: flex;
-          vertical-align: middle;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          border-radius: 10px;
-        
-          .dropzone {
-            height: fit-content;
-          }
-          
-          .drop-here {
-            padding: 70px;
-            border: 2px dashed #e4e4e4;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            color: #a2a2a2;
-            background: #f9f9f9;
-          }
-          
-          .url-form {
-            max-width: 500px;
-            
-            button {
-              color: #fff;
-              background-color: #fe79ed;
-              border-color: #fd7aec;
-              border-radius: 0 5px 5px 0 !important;
-             }
-             @media screen and (max-width: 500px) {
-              input[type="text"] {
-                width: 100%;
-                border-radius: 5px 5px 0 0 !important;
-              }
-              .input-group-text {
-                border-radius: 0 0 0 5px !important;
-                border-right: none;
-                border-top: none;
-                margin-left: 0;
-                width: 70%;
-              }
-              button {
-                border: none;
-                border-radius: 0 0 5px 0 !important;
-                margin-left: 0 !important;
-                width: 30%;
-              }
-             }
-          }
-        
-          svg {
-            width: 50px;
-            height: auto !important;
-            fill: #211540;
-          }
-        
-          &.dragActive {
-            background-color: #fff;
-          }
-      
-          .demo-image {
-            margin-top: 30px;
-            
-            button {
-              padding: 0;
-              margin: 0;
-              color: #534473;
-              text-decoration: none;
-              border-bottom: 2px solid #fe79ed;
-              border-radius: 0;
-              
-              :hover {
-                text-shadow: 0 1px 15px #53447387
-              }
-            }
-          }
-`
-};
+export const styles = css`
+  padding: 24px;
+  border: 1px solid var(--separator);
+  border-radius: var(--radius-l);
+  background: var(--bg-sidebar);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
+  color: var(--label);
+  font-size: 13px;
+
+  .drop {
+    padding: 36px 20px;
+    border: 1.5px dashed var(--separator-strong);
+    border-radius: var(--radius-m);
+    text-align: center;
+    cursor: default;
+    transition: border-color .15s, background .15s;
+  }
+  .drop:hover, .drop.active { border-color: var(--accent); background: rgba(94, 92, 230, .06); }
+  .drop svg { width: 22px; height: 22px; color: var(--label-2); }
+  .drop h2 { margin: 12px 0 4px; font-size: 15px; font-weight: 600; }
+  .drop p { margin: 0; color: var(--label-2); }
+  .link { color: #a5a4ff; }
+
+  .capture { margin-top: 20px; }
+  .capture > label { display: block; margin-bottom: 6px; color: var(--label-2); }
+  .capture-row { display: flex; align-items: center; gap: 8px; }
+  .capture-row input[type=text], .capture-row input:not([type]) { flex: 1; height: 28px; font-size: 13px; }
+  .mobile { display: flex; align-items: center; gap: 5px; color: var(--label-2); white-space: nowrap; }
+  .mobile input { accent-color: var(--accent); }
+  .error { margin: 8px 0 0; color: #ff8a80; font-size: 12px; }
+
+  .demo { margin: 16px 0 0; color: var(--label-3); font-size: 12px; }
+  .demo button { padding: 0; border: 0; background: none; color: #a5a4ff; font-weight: 500; }
+  .demo button:hover { text-decoration: underline; }
+`;

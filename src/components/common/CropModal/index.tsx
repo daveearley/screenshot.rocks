@@ -1,20 +1,27 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../stores/appStore";
 import {styles} from "./styles";
-import ReactCrop, {centerCrop, makeAspectCrop, PixelCrop} from "react-image-crop";
+import ReactCrop, {centerCrop, makeAspectCrop, PixelCrop, Crop, convertToPixelCrop} from "react-image-crop";
 import 'react-image-crop/dist/ReactCrop.css'
-import {useDebounceEffect} from "../../../hooks/useDebounceEffect";
 import {deviceNamesMap, phoneStore} from "../../../stores/phoneStore";
 import {ScreenshotType} from "../../../types";
+import {Button, Segmented} from "../../ui/controls";
 
 export const CropModal = view(() => {
-    const previewCanvasRef = useRef<HTMLCanvasElement>(null)
     const imgRef = useRef<HTMLImageElement>(null)
-    const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
+    const sheetRef = useRef<HTMLDivElement>(null);
+
+    // Take focus when opening (Apply starts disabled, so focus the dialog itself) and give it back on close.
+    useEffect(() => {
+        const opener = document.activeElement as HTMLElement | null;
+        sheetRef.current?.focus();
+        return () => opener?.focus();
+    }, []);
+    const [crop, setCrop] = useState<Crop>(app.cropData);
+    const [isApplying, setIsApplying] = useState(false);
     const [aspect, setAspect] = useState<number | undefined>(app.getAspectRatio())
 
-    let previewUrl = ''
 
     const canvasToBlob = (canvas: HTMLCanvasElement): Promise<Blob | null> => new Promise((resolve) => {
         canvas.toBlob(resolve)
@@ -74,16 +81,13 @@ export const CropModal = view(() => {
             return;
         }
 
-        if (previewUrl) {
-            URL.revokeObjectURL(previewUrl)
-        }
 
         // Store the previous data so we can easily revert
         app.previousCropData = app.cropData;
+        if (app.previousCroppedImageData?.startsWith('blob:')) URL.revokeObjectURL(app.previousCroppedImageData);
         app.previousCroppedImageData = app.croppedImageData;
 
         app.croppedImageData = URL.createObjectURL(blob);
-        app.cropData = crop;
     };
 
     const centerAspectCrop = (mediaWidth: number, mediaHeight: number, aspect: number) => centerCrop(
@@ -102,79 +106,52 @@ export const CropModal = view(() => {
 
 
     const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
-        if (aspect && !app.previousCropData) {
+        if (aspect && !crop) {
             const {width, height} = e.currentTarget
-            app.cropData = centerAspectCrop(width, height, aspect);
+            setCrop(centerAspectCrop(width, height, aspect));
         }
     };
 
-    useDebounceEffect(
-        async () => {
-            if (
-                completedCrop?.width &&
-                completedCrop?.height &&
-                imgRef.current &&
-                previewCanvasRef.current
-            ) {
-                await imgPreview(imgRef.current, completedCrop);
-            }
-        },
-        100,
-        [completedCrop],
-    )
+    const applyCrop = async () => {
+        if (isApplying || !imgRef.current || !crop || !crop.width || !crop.height) return;
+        setIsApplying(true);
+        try {
+            await imgPreview(imgRef.current, convertToPixelCrop(crop, imgRef.current.width, imgRef.current.height));
+            app.cropData = crop;
+            app.cropIsActive = false;
+        } finally {
+            setIsApplying(false);
+        }
+    };
 
     return (
-        <div className={styles()}>
-            <div className="crop-wrapper">
-                <ReactCrop
-                    crop={app.cropData}
-                    onChange={(_, percentCrop) => app.cropData = percentCrop}
-                    onComplete={(c) => setCompletedCrop(c)}
-                    aspect={aspect}
-                    minWidth={50}
-                    minHeight={50}
-                >
-                    <img
-                        src={app.imageData}
-                        ref={imgRef}
-                        onLoad={onImageLoad}
-                        alt="cropping canvas"/>
-                </ReactCrop>
-                <div className="crop-toolbar">
-                    <div className="aspect-type">
-                        Aspect ratio {aspect ? 'locked' : 'unlocked'}
-                        {(app.frameType === ScreenshotType.Device && aspect) && ` to ${deviceNamesMap[phoneStore.activeTheme]}`}
-                        <button className="btn btn-sm btn-link mr-2"
-                                onClick={() => setAspect(aspect ? undefined : app.getAspectRatio())}>
-                            {aspect ? 'Unlock' : 'Lock'}
-                        </button>
-                    </div>
-                    <div className="action-buttons">
-                        <button className="btn btn-sm btn-danger mr-2"
-                                onClick={() => {
-                                    app.cropData = app.previousCropData;
-                                    app.croppedImageData = app.previousCroppedImageData;
-                                    app.cropIsActive = !app.cropIsActive;
-                                }}>
-                            Cancel
-                        </button>
-                        <button className="btn btn-sm btn-success mr-2"
-                                onClick={() => app.cropIsActive = !app.cropIsActive}>
-                            Apply Crop
-                        </button>
-                    </div>
+        <div className={styles()} role="presentation" onPointerDown={event => { if (event.target === event.currentTarget) app.cropIsActive = false; }}>
+            <div ref={sheetRef} tabIndex={-1} className="sheet" role="dialog" aria-modal="true" aria-labelledby="crop-title"
+                 onKeyDown={event => {
+                     // Keep keys inside the dialog; the editor's shortcuts shouldn't act on the page behind it.
+                     event.stopPropagation();
+                     if (event.key === 'Escape') app.cropIsActive = false;
+                     // Enter confirms, except on buttons, which handle Enter themselves.
+                     if (event.key === 'Enter' && !(event.target as HTMLElement).closest('button')) applyCrop();
+                 }}>
+                <header>
+                    <h2 id="crop-title">Crop</h2>
+                    <Segmented label="Crop aspect ratio" value={aspect ? 'canvas' : 'free'}
+                               options={[{value: 'free', label: 'Freeform'}, {value: 'canvas', label: app.frameType === ScreenshotType.Device ? deviceNamesMap[phoneStore.activeTheme] : 'Canvas ratio'}]}
+                               onChange={value => setAspect(value === 'free' ? undefined : app.getAspectRatio())}/>
+                </header>
+                <div className="crop-area">
+                    <ReactCrop crop={crop} onChange={(_, percentCrop) => setCrop(percentCrop)} aspect={aspect} minWidth={50} minHeight={50}>
+                        <img src={app.imageData} ref={imgRef} onLoad={onImageLoad} alt="cropping canvas"/>
+                    </ReactCrop>
                 </div>
-                {!!completedCrop && (
-                    <canvas
-                        ref={previewCanvasRef}
-                        style={{
-                            objectFit: 'contain',
-                            width: completedCrop.width,
-                            height: completedCrop.height,
-                            display: "none",
-                        }}
-                    />
-                )}
+                <footer>
+                    <span className="hint">Drag to select the area to keep</span>
+                    <Button onClick={() => app.cropIsActive = false}>Cancel</Button>
+                    <Button variant="primary" disabled={isApplying || !crop || !crop.width || !crop.height} onClick={applyCrop} autoFocus>
+                        {isApplying ? 'Applying…' : 'Apply Crop'}
+                    </Button>
+                </footer>
             </div>
         </div>
     );

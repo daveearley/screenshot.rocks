@@ -2,6 +2,7 @@ export enum ImageFormats {
     PNG = 'png',
     JPEG = 'jpeg',
     SVG = 'svg',
+    WebP = 'webp',
 }
 
 export enum ScreenshotType {

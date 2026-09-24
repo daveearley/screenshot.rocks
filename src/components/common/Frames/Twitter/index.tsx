@@ -6,7 +6,7 @@ import {styles} from "./styles";
 export const TwitterFrame = view((props: ICanvasProps) => {
     return (
         <div className={styles(props)}>
-            <img className="twitter-logo" src="images/twitter/logo.png"/>
+            <img className="twitter-logo" src="images/twitter/logo.png" alt=""/>
             <div className="flex-shrink-0 d-flex">
                 <img src="https://pbs.twimg.com/profile_images/1606271575656960002/ueSKi8FF_x96.jpg"
                      className="rounded-circle mb-4 mb-lg-0 shadow-2" alt="woman avatar" width="70"

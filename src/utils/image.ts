@@ -1,13 +1,14 @@
 import domtoimage from "dom-to-image";
-import {RGBColor} from "react-color";
 import {app} from "../stores/appStore";
 import {ImageFormats} from "../types";
 import {validURL} from "./url";
 
 export const checkForImageFromLocalstorageUrlOrPaste = () => {
     const handlePaste = (e: ClipboardEvent | Event) => {
+        const target = e.target as HTMLElement | null;
+        if (target && (['INPUT', 'TEXTAREA'].includes(target.tagName) || target.isContentEditable)) return;
         retrieveImageFromClipboardAsBase64(e, (base64Data: string) => {
-            app.imageData = base64Data;
+            app.setImageData(base64Data);
         });
     };
     window.addEventListener("paste", handlePaste, false);
@@ -18,50 +19,43 @@ export const checkForImageFromLocalstorageUrlOrPaste = () => {
     if (imageUrl && validURL(imageUrl)) {
         loadImageFromImageUrl(imageUrl).then(imageData => {
             app.setImageData(imageData as string);
-        })
+        }).catch(() => {
+            window.alert('Unable to open that image. Please upload the file instead.');
+        });
     }
 
     // If a user is coming from the Chrome extension the image is in localstorage
-    if (sessionStorage.hasOwnProperty('imageFromPost')) {
-        app.setImageData(sessionStorage.getItem('imageFromPost'));
+    const postedImage = sessionStorage.getItem('imageFromPost');
+    if (postedImage) {
         sessionStorage.removeItem('imageFromPost');
+        if (/^data:image\/(png|jpe?g|webp);base64,/i.test(postedImage)) {
+            app.setImageData(postedImage);
+        }
     }
 
     return () => window.removeEventListener("paste", handlePaste)
 }
 
-export const hex2rgba = (hex: string, alpha: number = 1): RGBColor => {
-    const [r, g, b] = (hex.length === 3)
-        ? hex.match(/\w/g).map(x => parseInt(x + x, 16))
-        : hex.match(/\w\w/g).map(x => parseInt(x, 16))
+const exportFilter = (node: HTMLElement) => !node.hasAttribute || !node.hasAttribute('data-export-exclude');
 
-    return {
-        r: r,
-        g: g,
-        b: b,
-        a: alpha
+const exportRootStyle = (background?: string) => ({
+    transform: 'none', position: 'relative', top: '0', left: '0',
+    ...(background ? {background} : {}),
+});
+
+export const renderPngBlob = (element: HTMLElement, background?: string): Promise<Blob> =>
+    domtoimage.toBlob(element, {filter: exportFilter, style: exportRootStyle(background)});
+
+/** Call synchronously from the click: Safari only allows clipboard writes that start inside the user gesture. */
+export const copyImageToClipboard = (render: () => Promise<Blob>): Promise<void> => {
+    const Item = (window as any).ClipboardItem;
+    try {
+        return navigator.clipboard.write([new Item({'image/png': render()})]);
+    } catch (_) {
+        // Older browsers only accept a finished Blob.
+        return render().then(blob => navigator.clipboard.write([new Item({'image/png': blob})]));
     }
 };
-
-export const rgba2hexa = (color: RGBColor) => {
-    const r = color.r.toString(16);
-    const g = color.g.toString(16);
-    const b = color.b.toString(16);
-    const a = Math.round(color.a * 255).toString(16);
-    const pad = (str: string) => str.length === 1 ? '0' + str : str;
-
-    return "#" + pad(r) + pad(g) + pad(b) + pad(a);
-};
-
-export const copyImageToClipboard = (elementToDownload: HTMLElement): Promise<any> => {
-    const setToClipboard = async (blob: Blob) => {
-        const data = [new ClipboardItem({[blob.type]: blob})]
-        return navigator.clipboard.write(data)
-    }
-
-    return domtoimage.toBlob(elementToDownload)
-        .then((data: Blob) => setToClipboard(data));
-}
 
 export const downloadImage = (
     elementToDownload: HTMLElement,
@@ -69,15 +63,21 @@ export const downloadImage = (
     height: number,
     width: number,
     quality: number = 1,
+    background?: string,
 ) => {
     const handleDownload = (dataUrl: string, extension: ImageFormats) => {
         let link = document.createElement('a');
         link.download = `screenshot-rocks.${extension}`;
         link.href = dataUrl;
+        document.body.appendChild(link);
         link.click();
+        link.remove();
+        return dataUrl;
     };
 
-    const settings = {quality: quality, width: width, height: height};
+    const settings = {quality, width, height, filter: exportFilter, style: exportRootStyle(background)};
+    // Always start from a flattened raster so nothing under markup (like blurred text) survives in the file.
+    const rasterize = () => domtoimage.toPng(elementToDownload, settings);
 
     switch (imageFormat) {
         default:
@@ -85,45 +85,42 @@ export const downloadImage = (
             return domtoimage.toJpeg(elementToDownload, settings)
                 .then((data: string) => handleDownload(data, ImageFormats.JPEG));
         case ImageFormats.PNG:
-            return domtoimage.toPng(elementToDownload, settings)
-                .then((data: string) => handleDownload(data, ImageFormats.PNG));
+            return rasterize().then((data: string) => handleDownload(data, ImageFormats.PNG));
+        case ImageFormats.WebP:
+            return rasterize().then((data: string) => loadImageFromBase64(data)).then((image: HTMLImageElement) => {
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                canvas.getContext('2d').drawImage(image, 0, 0);
+                const webp = canvas.toDataURL('image/webp', quality);
+                // Browsers without a WebP encoder silently return PNG data instead.
+                if (!webp.startsWith('data:image/webp')) throw new Error('WebP export is not supported in this browser');
+                return handleDownload(webp, ImageFormats.WebP);
+            });
         case ImageFormats.SVG:
-            return domtoimage.toSvg(elementToDownload, settings)
-                .then((data: string) => handleDownload(data, ImageFormats.SVG));
+            // dom-to-image's own SVG embeds the original, unblurred screenshot as HTML; wrap the raster instead.
+            return rasterize().then((png: string) => {
+                const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`
+                    + `<image width="${width}" height="${height}" href="${png}" xlink:href="${png}"/></svg>`;
+                return handleDownload(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`, ImageFormats.SVG);
+            });
     }
 };
 
-export const resizeImage = (
-    base64Str: string,
-    maxWidth: number = 3200,
-    maxHeight: number = 3200
-): Promise<string> => {
-    return new Promise((resolve) => {
-        let img = new Image()
-        img.src = base64Str
-        img.onload = () => {
-            let canvas = document.createElement('canvas')
-            let width = img.width
-            let height = img.height
-
-            if ((width > height) && (width > maxWidth)) {
-                height *= maxWidth / width
-                width = maxWidth
-            } else if (height > maxHeight) {
-                width *= maxHeight / height
-                height = maxHeight
-            }
-            canvas.width = width
-            canvas.height = height
-            let ctx = canvas.getContext('2d')
-            ctx.drawImage(img, 0, 0, width, height)
-            resolve(canvas.toDataURL())
-        }
-    })
-}
+/** Safari can't always encode WebP from a canvas. */
+export const supportsWebPExport = (): boolean => {
+    try {
+        const canvas = document.createElement('canvas');
+        canvas.width = canvas.height = 1;
+        return canvas.toDataURL('image/webp').startsWith('data:image/webp');
+    } catch (_) {
+        return false;
+    }
+};
 
 export const retrieveImageFromClipboardAsBase64 = (pasteEvent: ClipboardEvent | Event, onSuccess: (data: string) => void) => {
-    const items = (pasteEvent as ClipboardEvent).clipboardData.items;
+    const clipboard = (pasteEvent as ClipboardEvent).clipboardData;
+    const items = clipboard && clipboard.items;
 
     if (!items) {
         return;
@@ -135,6 +132,7 @@ export const retrieveImageFromClipboardAsBase64 = (pasteEvent: ClipboardEvent | 
         }
 
         const blob = items[i].getAsFile();
+        if (!blob) continue;
         const canvasElement = document.createElement("canvas");
         const ctx = canvasElement.getContext('2d');
         const img = new Image();
@@ -143,10 +141,12 @@ export const retrieveImageFromClipboardAsBase64 = (pasteEvent: ClipboardEvent | 
             canvasElement.width = img.width;
             canvasElement.height = img.height;
             ctx.drawImage(img, 0, 0);
-            onSuccess(canvasElement.toDataURL("image/jpg"))
+            URL.revokeObjectURL(img.src);
+            onSuccess(canvasElement.toDataURL("image/png"));
         };
 
         const URLObj = window.URL || window.webkitURL;
+        img.onerror = () => URLObj.revokeObjectURL(img.src);
         img.src = URLObj.createObjectURL(blob);
     }
 };
@@ -161,31 +161,15 @@ export const getImageDimensions = (file: string): Promise<{ width: number, heigh
 };
 
 export const loadImageFromBase64 = (imageData: string): Promise<HTMLImageElement> => {
-    return new Promise((resolved) => {
+    return new Promise((resolved, rejected) => {
         const image = new Image()
         image.onload = function () {
             resolved(image)
         };
+        image.onerror = () => rejected(new Error('Could not decode image'));
         image.src = imageData
     });
 }
-
-export const rotateImage = (img: string): Promise<string> => {
-    return loadImageFromBase64(img).then(image => {
-        const degrees = 90;
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        canvas.width = image.height;
-        canvas.height = image.width;
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.translate(image.height / 2, image.width / 2);
-        ctx.rotate(degrees * Math.PI / 180);
-        ctx.drawImage(image, -image.width / 2, -image.height / 2);
-
-        return canvas.toDataURL();
-    })
-};
 
 export const loadImageFromImageUrl = (url: string): Promise<string | ArrayBuffer> => {
     return new Promise((resolve, reject) => {

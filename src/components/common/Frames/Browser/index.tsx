@@ -1,6 +1,5 @@
+import React from "react";
 import {IoIosArrowBack, IoIosArrowForward, IoIosOptions} from "react-icons/io";
-import {FiLock} from "react-icons/all";
-import React, {FormEvent} from "react";
 import {ICanvasProps} from "../../Canvas";
 import {styles} from "./styles";
 import {view} from "@risingstack/react-easy-state";
@@ -8,52 +7,19 @@ import {browserStore} from "../../../../stores/browserStore";
 import {app} from "../../../../stores/appStore";
 
 export const BrowserFrame = view((props: ICanvasProps) => {
-    return (
-        <div className={styles(props)}>
-            <div className="browser-controls">
-                <div className={`window-controls ${!browserStore.settings.showWindowControls ? 'hide' : ''}`}>
-                    <span className="close"/>
-                    <span className="minimise"/>
-                    <span className="maximise"/>
-                </div>
-                <div className={`page-controls ${!browserStore.settings.showNavigationButtons ? 'hide' : ''}`}>
-                    <span className="back browser-container">
-                        <IoIosArrowBack/>
-                    </span>
-                    <span className="forward browser-container">
-                        <IoIosArrowForward/>
-                    </span>
-                </div>
-                <span
-                    className={`url-bar browser-container ${!browserStore.settings.showAddressBar || props.hideAddressBarOverride ? 'hide' : ''}`}>
-                    <span className="lock">
-                        <FiLock/>
-                    </span>
-                    <div className={`url-text ${!browserStore.settings.showAddressBarUrl ? 'hide' : ''}`}>
-                        <span className="text-success" contentEditable suppressContentEditableWarning>
-                            {browserStore.settings.addressBarUrlProtocol}
-                        </span>
-                        <input
-                            className="urlInput"
-                            value={browserStore.settings.addressBarUrl}
-                            type="text"
-                            onChange={(e: FormEvent<HTMLInputElement>) => {
-                                browserStore.settings.addressBarUrl = e.currentTarget.value
-                            }}>
-                        </input>
-                    </div>
-                    </span>
-                <span className={`browser-container ${!browserStore.settings.showSettingsButton ? 'hide' : ''}`}>
-                    <span className="settings">
-                        <IoIosOptions/>
-                    </span>
-                </span>
+    const settings = browserStore.settings;
+    const theme = props.styles;
+    return <div className={styles(props)}>
+        <div className="mock-browser-toolbar">
+            {settings.showWindowControls && <div className="mock-browser-dots" aria-hidden="true">
+                {[theme.closeButtonColor, theme.minimizeButtonColor, theme.maximizeButtonColor].map((color, index) => <i key={index} style={{background: color}} />)}
+            </div>}
+            {settings.showNavigationButtons && <div className="mock-browser-navigation" aria-hidden="true"><IoIosArrowBack/><IoIosArrowForward/></div>}
+            <div className="mock-browser-address" style={{visibility: settings.showAddressBar && !props.hideAddressBarOverride ? 'visible' : 'hidden'}}>
+                {settings.showAddressBarUrl && <input aria-label="Frame website address" value={settings.addressBarUrl} onChange={e => settings.addressBarUrl = e.target.value} />}
             </div>
-            <div className="content-wrap">
-                <div id="screenshot-wrap">
-                    {!props.showControlsOnly && <img alt={'Screenshot'} id="screenshot" src={app.croppedImageData || app.imageData}/>}
-                </div>
-            </div>
+            {settings.showSettingsButton && <span className="mock-browser-menu" aria-hidden="true"><IoIosOptions/></span>}
         </div>
-    );
+        {!props.showControlsOnly && <img className="mock-browser-image" alt="Screenshot" draggable={false} src={app.croppedImageData || app.imageData}/>}
+    </div>;
 });

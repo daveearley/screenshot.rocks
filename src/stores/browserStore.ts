@@ -42,7 +42,7 @@ export interface IBrowserStore {
 
 export let browserStore = store({
     setBrowserTheme(browserTheme: BrowserThemes) {
-        browserStore.settings.activeTheme = browserTheme;
+        browserStore.settings.activeTheme = Number(browserTheme);
     },
 
     get styles(): IBrowserStyles {
@@ -50,13 +50,13 @@ export let browserStore = store({
             return browserStore.customStyles;
         }
 
-        return (browserThemes as any)[browserStore.settings.activeTheme];
+        return (browserThemes as any)[browserStore.settings.activeTheme] || browserThemes[BrowserThemes.Default];
     },
 
     customStyles: {
-        browserChromeBgColor: '#ffffff',
-        browserControlsBgColor: '#dddddd',
-        browserControlsTextColor: '#b5b5b5',
+        browserChromeBgColor: '#f8f9fb',
+        browserControlsBgColor: '#eceef2',
+        browserControlsTextColor: '#6b6f78',
         closeButtonColor: '#FF8585',
         minimizeButtonColor: '#FFD071',
         maximizeButtonColor: '#74ED94',
@@ -75,20 +75,22 @@ export let browserStore = store({
         showAddressBarUrl: true,
         addressBarUrlProtocol: 'https://',
         addressBarUrl: 'edit-me.com',
-        showNavigationButtons: true,
-        showSettingsButton: true,
+        showNavigationButtons: false,
+        showSettingsButton: false,
     }
 } as IBrowserStore);
 
-if (localStorage.getItem('browserStoreSettings')) {
-    const localStore = JSON.parse(localStorage.getItem('browserStoreSettings'));
-    browserStore.settings = localStore.settings;
-    browserStore.customStyles = localStore.styles;
-}
+try {
+    const saved = JSON.parse(localStorage.getItem('browserStoreSettings') || 'null');
+    if (saved) {
+        browserStore.settings = {...browserStore.settings, ...saved.settings};
+        browserStore.settings.activeTheme = Number(browserStore.settings.activeTheme);
+        browserStore.customStyles = {...browserStore.customStyles, ...saved.styles};
+    }
+} catch (_) { /* Ignore invalid legacy preferences. */ }
 
 observe(() => {
-    localStorage.setItem('browserStoreSettings', JSON.stringify({
-        settings: browserStore.settings,
-        styles: browserStore.styles,
-    }))
+    // `styles` holds the custom colors, which is how they're loaded above.
+    const serialized = JSON.stringify({settings: browserStore.settings, styles: browserStore.customStyles});
+    try { localStorage.setItem('browserStoreSettings', serialized); } catch (_) { /* full or unavailable */ }
 });

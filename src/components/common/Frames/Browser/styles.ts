@@ -20,9 +20,9 @@ export enum BackgroundType {
 
 export const browserThemes = {
     [BrowserThemes.Default]: {
-        browserChromeBgColor: '#e6ecefcf',
-        browserControlsBgColor: '#ffffffa8',
-        browserControlsTextColor: '#b5b5b5',
+        browserChromeBgColor: '#f8f9fb',
+        browserControlsBgColor: 'transparent',
+        browserControlsTextColor: '#7b808c',
         closeButtonColor: '#FF8585',
         minimizeButtonColor: '#FFD071',
         maximizeButtonColor: '#74ED94',
@@ -34,7 +34,7 @@ export const browserThemes = {
     [BrowserThemes.Darker]: {
         browserChromeBgColor: '#000000',
         browserControlsBgColor: '#1f1c1c',
-        browserControlsTextColor: '#b5b5b5',
+        browserControlsTextColor: '#7b808c',
         closeButtonColor: '#201d1d',
         minimizeButtonColor: '#201d1d',
         maximizeButtonColor: '#201d1d',
@@ -44,9 +44,9 @@ export const browserThemes = {
         chromeHeight: 50,
     },
     [BrowserThemes.Dark]: {
-        browserChromeBgColor: '#2d373b',
-        browserControlsBgColor: '#ffffff',
-        browserControlsTextColor: '#b5b5b5',
+        browserChromeBgColor: '#202126',
+        browserControlsBgColor: 'transparent',
+        browserControlsTextColor: '#7b808c',
         closeButtonColor: '#FF8585',
         minimizeButtonColor: '#FFD071',
         maximizeButtonColor: '#74ED94',
@@ -57,8 +57,8 @@ export const browserThemes = {
     },
     [BrowserThemes.Square]: {
         browserChromeBgColor: '#E6ECEF',
-        browserControlsBgColor: '#ffffff',
-        browserControlsTextColor: '#b5b5b5',
+        browserControlsBgColor: 'transparent',
+        browserControlsTextColor: '#7b808c',
         closeButtonColor: '#FF8585',
         minimizeButtonColor: '#FFD071',
         maximizeButtonColor: '#74ED94',
@@ -69,8 +69,8 @@ export const browserThemes = {
     },
     [BrowserThemes.Rounder]: {
         browserChromeBgColor: '#ffffff',
-        browserControlsBgColor: '#ffffff',
-        browserControlsTextColor: '#b5b5b5',
+        browserControlsBgColor: 'transparent',
+        browserControlsTextColor: '#7b808c',
         closeButtonColor: '#FF8585',
         minimizeButtonColor: '#FFD071',
         maximizeButtonColor: '#74ED94',
@@ -82,7 +82,7 @@ export const browserThemes = {
     [BrowserThemes.Weird]: {
         browserChromeBgColor: '#550E40',
         browserControlsBgColor: '#822063',
-        browserControlsTextColor: '#b5b5b5',
+        browserControlsTextColor: '#7b808c',
         closeButtonColor: '#822163',
         minimizeButtonColor: '#822163',
         maximizeButtonColor: '#822163',
@@ -94,145 +94,18 @@ export const browserThemes = {
 }
 
 export const styles = (props: ICanvasProps): string => {
-    const styleVars = props.styles as IBrowserStyles;
-    const translateString = props.showControlsOnly ? '' : `${app.canvasStyles.horizontalPosition}% ${app.canvasStyles.verticalPosition}%`;
-
+    const theme = props.styles as IBrowserStyles;
     return css`
-       border-radius: ${props.borderRadius}px;
-       box-shadow: 0 2px ${app.canvasStyles.shadowSize}px -1px rgba(0, 0, 0, .4);
-       overflow: hidden;
-       min-width: ${props.imageData ? '400px' : 'none'};
-       transform: ${app.imageData ? app.cssTransformString : ''};
-       translate: ${translateString};
-    
-      .hide {
-        display: none !important;
-      }
-      
-      .url-bar.hide {
-        display: flex !important;
-        opacity: 0;     
-      }
-      
-      svg {
-        height: 100%;
-        margin: 0 auto;
-      }
-    
-      img {
-        max-width: 100%;
-        min-width: 100%;
-      }
-    
-      .browser-controls {
-        height: ${app.adjustMeasurementForDownload(styleVars.chromeHeight)}px;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        background: ${styleVars.browserChromeBgColor};
-        color: ${styleVars.browserControlsTextColor};
-      }
-    
-      .window-controls {
-        flex: 0 0 ${app.adjustMeasurementForDownload(60)}px;
-        margin: 0 2%;
-        display: flex;
-    
-        span {
-          display: inline-flex;
-          width: ${app.adjustMeasurementForDownload(15)}px;
-          height: ${app.adjustMeasurementForDownload(15)}px;
-          border-radius: 50px;
-          margin-right: ${app.adjustMeasurementForDownload(9)}px;
-          &.close {
-            background: ${styleVars.closeButtonColor};
-            opacity: 1;
-          }
-    
-          &.minimise {
-            background: ${styleVars.minimizeButtonColor};
-          }
-    
-          &.maximise {
-            background: ${styleVars.maximizeButtonColor};
-          }
-        }
-      }
-    
-      .page-controls {
-        flex: 0 0 ${app.adjustMeasurementForDownload(70)}px;
-        margin-left: 2%;
-        height: ${app.adjustMeasurementForDownload(styleVars.controlsHeight)}px;
-    
-        span {
-          display: inline-block;
-          width: ${app.adjustMeasurementForDownload(30)}px;
-          text-align: center;
-          
-          &.back {
-            margin-right: 3px;
-          }
-        }
-      }
-    
-      .url-bar {
-        flex-grow: 1;
-        margin-left: 2%;
-        margin-right: 2%;
-        font-family: monospace;
-        overflow: hidden;
-        height: ${app.adjustMeasurementForDownload(styleVars.controlsHeight)}px;
-        line-height: ${app.adjustMeasurementForDownload(styleVars.controlsHeight)}px;
-        font-size: ${app.adjustMeasurementForDownload(1)}em;
-        
-        .urlInput {
-          border: none;
-          outline: none;
-          color: ${styleVars.browserControlsTextColor};
-          background: transparent;
-          display: inline;
-          box-shadow: none;
-          min-width: 90%;
-        }
-        
-        .lock {
-          height: 100%;
-          display: flex;
-          margin: 0 ${app.adjustMeasurementForDownload(5)}px;
-        }
-        
-        .url-text {
-          overflow: hidden;
-          white-space: nowrap;
-          min-width: 90%;
-        }
-      }
-    
-      .settings {
-        display: flex;
-        width: ${app.adjustMeasurementForDownload(styleVars.controlsHeight)}px;
-        text-align: center;
-      }
-    
-      .browser-container {
-        display: flex;
-        background-color: ${styleVars.browserControlsBgColor};
-        align-items: center;
-        height: ${app.adjustMeasurementForDownload(styleVars.controlsHeight)}px;
-        border-radius: ${styleVars.controlsBorderRadius}px;
-        font-size: ${app.adjustMeasurementForDownload(1)}em;
-        
-        :last-of-type {
-          margin-right: 2%;
-        }
-      }
-      
-      .content-wrap {
-        background-color: #ffffff;
-      }
-      
-      #screenshot-wrap {
-        overflow: hidden;
-      }
-`
+        width: 100%; overflow: hidden; box-sizing: border-box;
+        border-radius: ${props.borderRadius}px;
+        box-shadow: 0 16px ${Number(app.canvasStyles.shadowSize) * 2}px -10px #11182740;
+        .mock-browser-toolbar { box-sizing: border-box; height: ${theme.chromeHeight}px; padding: 0 18px; display: flex; align-items: center; gap: 16px; background: ${theme.browserChromeBgColor}; color: ${theme.browserControlsTextColor}; }
+        .mock-browser-dots { display: flex; gap: 8px; flex-shrink: 0; }
+        .mock-browser-dots i { width: 10px; height: 10px; border-radius: 50%; }
+        .mock-browser-navigation { display: flex; gap: 8px; flex-shrink: 0; }
+        .mock-browser-address { min-width: 0; flex: 1; display: flex; align-items: center; justify-content: center; border-radius: ${theme.controlsBorderRadius}px; background: ${theme.browserControlsBgColor}; height: ${theme.controlsHeight}px; }
+        .mock-browser-address input { width: 100%; min-width: 0; border: 0; padding: 0 8px; background: transparent; color: inherit; box-shadow: none; font: 14px system-ui, sans-serif; text-align: center; }
+        .mock-browser-menu { display: flex; flex-shrink: 0; }
+        .mock-browser-image { width: 100%; height: auto; display: block; }
+    `;
 };

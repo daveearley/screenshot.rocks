@@ -12,9 +12,11 @@ export enum PhoneThemes {
     MacBookPro,
     IMac,
     SurfaceBook,
+    Minimal,
 }
 
 export const deviceNamesMap = {
+    [PhoneThemes.Minimal]: "iPhone",
     [PhoneThemes.IPhone14Pro]: "iPhone 14 Pro",
     [PhoneThemes.IPhone14]: "iPhone 14",
     [PhoneThemes.Pixel6Pro]: "Google Pixel 6 Pro",
@@ -27,6 +29,7 @@ export const deviceNamesMap = {
 };
 
 export const deviceIdMap = {
+    [PhoneThemes.Minimal]: "minimal",
     [PhoneThemes.IPhone14Pro]: "iphone-14-pro",
     [PhoneThemes.IPhone14]: "iphone-14",
     [PhoneThemes.Pixel6Pro]: "google-pixel-6-pro",
@@ -55,6 +58,7 @@ export const deviceColourVariantMap = new Map<PhoneThemes, DeviceColour[]>([
 );
 
 export const deviceAspectRatioMap = {
+    [PhoneThemes.Minimal]: 9 / 19.5,
     [PhoneThemes.IPhone14Pro]: 9 / 19.5,
     [PhoneThemes.IPhone14]: 9 / 19.5,
     [PhoneThemes.Pixel6Pro]: 9 / 19.5,
@@ -70,9 +74,32 @@ export const defaultColourVariantMap = {
     [PhoneThemes.IPhone14Pro]: 'purple',
 };
 
+export interface IPhoneFinish {
+    id: string;
+    name: string;
+    body: string;
+    edge: string;
+}
+
+export const phoneFinishes: IPhoneFinish[] = [
+    {id: 'black', name: 'Space Black', body: '#1b1b1e', edge: '#48494e'},
+    {id: 'silver', name: 'Silver', body: '#e4e4e6', edge: '#b9babe'},
+    {id: 'gold', name: 'Gold', body: '#efe4cf', edge: '#cdbb98'},
+    {id: 'blue', name: 'Blue', body: '#3c4757', edge: '#63718a'},
+    {id: 'purple', name: 'Deep Purple', body: '#40364a', edge: '#6a5d78'},
+];
+
+export interface IPhoneSettings {
+    finish: string;
+    showDynamicIsland: boolean;
+    alignment: 'top' | 'center';
+}
+
 export interface IPhoneStore {
     activeTheme: PhoneThemes;
     colourVariant: Map<PhoneThemes, string>;
+    settings: IPhoneSettings;
+    readonly finish: IPhoneFinish;
 
     setColourVariant(colourVariant: string): void;
 
@@ -84,7 +111,15 @@ export let phoneStore = store({
     colourVariant: new Map<PhoneThemes, string>([
         [PhoneThemes.IPhone14Pro, 'purple'],
     ]),
-    activeTheme: PhoneThemes.IPhone14Pro,
+    activeTheme: PhoneThemes.Minimal,
+    settings: {
+        finish: 'black',
+        showDynamicIsland: true,
+        alignment: 'top',
+    },
+    get finish(): IPhoneFinish {
+        return phoneFinishes.find(finish => finish.id === phoneStore.settings.finish) || phoneFinishes[0];
+    },
     setColourVariant(colourVariant: string): void {
         phoneStore.colourVariant.set(phoneStore.activeTheme, colourVariant);
     },
@@ -93,16 +128,14 @@ export let phoneStore = store({
     }
 } as IPhoneStore);
 
-if (localStorage.getItem('phoneStore')) {
-    const store = JSON.parse(localStorage.getItem('phoneStore'));
-    if (store.settings) {
-        // if the old setting structure is stored in localstorage then wipe it or else the app will crash
-        localStorage.clear();
-    } else {
-        phoneStore.activeTheme = store.activeTheme;
-    }
-}
+// Legacy model selections now use the generic iPhone frame.
+phoneStore.activeTheme = PhoneThemes.Minimal;
+
+try {
+    const saved = JSON.parse(localStorage.getItem('phoneSettings') || 'null');
+    if (saved && typeof saved === 'object') phoneStore.settings = {...phoneStore.settings, ...saved};
+} catch (_) { /* Ignore invalid saved preferences. */ }
 
 observe(() => {
-    localStorage.setItem('phoneStore', JSON.stringify(phoneStore))
+    try { localStorage.setItem('phoneSettings', JSON.stringify(phoneStore.settings)); } catch (_) { /* optional */ }
 });

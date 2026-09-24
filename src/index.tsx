@@ -13,4 +13,10 @@ ReactDOM.render(
     document.getElementById('screenshot.rocks')
 );
 
-serviceWorker.register();
+// The old service worker served the app for every URL, hiding the static pages; remove it and reload those URLs.
+serviceWorker.unregister();
+if ('serviceWorker' in navigator && navigator.serviceWorker.controller && !/^\/(app)?$/.test(window.location.pathname)) {
+    navigator.serviceWorker.getRegistrations()
+        .then(registrations => Promise.all(registrations.map(registration => registration.unregister())))
+        .then(() => window.location.reload());
+}

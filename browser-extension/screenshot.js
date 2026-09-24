@@ -1,26 +1,28 @@
-// Establish a connection with the background script
-const port = chrome.runtime.connect({name: "screenshot"});
+const showError = () => {
+    document.querySelector('.content p').textContent = 'Unable to open this screenshot. Return to your tab and click the extension again.';
+};
 
-// Inform the background script that the content script is ready
-port.postMessage({ready: true});
-
-// Listen for messages from the background script
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.url && message.data) {
-        const form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", message.url);
-        form.setAttribute('enctype', 'application/x-www-form-urlencoded');
-
-        for (const key in message.data) {
-            const hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", message.data[key]);
-            form.appendChild(hiddenField);
-        }
-
-        document.body.appendChild(form);
-        form.submit();
-    }
+chrome.tabs.getCurrent((tab) => {
+    if (chrome.runtime.lastError || !tab) return showError();
+    let attempts = 0;
+    const requestCapture = () => {
+        chrome.runtime.sendMessage({type: 'capture-ready', tabId: tab.id}, (message) => {
+            if (chrome.runtime.lastError || !message || !message.ready) {
+                if (++attempts < 20) return setTimeout(requestCapture, 250);
+                return showError();
+            }
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = message.url;
+            form.enctype = 'application/x-www-form-urlencoded';
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'image';
+            input.value = message.data.image;
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        });
+    };
+    requestCapture();
 });

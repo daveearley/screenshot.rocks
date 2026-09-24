@@ -1,0 +1,25 @@
+import {presetsStore} from './presetsStore';
+import {app} from './appStore';
+import {historyStore} from './historyStore';
+import {browserStore} from './browserStore';
+import {phoneStore, PhoneThemes} from './phoneStore';
+import {ScreenshotType} from '../types';
+jest.mock('../utils/image', () => ({getImageDimensions: jest.fn(() => Promise.resolve({width: 1600, height: 900}))}));
+test('a preset restores its composition and undo restores frame appearance too', () => {
+    app.frameType = ScreenshotType.Browser;
+    app.canvasStyles.horizontalPosition = 30;
+    app.canvasStyles.verticalPosition = -15;
+    phoneStore.activeTheme = PhoneThemes.IPadProp;
+    browserStore.settings.showNavigationButtons = true;
+    historyStore.clear();
+    presetsStore.applyPreset('mobile-light');
+    expect(app.frameType).toBe(ScreenshotType.Device);
+    expect(phoneStore.activeTheme).toBe(PhoneThemes.Minimal);
+    expect(app.canvasStyles.horizontalPosition).toBe(0);
+    expect(app.getCanvasDimensions().height).toBe(1440);
+    historyStore.undo();
+    expect(app.frameType).toBe(ScreenshotType.Browser);
+    expect(phoneStore.activeTheme).toBe(PhoneThemes.IPadProp);
+    expect(app.canvasStyles.horizontalPosition).toBe(30);
+    expect(browserStore.settings.showNavigationButtons).toBe(true);
+});

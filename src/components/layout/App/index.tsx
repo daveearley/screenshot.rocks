@@ -1,147 +1,100 @@
-import React, {useEffect, useState} from "react";
-import './styles'
-import {Canvas} from "../../common/Canvas";
-import {DownloadButtons} from "../../common/DownloadButton";
+import React, {useEffect, useRef, useState} from "react";
 import {view} from "@risingstack/react-easy-state";
 import {app} from "../../../stores/appStore";
-import {styles} from "./styles";
-import {checkForImageFromLocalstorageUrlOrPaste} from "../../../utils/image";
-import {Logo, LogoStyle} from "../../common/Logo";
+import {annotationStore} from "../../../stores/annotationStore";
 import {browserStore} from "../../../stores/browserStore";
-import {Settings} from "../../common/Settings/Settings";
-import {ScreenshotType} from "../../../types";
-import {ThemeSelector} from "../../common/ThemeSelector";
-import {BackgroundSettings} from "../../common/Settings/BackgroundSettings";
-import {CanvasSettings} from "../../common/Settings/CanvasSettings";
-import {RatingPromptBox} from "../../common/RatingPromptBox";
+import {checkForImageFromLocalstorageUrlOrPaste} from "../../../utils/image";
+import {useKeyboardShortcuts} from "../../../hooks/useKeyboardShortcuts";
 import {ImageSelector} from "../../common/ImageSelector";
 import {CropModal} from "../../common/CropModal";
-import {CONFIG} from "../../../config";
-import {SideBarSection} from "../../common/SideBarSection";
-import {DownloadMask} from "../../common/DownloadMask";
-import {ShareButtons} from "../../common/ShareButtons";
+import {Canvas} from "../../common/Canvas";
+import {KonvaCanvas} from "../../common/KonvaCanvas";
+import {Inspector} from "../../Inspector";
+import {Toolbar} from "../../Toolbar";
+import {MarkupBar} from "../../MarkupBar";
+import {Toast} from "../../ui/Toast";
+import {canvasStore} from "../../../stores/canvasStore";
+import {AnnotationType} from "../../../types/annotations";
+import {styles} from "./styles";
+
+const STAGE_PADDING = 48;
+
+const useElementSize = (ref: React.RefObject<HTMLElement>) => {
+    const [size, setSize] = useState({width: 0, height: 0});
+    useEffect(() => {
+        const element = ref.current;
+        if (!element) return;
+        const measure = () => setSize({width: element.clientWidth, height: element.clientHeight});
+        measure();
+        const Observer = (window as any).ResizeObserver; // not in TypeScript 3.7's DOM typings
+        const observer = Observer ? new Observer(measure) : null;
+        if (observer) observer.observe(element); else window.addEventListener('resize', measure);
+        return () => observer ? observer.disconnect() : window.removeEventListener('resize', measure);
+    }, [ref]);
+    return size;
+};
+
+const hint = () => {
+    if (!annotationStore.markupMode) return 'Drag the screenshot to move it · Drag a corner to resize · Arrow keys nudge';
+    switch (annotationStore.activeTool) {
+        case null: return 'Select markup to move or resize it · Double-click text to edit';
+        case AnnotationType.Text: return 'Click where the text should go · Esc to stop';
+        case AnnotationType.Callout: return 'Click to place each numbered step · Esc to stop';
+        default: return 'Drag on the canvas to draw · Esc to stop';
+    }
+};
 
 export const App = view(() => {
-    const [showSharePrompt, setShowSharePrompt] = useState(false);
+    const stageRef = useRef<HTMLDivElement>(null);
+    const stage = useElementSize(stageRef);
 
-    useEffect(() => checkForImageFromLocalstorageUrlOrPaste(), [])
+    useKeyboardShortcuts();
+    useEffect(() => checkForImageFromLocalstorageUrlOrPaste(), []);
 
-    const handleFrameTypeChange = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        app.frameType = ((e.target as HTMLElement).innerText as ScreenshotType);
-    };
+    const canvas = app.getCanvasDimensions();
+    const markup = annotationStore.markupMode && !!app.imageData;
+    const reserved = 56; // markup bar space, reserved even when closed so the canvas doesn't jump
+    const displayScale = Math.max(.05, Math.min(1,
+        (stage.width - STAGE_PADDING * 2) / canvas.width,
+        (stage.height - STAGE_PADDING * 2 - reserved) / canvas.height,
+    ));
 
-    const frameToStyleMap = {
-        [ScreenshotType.Browser]: browserStore.styles,
-    };
-
-    const ImageSelectorWrap = () => {
-        return (
-            <div className="image-selector-wrap">
-                <ImageSelector/>
-            </div>
-        )
-    };
-
-    setTimeout(() => {
-        setShowSharePrompt(true);
-    }, 30000);
+    useEffect(() => { canvasStore.previewScale = displayScale; }, [displayScale]);
 
     return (
-        <>
-            <main className={styles()}>
-                <div className="toolbar">
-                    <div className="crop-buttons">
-                        <button disabled={!app.imageData}
-                                className="btn btn-success btn-sm d-inline-flex align-items-center"
-                                onClick={app.resetImage}>
-                            <img alt="New" className="mr-2" src={'images/icons/image.svg'}/>
-                            New Image
-                        </button>
-                        <button disabled={!app.imageData}
-                                className="btn btn-success btn-sm d-inline-flex align-items-center"
-                                onClick={() => app.cropIsActive = !app.cropIsActive}>
-                            <img alt="Crop" className="mr-2" src={'images/icons/crop.svg'}/>
-                            Crop Image
-                        </button>
-                    </div>
-                    <div className="share-this">
-                        {showSharePrompt && (
-                            <div className={'share-prompt'}>
-                                Find this app useful? Please Share&nbsp;&nbsp; 👉
-                            </div>
-                        )}
-
-                        {!showSharePrompt && (
-                            <div className={'hi-events'}>
-                            Sponsored by <a
-                                title={'Sell event tickets online with Hi.Events'}
-                                href="https://hi.events?utm_source=screenshot.rocks" target="_blank">Hi.Events -
-                                Open-source event ticketing</a>
-                            </div>
-                        )}
-
-                        <ShareButtons/>
-                    </div>
-                </div>
-                <aside className="sidebar">
-                    <Logo style={LogoStyle.Light}/>
-                    <div className="settings">
-                        <SideBarSection title={"Frame Type"} isDisabled={!app.imageData}>
-                            <div className="frame-type">
-                                <div className="btn-group btn-group-sm w-100 mb-3">
-                                    {Object.keys(ScreenshotType).map(type => {
-                                        if (!CONFIG.enabledScreenShotTypes.includes(type as ScreenshotType)) {
-                                            return null;
-                                        }
-                                        return (
-                                            <button
-                                                key={type}
-                                                onClick={handleFrameTypeChange}
-                                                className={(app.frameType === type ? 'active' : '') + ' btn btn-success'}>
-                                                {type}
-                                            </button>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                            <ThemeSelector/>
-                        </SideBarSection>
-                        {app.frameType !== ScreenshotType.None && (
-                            <SideBarSection title={'Frame Settings'} isDisabled={!app.imageData}>
-                                <Settings/>
-                            </SideBarSection>
-                        )}
-                        <SideBarSection title={'Background Settings'} isDisabled={!app.imageData}>
-                            <BackgroundSettings/>
-                        </SideBarSection>
-                        <SideBarSection title={'Canvas Settings'} isDisabled={!app.imageData}>
-                            <CanvasSettings/>
-                        </SideBarSection>
-                        <RatingPromptBox/>
-                    </div>
-                    <div className="footer">
-                        <DownloadButtons/>
-                    </div>
-                </aside>
-                <div className="main-content" id="main">
-                    {app.imageData ? <Canvas
-                        imageData={app.imageData}
-                        canvasBgColor={app.canvasBgColor}
-                        canvasBgImage={app.canvasStyles.bgImage}
-                        canvasVerticalPadding={app.canvasStyles.verticalPosition}
-                        canvasHorizontalPadding={app.canvasStyles.horizontalPosition}
-                        styles={(frameToStyleMap as any)[app.frameType]}
-                        borderRadius={app.canvasStyles.borderRadius}
-                        isDownloadMode={app.isDownloadMode}
-                        frameType={app.frameType}
-                        isAutoRotateActive={app.isAutoRotateActive}
-                        canvasBgType={app.canvasStyles.backgroundType}
-                    /> : <ImageSelectorWrap/>}
-                </div>
-            </main>
+        <div className={styles()}>
+            <Inspector/>
+            <div className="workspace">
+                <Toolbar/>
+                <main className={`stage ${app.imageData ? '' : 'empty'}`} id="main" ref={stageRef}>
+                    {markup && <MarkupBar className="markup-bar"/>}
+                    {app.imageData ? (
+                        <div className="canvas-wrapper" style={{width: canvas.width * displayScale, height: canvas.height * displayScale}}>
+                            <Canvas
+                                imageData={app.imageData}
+                                canvasBgColor={app.canvasBgColor}
+                                canvasBgImage={app.canvasStyles.bgImage}
+                                canvasBgType={app.canvasStyles.backgroundType}
+                                canvasVerticalPadding={app.canvasStyles.verticalPosition}
+                                canvasHorizontalPadding={app.canvasStyles.horizontalPosition}
+                                styles={browserStore.styles}
+                                borderRadius={app.canvasStyles.borderRadius}
+                                isDownloadMode={app.isDownloadMode}
+                                frameType={app.frameType}
+                                isAutoRotateActive={app.isAutoRotateActive}
+                                previewScale={displayScale}
+                            >
+                                <KonvaCanvas width={canvas.width} height={canvas.height} interactionEnabled={markup}/>
+                            </Canvas>
+                        </div>
+                    ) : (
+                        <div className="image-selector-wrap"><ImageSelector/></div>
+                    )}
+                    {app.imageData && <p className="canvas-hint" aria-live="polite">{hint()}</p>}
+                </main>
+            </div>
             {app.cropIsActive && <CropModal/>}
-            {app.isDownloadMode && <DownloadMask/>}
-        </>
-
+            <Toast/>
+        </div>
     );
 });

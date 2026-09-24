@@ -1,4 +1,5 @@
-import React, {useEffect} from "react";
+import {FrameInteraction} from "../FrameInteraction";
+import React from "react";
 import {styles} from "./styles";
 import {BrowserFrame} from "../Frames/Browser";
 import {IBrowserStyles} from "../../../stores/browserStore";
@@ -10,6 +11,8 @@ import {TwitterFrame} from "../Frames/Twitter";
 
 export interface ICanvasProps {
     showControlsOnly?: boolean;
+    previewScale?: number;
+    children?: React.ReactNode;
     imageData?: string;
     canvasBgColor?: string;
     canvasBgImage?: string;
@@ -25,34 +28,15 @@ export interface ICanvasProps {
 }
 
 export const Canvas = view((props: ICanvasProps) => {
-    const scaleCanvasOnWindowResize = () => {
-        const canvas = document.querySelector<HTMLElement>('.canvas');
-        const mainContent = document.querySelector<HTMLElement>('.main-content');
-        const maxWidth = mainContent.offsetWidth;
-        const maxHeight = window.innerHeight;
-        const height = canvas.clientHeight;
-        const width = canvas.clientWidth;
-        const minScale = .35;
-        const maxScale = 1;
-        const scale = Math.min(Math.max(Math.min(maxWidth / width, maxHeight / height), minScale), maxScale) * .75;
-
-        canvas.style.transform = 'scale(' + scale + ')';
-    };
-
-    useEffect(() => {
-        window.addEventListener('resize', scaleCanvasOnWindowResize);
-        scaleCanvasOnWindowResize()
-        return () => {
-            window.removeEventListener('resize', scaleCanvasOnWindowResize);
-        }
-    });
-
     return (
-        <div className={styles(props) + ' canvas'} id="canvas">
+        <div className={styles(props) + ' canvas'} id="canvas" style={{position: 'absolute', top: 0, left: 0, transformOrigin: 'top left', transform: `scale(${props.previewScale || 1})`}}>
+            <FrameInteraction previewScale={props.previewScale}>
             {(props.frameType === ScreenshotType.Browser || !props.frameType) && <BrowserFrame {...props} />}
             {props.frameType === ScreenshotType.Device && <PhoneFrame {...props} />}
             {props.frameType === ScreenshotType.None && <NoFrameFrame {...props} />}
             {props.frameType === ScreenshotType.Twitter && <TwitterFrame {...props} />}
+            </FrameInteraction>
+            {props.children}
         </div>
     );
 });

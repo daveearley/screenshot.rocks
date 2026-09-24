@@ -1,4 +1,4 @@
-import {Browsers, SocialProviders} from "../types";
+import {Browsers} from "../types";
 
 export const getBrowserType = (): Browsers | null => {
     const userAgent = window.navigator.userAgent;

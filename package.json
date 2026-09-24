@@ -14,6 +14,7 @@
     "@types/react-dom": "^16.9.0",
     "dom-to-image": "^2.6.0",
     "emotion": "^10.0.27",
+    "konva": "7.0.0",
     "node-sass": "^7.0.0",
     "polished": "^3.6.5",
     "react": "^16.13.1",
@@ -22,14 +23,18 @@
     "react-dropzone": "^11.0.1",
     "react-icons": "^3.10.0",
     "react-image-crop": "^10.0.9",
+    "react-konva": "16.13.0-6",
     "react-scripts": "3.4.1",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "use-image": "1.1.1"
   },
   "scripts": {
     "start": "export SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts start  --host 0.0.0.0",
-    "build": "export SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
+    "build": "export SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build && node scripts/build-pages.js",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:e2e": "yarn build && playwright test",
+    "build:pages": "node scripts/build-pages.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.1",
     "@types/react-color": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",

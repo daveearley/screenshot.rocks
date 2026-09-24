@@ -1,4 +1,6 @@
-import {autoEffect, store} from '@risingstack/react-easy-state';
+import {annotationStore} from './annotationStore';
+import {historyStore} from './historyStore';
+import {store} from '@risingstack/react-easy-state';
 import {CanvasBackgroundTypes, ImageFormats, ScreenshotType} from "../types";
 import {getImageDimensions} from "../utils/image";
 import {Routes, routeStore} from "./routeStore";
@@ -14,7 +16,7 @@ export const bgImages: string[] = [
     '4.jpg',
 ].map(img => `/images/backgrounds/${img}`);
 
-export const defaultCanvasBgColor: string = '#a090c1';
+export const defaultCanvasBgColor: string = '#eae8e3';
 
 export const defaultCanvasSize: number = 75;
 
@@ -124,13 +126,16 @@ export let app = store({
             && window.location.href.includes('extension');
     },
     setImageData(imageData: string) {
+        if (!imageData) return;
+        app.resetImage();
         app.imageData = imageData;
         app.originalImageData = imageData;
 
         // switch to mobile for portrait screenshots
         getImageDimensions(imageData).then(({width, height}) => {
+            if (app.imageData !== imageData) return;
             app.frameType = height > width ? ScreenshotType.Device : ScreenshotType.Browser;
-        });
+        }).catch(() => undefined);
 
         routeStore.goToRoute(Routes.App);
     },
@@ -177,9 +182,17 @@ export let app = store({
     },
 
     resetImage(): void {
+        annotationStore.clearAnnotations(false);
+        annotationStore.setActiveTool(null);
+        historyStore.clear();
         app.imageData = null;
+        app.originalImageData = null;
+        app.cropIsActive = false;
         app.cropData = null;
         app.previousCropData = null;
+        [app.croppedImageData, app.previousCroppedImageData]
+            .filter(url => url && url.startsWith('blob:'))
+            .forEach(url => URL.revokeObjectURL(url));
         app.croppedImageData = null;
         app.previousCroppedImageData = null;
     },
@@ -192,35 +205,25 @@ export let app = store({
         ...defaultResettableCanvasStyles, ...{
             bgColor: defaultCanvasBgColor,
             bgImage: '/images/backgrounds/1.jpg',
-            backgroundType: CanvasBackgroundTypes.Image,
+            backgroundType: CanvasBackgroundTypes.Solid,
             gradientColorOne: '#7e349c',
             gradientColorTwo: '#968bbd'
         }
     },
 } as IStore);
 
-if (localStorage.getItem('canvasStyles')) {
-    app.canvasStyles = JSON.parse(localStorage.getItem('canvasStyles'))
+try {
+    const savedStyles = JSON.parse(localStorage.getItem('canvasStyles') || 'null');
+    if (savedStyles && typeof savedStyles === 'object') {
+        app.canvasStyles = {...app.canvasStyles, ...savedStyles};
+    }
+} catch (_) {
+    // Ignore damaged saved settings so importing an image still works.
 }
 
-autoEffect(() => {
-    // This auto-rotates the image if the user switches to mobile and the image is landscape
-    if (app.frameType && !app.disableAutoRotate) {
-        getImageDimensions(app.imageData).then(({width, height}) => {
-            if (app.frameType === ScreenshotType.Device && width > height) {
-                // rotateImage(app.imageData).then((rotated) => {
-                //     app.imageData = rotated
-                //     app.isAutoRotateActive = true;
-                // });
-                // Disable the auto-rotate for now and just hide the volume rocker
-            }
-            if (app.frameType === ScreenshotType.Browser && width < height) {
-                // app.imageData = app.originalImageData;
-                // app.isAutoRotateActive = false;
-            }
-        })
-    }
-});
 
 // Handle syncing some settings with localStorage
-observe(() => localStorage.setItem('canvasStyles', JSON.stringify(app.canvasStyles)));
+observe(() => {
+    const serialized = JSON.stringify(app.canvasStyles);
+    try { localStorage.setItem('canvasStyles', serialized); } catch (_) { /* storage full or unavailable */ }
+});

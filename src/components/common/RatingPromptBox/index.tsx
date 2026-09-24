@@ -1,8 +1,8 @@
-import {getBrowserExtensionInfo} from "../../../utils/misc";
 import React from "react";
-import {styles} from "./styles";
 import {view} from "@risingstack/react-easy-state";
+import {getBrowserExtensionInfo} from "../../../utils/misc";
 import {app} from "../../../stores/appStore";
+import {styles} from "./styles";
 
 export const RatingPromptBox = view(() => {
     if (!app.shouldShowRatingPrompt) {
@@ -11,18 +11,13 @@ export const RatingPromptBox = view(() => {
 
     const {link, name} = getBrowserExtensionInfo();
 
-    const handleReviewClick = (() => {
-        localStorage.setItem('hasReviewed', 'true');
-        window.location.href = link
-    });
-
     return (
-        <div className={styles()}>
-            <div className={'emoji'}>
-                <span aria-label={'star'} role={'img'}>🙌</span>
-            </div>
-            <h3>Thanks for using our {name}!</h3>
-            We'd love if you could <a href={'#!'} onClick={handleReviewClick}>leave a review</a>.
-        </div>
+        <aside className={styles()} aria-label="Leave a review">
+            <strong>Enjoying the {name}?</strong>
+            <p>A quick review helps other people find it.</p>
+            <a href={link} target="_blank" rel="noopener noreferrer" onClick={() => localStorage.setItem('hasReviewed', 'true')}>
+                Leave a review
+            </a>
+        </aside>
     );
 });
