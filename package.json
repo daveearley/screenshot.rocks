@@ -51,7 +51,7 @@
     ]
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.1",
+    "@playwright/test": "1.55.1",
     "@types/react-color": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
@@ -66,6 +66,6 @@
     "node-gyp": "^8.4.1"
   },
   "engines": {
-    "node": "24.x"
+    "node": ">=20"
   }
 }
